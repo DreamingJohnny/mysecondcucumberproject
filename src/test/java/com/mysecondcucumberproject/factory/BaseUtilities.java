@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class BaseUtilities {
 
 	private static WebDriver driver;
-	private static Properties properties;
+	private static Properties properties = new Properties();
 
 	public static WebDriver initializeDriver() {
 
@@ -40,7 +40,7 @@ public class BaseUtilities {
 
 	public static Properties getConfigProperties() {
 		if (properties.isEmpty()) {
-			try (InputStream input = new FileInputStream("config.properties")) {
+			try (InputStream input = new FileInputStream("src/test/java/resources/features/config.properties")) {
 
 				properties.load(input);
 			} catch (IOException exception) {

@@ -2,6 +2,7 @@ Feature: Filling in fields
 
 Scenario: Filling in the name field
   Given I am on the form page
+  Then the page url should equal the url in config.properties
   When I enter "John Doe" in the "Name" field
   Then the "Name" field should contain "John Doe"
 

@@ -33,7 +33,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	// Yes, this one has the methods for setting and getting. And they are tested in
 	// the testfile
 
-	public void setField(String fieldID, String input) {
+	public void setField(String input, String fieldID) {
 		switch (fieldID.toLowerCase()) {
 			case "name":
 				nameField.sendKeys(input);

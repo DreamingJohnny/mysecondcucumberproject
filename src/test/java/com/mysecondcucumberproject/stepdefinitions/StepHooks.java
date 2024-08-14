@@ -9,8 +9,9 @@ import com.mysecondcucumberproject.factory.BaseUtilities;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
 
-public class Hooks {
+public class StepHooks {
 
 	// This will contain the methods that we want to run before and after various
 	// tests.
@@ -31,6 +32,11 @@ public class Hooks {
 	@After
 	public void teardown() {
 		BaseUtilities.quitDriver();
+	}
+
+	@BeforeStep
+	public void BeforeStep() {
+		System.out.println("Before each Step");
 	}
 
 }
