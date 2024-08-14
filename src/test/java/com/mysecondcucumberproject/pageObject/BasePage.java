@@ -1,18 +1,16 @@
 package com.mysecondcucumberproject.pageObject;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class BasePage {
 
-WebDriver driver;
+	WebDriver driver;
 
-//Constructor
-BasePage(WebDriver newDriver) {
-	this.driver = newDriver;
-	PageFactory.initElements(newDriver,this);
-}
+	// Constructor
+	BasePage(WebDriver newDriver) {
+		this.driver = newDriver;
+		PageFactory.initElements(newDriver, this);
+	}
 
 }
