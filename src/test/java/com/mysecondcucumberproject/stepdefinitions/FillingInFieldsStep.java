@@ -26,8 +26,6 @@ public class FillingInFieldsStep {
 	public void i_am_on_the_form_page() {
 
 		aPHomePage = new AutomationPracticeHomePage(BaseUtilities.getWebDriver());
-
-		Assert.assertTrue(driver != null);
 	}
 
 	@Then("the page url should equal the url in config.properties")

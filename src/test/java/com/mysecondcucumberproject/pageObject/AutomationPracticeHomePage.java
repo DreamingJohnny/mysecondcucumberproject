@@ -28,11 +28,6 @@ public class AutomationPracticeHomePage extends BasePage {
 	WebElement phoneField;
 
 	// Action methods
-
-	// Think through, should the tests then have other methods for that?
-	// Yes, this one has the methods for setting and getting. And they are tested in
-	// the testfile
-
 	public void setField(String input, String fieldID) {
 		switch (fieldID.toLowerCase()) {
 			case "name":
@@ -54,7 +49,6 @@ public class AutomationPracticeHomePage extends BasePage {
 		switch (fieldID) {
 			case "name":
 				return nameField.getText();
-
 			case "email":
 				return emailField.getText();
 			case "phone":
