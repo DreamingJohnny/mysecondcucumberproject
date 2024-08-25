@@ -22,9 +22,8 @@ public class FillingInFieldsStep {
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
 
-	@Given("I am on the form page")
+	@Given("the user is on the form page")
 	public void i_am_on_the_form_page() {
-
 		aPHomePage = new AutomationPracticeHomePage(BaseUtilities.getWebDriver());
 	}
 
@@ -33,31 +32,33 @@ public class FillingInFieldsStep {
 		Assert.assertEquals("Url didn't match!",
 				BaseUtilities.getConfigProperties().getProperty("db.url").toLowerCase(),
 				aPHomePage.getUrl().toLowerCase());
+	}
 
+	@Then("the page title should equal the title in config.properties")
+	public void the_page_title_should_equal_the_title_in_config_properties() {
 		Assert.assertEquals("Page title didn't match! Page title was: " + aPHomePage.getTitle(),
 				BaseUtilities.getConfigProperties().getProperty("db.title").toLowerCase(),
 				aPHomePage.getTitle().toLowerCase());
-
 	}
 
-	@When("I enter {string} in the {string} field")
-	public void I_enter_in_the_field(String input, String fieldID) {
-		aPHomePage.setField(input, fieldID);
+	@When("the user enters {string} into the {string} field")
+	public void the_user_enters_into_the_field(String input, String fieldID) {
 
+		if (aPHomePage.canFindWebelement(fieldID)) {
+			aPHomePage.setField(input, fieldID);
+		} else {
+			Assert.fail("Couldn't find webelement with: " + fieldID);
+		}
 	}
 
-	@Then("the {string} field should contain {string}")
-	public void the_field_should_contain(String fieldID, String expected) {
-		Assert.assertEquals(aPHomePage.getFieldValue(fieldID).toLowerCase(), expected);
+	@Then("the {string} field should display {string}")
+	public void the_field_should_display(String fieldID, String input) {
 
-	}
-
-	@When("I select {string} from the {string} options")
-	public void i_select_from_the_options(String input, String fieldID) {
-
-	}
-
-	@Then("the {string} field should have {string} selected")
-	public void the_field_should_have_selected(String fieldID, String expected) {
+		if (aPHomePage.canFindWebelement(fieldID)) {
+			Assert.assertEquals("Field value was not equal to the expected value. Expected: " + input + ". Actual: "
+					+ aPHomePage.getFieldAttributeValue(fieldID), input, aPHomePage.getFieldAttributeValue(fieldID));
+		} else {
+			Assert.fail("Couldn't find webelement with: " + fieldID);
+		}
 	}
 }

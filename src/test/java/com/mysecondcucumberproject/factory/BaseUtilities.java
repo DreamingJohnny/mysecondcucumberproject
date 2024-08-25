@@ -1,12 +1,15 @@
 package com.mysecondcucumberproject.factory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class BaseUtilities {
@@ -48,5 +51,15 @@ public class BaseUtilities {
 			}
 		}
 		return properties;
+	}
+
+	public static void takeScreenShot(WebElement element) {
+
+		File sourceFile = element.getScreenshotAs(OutputType.FILE);
+		File targetFile = new File(System.getProperty(getConfigProperties().getProperty("screenshots.path")));
+		// TODO: Setup naming screenshots based on date and time.
+		System.out.println("Saving screenshot!");
+		sourceFile.renameTo(targetFile);
+
 	}
 }

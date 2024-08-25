@@ -9,13 +9,11 @@ import com.mysecondcucumberproject.factory.BaseUtilities;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeStep;
 
 public class StepHooks {
 
 	// This will contain the methods that we want to run before and after various
 	// tests.
-	// Will ask the driver to be initialized
 
 	WebDriver driver;
 	Properties properties;
@@ -26,17 +24,11 @@ public class StepHooks {
 		driver.manage().window().maximize();
 	}
 
-	// Later on add method here @AfterStep for calling method on BasePage to take
+	// TODO: Add method here @AfterStep for calling method on BasePage to take
 	// screenshots.
 
 	@After
 	public void teardown() {
 		BaseUtilities.quitDriver();
 	}
-
-	@BeforeStep
-	public void BeforeStep() {
-		System.out.println("Before each Step");
-	}
-
 }
