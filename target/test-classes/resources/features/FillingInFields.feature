@@ -19,3 +19,33 @@ Feature: Filling in fields
     Given the user is on the form page
     When the user enters "+1234567890" into the "phone" field
     Then the "phone" field should display "+1234567890"
+
+  Scenario: User selects and deselects gender option
+    Given the user is on the form page
+    Then neither "male" nor "female" option should be selected
+    When the user selects the "male" option
+    Then the "male" option should be selected
+    Then the "female" option should not be selected
+    When the user selects the "female" option
+    Then the "female" option should be selected
+    Then the "male" option should not be selected
+
+  Scenario: User selects and deselects several weekday options
+    Given the user is on the form page
+    Then none of the weekdays should be selected
+    When the user selects the following weekdays:
+      | monday |
+    Then none of the weekdays except for the following should be selected
+      | monday |
+    When the user also selects the following weekdays:
+      | tuesday |
+      | sunday  |
+    Then none of the weekdays except for the following should be selected
+      | monday  |
+      | tuesday |
+      | sunday  |
+    When the user deselects the following weekdays:
+      | monday  |
+      | tuesday |
+      | sunday  |
+    Then none of the weekdays should be selected
