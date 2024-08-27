@@ -15,28 +15,21 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	// Page factory style locators
-	// TODO: Pretty sure I don't need the headers, and so can remove those locators.
-	@FindBy(xpath = "//label[@for='textbox' and text()='Name']")
-	WebElement nameHeader;
+	// Form fields
 	@FindBy(xpath = "//*[@id=\"name\"]")
 	WebElement nameField;
-
-	@FindBy(xpath = "//label[@for='textbox' and text()='Email']")
-	WebElement emailHeader;
 	@FindBy(xpath = "//*[@id=\"email\"]")
 	WebElement emailField;
-
-	@FindBy(xpath = "//label[@for='textbox' and text()='Phone']")
-	WebElement phoneHeader;
 	@FindBy(xpath = "//*[@id=\"phone\"]")
 	WebElement phoneField;
 
-	// Page factory locators for checkboxes
+	// Gender checkboxes
 	@FindBy(xpath = "//*[@id=\"male\"]")
 	WebElement maleCheckBox;
 	@FindBy(xpath = "//*[@id=\"female\"]")
 	WebElement femaleCheckBox;
 
+	// Weekday checkboxes
 	@FindBy(xpath = "//*[@id=\"monday\"]")
 	WebElement mondayCheckBox;
 	@FindBy(xpath = "//*[@id=\"tuesday\"]")
@@ -53,6 +46,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	WebElement sundayCheckBox;
 
 	// Action methods
+	/** Returns boolean based on if the webelement is selected */
 	public boolean isCheckBoxSelected(String checkboxID) {
 		switch (checkboxID.toLowerCase()) {
 			case "male":
@@ -116,6 +110,13 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
+	/**
+	 * used sendKeys to send the input to the webelement it identifies with the
+	 * fieldID.
+	 * 
+	 * @param input
+	 * @param fieldID
+	 */
 	public void setField(String input, String fieldID) {
 		switch (fieldID.toLowerCase()) {
 			case "name":
@@ -173,10 +174,15 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	/*
-	 * Select gender
-	 * Select weekday
-	 * Select country
-	 * Find book
+	 * Find specific book from table
+	 * Search through multiple pages of table for specific object.
+	 * Send search term to open tabs, control correct tab.
+	 * Check if search term disappears?
+	 * Open new window and navigate to it, control, close.
+	 * Double click
+	 * Dragable
+	 * Move slider
+	 * Enter date of birth
 	 */
 
 }
