@@ -1,11 +1,15 @@
 package com.mysecondcucumberproject.stepdefinitions;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -14,6 +18,13 @@ public class NavigateTablesStep {
 
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
+
+	// Get the element for the web table
+	// Check so that it is "displayed"
+	// Check the parts of the header
+	// Go through each of the books and check the things for each of them.
+	// So, will need to search for one of the words and then check against the
+	// others
 
 	@Given("the user is on the webpage")
 	public void the_used_is_on_the_webpage() {
@@ -24,8 +35,51 @@ public class NavigateTablesStep {
 				aPHomePage.getUrl().toLowerCase());
 	}
 
-	@When("the user sees the paginated table")
-	public void the_user_sees_the_paginated_table() {
+	@When("the user sees the table {string}")
+	public void the_user_sees_the_table(String tableID) {
+		System.out.println("Tries to find booktable at: " + tableID);
+		Assert.assertTrue(aPHomePage.canFindWebelement(tableID));
+	}
+
+	@Then("the table {string} should have a header with {string}, {string}, {string} and {string}")
+	public void the_table_should_have_a_header_with_and(String tableID, String bookName, String author, String subject,
+			String price) {
+		List<String> headers = aPHomePage.getTableHeaders(tableID);
+
+		Assert.assertTrue(!headers.isEmpty());
+		// TODO: This one feels really inflexible, look through if you could/should
+		// improve. Perhaps create a datatable with the categories in the gherkin?
+		Assert.assertEquals(bookName, headers.get(0));
+		Assert.assertEquals(author, headers.get(1));
+		Assert.assertEquals(subject, headers.get(2));
+		Assert.assertEquals(price, headers.get(3));
+
+	}
+
+	@Then("the table {string} should display the following books with the correct information:")
+	public void the_table_should_display_the_following_books_with_the_correct_information(String tableID,
+			DataTable dataTable) {
+
+		List<List<String>> tableInfo = dataTable.asLists(String.class);
+
+		for (List<String> bookInfo : tableInfo) {
+			List<String> tableRowInfo = aPHomePage.getTableRow(tableID, bookInfo.get(0));
+
+			Assert.assertFalse(
+					"Didn't find any table row in the table: " + tableID + ", with a cell containing: "
+							+ bookInfo.get(0),
+					tableRowInfo.isEmpty());
+
+			// Compares the content of each string in the two lists.
+			for (int i = 0; i < tableRowInfo.size(); i++) {
+				Assert.assertEquals(tableRowInfo.get(i), bookInfo.get(i));
+			}
+		}
+	}
+
+	@When("the user sees the {string}")
+	public void the_user_sees_the(String paginationTableID) {
+		
 		// Write code here that turns the phrase above into concrete actions
 	}
 
@@ -34,28 +88,10 @@ public class NavigateTablesStep {
 		// Write code here that turns the phrase above into concrete actions
 	}
 
-	@Then("the table should display the following books with the correct information:")
-	public void the_table_should_display_the_following_books_with_the_correct_information() {
-		// Write code here that turns the phrase above into concrete actions
-	}
-
-	@Then("the table should have a header with {string}, {string}, and {string}")
-	public void the_table_should_have_a_header_with_and(String s, String s2, String s3) {
-		// Write code here that turns the phrase above into concrete actions
-	}
-
-	@When("the user sees the table of books")
-	public void the_user_sees_the_table_of_books() {
-		// Write code here that turns the phrase above into concrete actions
-	}
-
-	@Given("the user is on the {string} webpage")
-	public void the_user_is_on_the_webpage(String s) {
-		// Write code here that turns the phrase above into concrete actions
-	}
-
 	@Then("a {string} amount of items should be selected.")
 	public void a_amount_of_items_should_be_selected(String s) {
 		// Write code here that turns the phrase above into concrete actions
 	}
+
+
 }

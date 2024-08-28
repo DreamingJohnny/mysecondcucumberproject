@@ -1,8 +1,10 @@
 package com.mysecondcucumberproject.pageObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +17,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	// Page factory style locators
+
 	// Form fields
 	@FindBy(xpath = "//*[@id=\"name\"]")
 	WebElement nameField;
@@ -44,6 +47,13 @@ public class AutomationPracticeHomePage extends BasePage {
 	WebElement saturdayCheckbox;
 	@FindBy(xpath = "//*[@id=\"sunday\"]")
 	WebElement sundayCheckBox;
+
+	@FindBy(xpath = "//*[@id=\"HTML1\"]/div[1]/table")
+	WebElement bookTable;
+	@FindBy(xpath = "//*[@id=\"productTable\"]")
+	WebElement paginatedTable;
+	@FindBy(xpath = "//*[@id=\"pagination\"]")
+	WebElement paginationButtonsField;
 
 	// Action methods
 	/** Returns boolean based on if the webelement is selected */
@@ -111,7 +121,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	/**
-	 * used sendKeys to send the input to the webelement it identifies with the
+	 * uses sendKeys to send the input to the webelement it identifies with the
 	 * fieldID.
 	 * 
 	 * @param input
@@ -148,9 +158,84 @@ public class AutomationPracticeHomePage extends BasePage {
 				return emailField.isDisplayed() == true ? true : false;
 			case "phone":
 				return phoneField.isDisplayed() == true ? true : false;
+			case "male":
+				return maleCheckBox.isDisplayed() == true ? true : false;
+			case "female":
+				return femaleCheckBox.isDisplayed() == true ? true : false;
+			case "monday":
+				return mondayCheckBox.isDisplayed() == true ? true : false;
+			case "tuesday":
+				return tuesdayCheckBox.isDisplayed() == true ? true : false;
+			case "wednesday":
+				return wednesdayCheckBox.isDisplayed() == true ? true : false;
+			case "thursday":
+				return thursdayCheckBox.isDisplayed() == true ? true : false;
+			case "friday":
+				return fridayCheckbox.isDisplayed() == true ? true : false;
+			case "saturday":
+				return saturdayCheckbox.isDisplayed() == true ? true : false;
+			case "sunday":
+				return sundayCheckBox.isDisplayed() == true ? true : false;
+			case "booktable":
+				return bookTable.isDisplayed() == true ? true : false;
+			case "paginated table":
+				return paginatedTable.isDisplayed() == true ? true : false;
+			case "pagination buttons field":
+				return paginationButtonsField.isDisplayed() == true ? true : false;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
+		}
+	}
+
+	/**
+	 * Collects the text from all elements with the tagName "th" that are children
+	 * of the table.
+	 * 
+	 * @param tableID used to decide what table to get the children elements from.
+	 * @return
+	 */
+	public List<String> getTableHeaders(String tableID) {
+		switch (tableID.toLowerCase()) {
+			case "booktable":
+				List<WebElement> tempElements = bookTable.findElements(By.tagName("th"));
+				List<String> tempStrings = new ArrayList<>();
+
+				for (WebElement element : tempElements) {
+					tempStrings.add(element.getText());
+				}
+				return tempStrings;
+			default:
+				System.out.println("Couldn't find a case in the switch matching: " + tableID);
+				return new ArrayList<>();
+		}
+	}
+
+	public List<String> getTableRow(String tableID, String searchTerm) {
+		// TODO: Rethink this method considering if it is sensitive to caps
+		// TODO: Is this method sensitive to exceptions thrown if not finding elements?
+		// Look into that.
+		switch (tableID.toLowerCase()) {
+			case "booktable":
+				WebElement tableRow = bookTable
+						.findElement(By.xpath(".//tr[descendant::*[text()='" + searchTerm + "']]"));
+				if (tableRow == null) {
+					return new ArrayList<>();
+				}
+
+				List<WebElement> tempElements = tableRow.findElements(By.tagName("td"));
+				if (tempElements == null) {
+					return new ArrayList<>();
+				}
+				List<String> tableRowContent = new ArrayList<>();
+
+				for (WebElement webElement : tempElements) {
+					tableRowContent.add(webElement.getText());
+				}
+				return tableRowContent;
+			default:
+				System.out.println("Couldn't find a case in the switch matching: " + tableID);
+				return new ArrayList<>();
 		}
 	}
 
