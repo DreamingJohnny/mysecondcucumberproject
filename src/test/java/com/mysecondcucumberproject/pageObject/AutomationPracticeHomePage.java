@@ -54,9 +54,38 @@ public class AutomationPracticeHomePage extends BasePage {
 	WebElement paginatedTable;
 	@FindBy(xpath = "//*[@id=\"pagination\"]")
 	WebElement paginationButtonsField;
+	// TODO: Look into removing/changing these, they are far too specific/brittle.
+	// If I need either of them, it should be one that helps me iterate through the
+	// column.
+	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody/tr[1]/td[3]")
+	WebElement priceDataCell;
+	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody/tr[1]/td[4]/input")
+	WebElement productCheckBox;
+	// TODO: Look at, can I use these to get a list from here?
+	@FindBy(xpath = "//*[@id=\"pagination\"]//a")
+	List<WebElement> productTablePageButtons;
+
+	private int getColumnIndexOf(WebElement table, String searchTerm) {
+		List<WebElement> tableHeaders = table.findElements(By.tagName("th"));
+
+		int columnIndex = 0;
+		for (WebElement webElement : tableHeaders) {
+			columnIndex++;
+			if (webElement.getText().toLowerCase() == searchTerm.toLowerCase())
+				return columnIndex;
+		}
+		System.out.println("Couldn't find any header of column with the searchterm: " + searchTerm);
+		return columnIndex = 0;
+	}
 
 	// Action methods
-	/** Returns boolean based on if the webelement is selected */
+
+	/**
+	 * Returns a boolean if the checkbox is selected
+	 * 
+	 * @param checkboxID
+	 * @return
+	 */
 	public boolean isCheckBoxSelected(String checkboxID) {
 		switch (checkboxID.toLowerCase()) {
 			case "male":
@@ -195,7 +224,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	 * @param tableID used to decide what table to get the children elements from.
 	 * @return
 	 */
-	public List<String> getTableHeaders(String tableID) {
+	public List<String> getTableHeadersContent(String tableID) {
 		switch (tableID.toLowerCase()) {
 			case "booktable":
 				List<WebElement> tempElements = bookTable.findElements(By.tagName("th"));
@@ -211,7 +240,7 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	public List<String> getTableRow(String tableID, String searchTerm) {
+	public List<String> getTableRowContent(String tableID, String searchTerm) {
 		// TODO: Rethink this method considering if it is sensitive to caps
 		// TODO: Is this method sensitive to exceptions thrown if not finding elements?
 		// Look into that.
@@ -239,6 +268,8 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
+	// TODO: Check if this is considered good practices? Should you send webelements
+	// like this? Probably not, better to have indirect clicking.
 	public List<WebElement> getAllWeekdayCheckboxes() {
 		return Arrays.asList(mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox, fridayCheckbox,
 				saturdayCheckbox, sundayCheckBox);
@@ -258,8 +289,51 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
+	public List<WebElement> getButtons(String fieldID) {
+
+		switch (fieldID) {
+			// TODO: Look at renamning these cases.
+			case "paginated button field":
+				return productTablePageButtons;
+			default:
+				System.out.println("Couldn't find a set of buttons looking with the fieldID of: " + fieldID);
+				return null;
+		}
+	}
+
+	// TODO: Go through this function, look at simplifying or redoing.
+	public void selectProductTableObjectsWithHigherPrice(String _price) {
+
+		// Finds everything in a string except digits and periods inbetween digits.
+		String regex = "[^\\d\\.]| |\\.$";
+
+		// TODO: Add try catch here to handle if the string isn't possible to parse.
+		// Cleans the text according to the regex expression so that it can be parsed to
+		// float.
+		float testInputPrice = Float.parseFloat(_price.replaceAll(regex, ""));
+
+		// TODO: These both will also need checks for if they cannot find them.
+		int priceColumnIndex = getColumnIndexOf(paginatedTable, "price");
+
+		int selectionColumnIndex = getColumnIndexOf(paginatedTable, "select");
+
+		for (WebElement tableRow : paginatedTable.findElements(By.xpath("./tr"))) {
+
+			String priceText = tableRow.findElement(By.xpath("./td[" + priceColumnIndex + "]")).getText();
+
+			// TODO: Add try catch here for this.
+			// TODO: Also handle if string is empty.
+			// Cleans the text according to the regex expression so that it can be parsed to
+			// float.
+			float actualPrice = Float.parseFloat(priceText.replaceAll(regex, ""));
+
+			if (actualPrice > testInputPrice) {
+				tableRow.findElement(By.xpath("./td[" + selectionColumnIndex + "]")).click();
+			}
+		}
+	}
+
 	/*
-	 * Find specific book from table
 	 * Search through multiple pages of table for specific object.
 	 * Send search term to open tabs, control correct tab.
 	 * Check if search term disappears?
@@ -269,5 +343,4 @@ public class AutomationPracticeHomePage extends BasePage {
 	 * Move slider
 	 * Enter date of birth
 	 */
-
 }

@@ -1,10 +1,10 @@
 package com.mysecondcucumberproject.stepdefinitions;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
@@ -44,7 +44,7 @@ public class NavigateTablesStep {
 	@Then("the table {string} should have a header with {string}, {string}, {string} and {string}")
 	public void the_table_should_have_a_header_with_and(String tableID, String bookName, String author, String subject,
 			String price) {
-		List<String> headers = aPHomePage.getTableHeaders(tableID);
+		List<String> headers = aPHomePage.getTableHeadersContent(tableID);
 
 		Assert.assertTrue(!headers.isEmpty());
 		// TODO: This one feels really inflexible, look through if you could/should
@@ -63,7 +63,7 @@ public class NavigateTablesStep {
 		List<List<String>> tableInfo = dataTable.asLists(String.class);
 
 		for (List<String> bookInfo : tableInfo) {
-			List<String> tableRowInfo = aPHomePage.getTableRow(tableID, bookInfo.get(0));
+			List<String> tableRowInfo = aPHomePage.getTableRowContent(tableID, bookInfo.get(0));
 
 			Assert.assertFalse(
 					"Didn't find any table row in the table: " + tableID + ", with a cell containing: "
@@ -77,21 +77,37 @@ public class NavigateTablesStep {
 		}
 	}
 
-	@When("the user sees the {string}")
-	public void the_user_sees_the(String paginationTableID) {
-		
-		// Write code here that turns the phrase above into concrete actions
+	@When("the user sees the paginated table")
+	public void the_user_sees_the_paginated_table() {
+
+		Assert.assertTrue(aPHomePage.canFindWebelement("paginated table"));
+		Assert.assertTrue(aPHomePage.canFindWebelement("paginated button field"));
 	}
 
+	// TODO: Consider adding test for controlling so that the first one is selected
+	// to begin with?
+	// TODO: Read up on if this should be a @then instead of a @when according to
+	// cucumber?
 	@When("the user selects all items with a price higher than {string}")
-	public void the_user_selects_all_items_with_a_price_higher_than(String s) {
-		// Write code here that turns the phrase above into concrete actions
+	public void the_user_selects_all_items_with_a_price_higher_than(String _price) {
+
+		// Get all of the buttons for the pages in the table
+		List<WebElement> paginationButtons = aPHomePage.getButtons("paginated button field");
+
+		Assert.assertTrue("Couldn't find any buttons for pages in the table", paginationButtons.size() > 0);
+
+		// for each, go through the cells under price.
+		for (WebElement pageButton : paginationButtons) {
+			pageButton.click();
+			aPHomePage.selectProductTableObjectsWithHigherPrice(_price);
+
+		}
+
 	}
 
 	@Then("a {string} amount of items should be selected.")
 	public void a_amount_of_items_should_be_selected(String s) {
 		// Write code here that turns the phrase above into concrete actions
 	}
-
 
 }
