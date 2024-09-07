@@ -209,11 +209,50 @@ public class AutomationPracticeHomePage extends BasePage {
 				return bookTable.isDisplayed() == true ? true : false;
 			case "paginated table":
 				return paginatedTable.isDisplayed() == true ? true : false;
-			case "pagination buttons field":
+			case "paginated button field":
 				return paginationButtonsField.isDisplayed() == true ? true : false;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
+		}
+	}
+
+	@Override
+	protected WebElement getWebelement(String fieldID) {
+		switch (fieldID.toLowerCase()) {
+			case "name":
+				return nameField;
+			case "email":
+				return emailField;
+			case "phone":
+				return phoneField;
+			case "male":
+				return maleCheckBox;
+			case "female":
+				return femaleCheckBox;
+			case "monday":
+				return mondayCheckBox;
+			case "tuesday":
+				return tuesdayCheckBox;
+			case "wednesday":
+				return wednesdayCheckBox;
+			case "thursday":
+				return thursdayCheckBox;
+			case "friday":
+				return fridayCheckbox;
+			case "saturday":
+				return saturdayCheckbox;
+			case "sunday":
+				return sundayCheckBox;
+			case "booktable":
+				return bookTable;
+			case "paginated table":
+				return paginatedTable;
+			case "paginated button field":
+				return paginationButtonsField;
+			default:
+				System.out.println("Couln't find a webelement using: " + fieldID);
+				return null;
 		}
 	}
 
@@ -273,7 +312,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	public List<WebElement> getAllWeekdayCheckboxes() {
 		return Arrays.asList(mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox, fridayCheckbox,
 				saturdayCheckbox, sundayCheckBox);
-	};
+	}
 
 	public String getFieldAttributeValue(String fieldID) {
 		switch (fieldID.toLowerCase()) {
@@ -289,6 +328,7 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
+	// TODO: Fix this, shouldn't be sending buttons away outside of POM
 	public List<WebElement> getButtons(String fieldID) {
 
 		switch (fieldID) {
@@ -331,6 +371,19 @@ public class AutomationPracticeHomePage extends BasePage {
 				tableRow.findElement(By.xpath("./td[" + selectionColumnIndex + "]")).click();
 			}
 		}
+	}
+
+	public boolean isPaginationButtonSelected(int index) {
+
+		int actualIndex = 0;
+
+		for (WebElement webElement : productTablePageButtons) {
+			actualIndex++;
+			if (actualIndex == index && webElement.isSelected()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*

@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Properties;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
 
 public class BaseUtilities {
 
@@ -53,13 +56,24 @@ public class BaseUtilities {
 		return properties;
 	}
 
-	public static void takeScreenShot(WebElement element) {
+	public static void takeScreenShot(WebElement element) throws IOException {
 
-		File sourceFile = element.getScreenshotAs(OutputType.FILE);
-		File targetFile = new File(System.getProperty(getConfigProperties().getProperty("screenshots.path")));
-		// TODO: Setup naming screenshots based on date and time.
-		System.out.println("Saving screenshot!");
-		sourceFile.renameTo(targetFile);
+		File screenshotFile = element.getScreenshotAs(OutputType.FILE);
+		File targetDirectory = new File(System.getProperty("user.dir"),
+				System.getProperty(getConfigProperties().getProperty("screenshots.path")));
+		// Checks if directory exists.
+		if (!targetDirectory.exists()) {
+			// Creates directory if it doesn't exists
+			// New directory is named accordning to folder structure given.
+			targetDirectory.mkdirs();
+		}
 
+		File targetFile = new File(targetDirectory, getScreenShotName());
+		FileHandler.copy(screenshotFile, targetFile);
+		System.out.println(targetFile.getAbsolutePath());
+	}
+
+	public static String getScreenShotName() {
+		return "screenshot_" + new SimpleDateFormat("yyyymmddhhmmss").format(new Date()) + ".png";
 	}
 }

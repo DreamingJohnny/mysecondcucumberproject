@@ -29,15 +29,14 @@ public class NavigateTablesStep {
 	@Given("the user is on the webpage")
 	public void the_used_is_on_the_webpage() {
 		aPHomePage = new AutomationPracticeHomePage(BaseUtilities.getWebDriver());
-
 		Assert.assertEquals("Url didn't match!",
 				BaseUtilities.getConfigProperties().getProperty("db.url").toLowerCase(),
 				aPHomePage.getUrl().toLowerCase());
+
 	}
 
 	@When("the user sees the table {string}")
 	public void the_user_sees_the_table(String tableID) {
-		System.out.println("Tries to find booktable at: " + tableID);
 		Assert.assertTrue(aPHomePage.canFindWebelement(tableID));
 	}
 
@@ -46,14 +45,43 @@ public class NavigateTablesStep {
 			String price) {
 		List<String> headers = aPHomePage.getTableHeadersContent(tableID);
 
-		Assert.assertTrue(!headers.isEmpty());
+		try {
+			Assert.assertTrue(!headers.isEmpty());
+		} catch (Exception e) {
+			System.out.println("Assertion failed: " + e.getMessage());
+			aPHomePage.takeScreenShot(tableID);
+		}
+
 		// TODO: This one feels really inflexible, look through if you could/should
 		// improve. Perhaps create a datatable with the categories in the gherkin?
-		Assert.assertEquals(bookName, headers.get(0));
-		Assert.assertEquals(author, headers.get(1));
-		Assert.assertEquals(subject, headers.get(2));
-		Assert.assertEquals(price, headers.get(3));
+		try {
+			Assert.assertEquals(bookName, headers.get(0));
 
+		} catch (AssertionError e) {
+			System.out.println("Assertion failed: " + e.getMessage());
+			aPHomePage.takeScreenShot(tableID);
+		}
+
+		try {
+			Assert.assertEquals(author, headers.get(1));
+		} catch (AssertionError e) {
+			System.out.println("Assertion failed: " + e.getMessage());
+			aPHomePage.takeScreenShot(tableID);
+		}
+
+		try {
+			Assert.assertEquals(subject, headers.get(2));
+		} catch (AssertionError e) {
+			System.out.println("Assertion failed: " + e.getMessage());
+			aPHomePage.takeScreenShot(tableID);
+		}
+
+		try {
+			Assert.assertEquals(price, headers.get(3));
+		} catch (AssertionError e) {
+			System.out.println("Assertion failed: " + e.getMessage());
+			aPHomePage.takeScreenShot(tableID);
+		}
 	}
 
 	@Then("the table {string} should display the following books with the correct information:")
@@ -65,14 +93,25 @@ public class NavigateTablesStep {
 		for (List<String> bookInfo : tableInfo) {
 			List<String> tableRowInfo = aPHomePage.getTableRowContent(tableID, bookInfo.get(0));
 
-			Assert.assertFalse(
-					"Didn't find any table row in the table: " + tableID + ", with a cell containing: "
-							+ bookInfo.get(0),
-					tableRowInfo.isEmpty());
+			try {
+				Assert.assertFalse(
+						"Didn't find any table row in the table: " + tableID + ", with a cell containing: "
+								+ bookInfo.get(0),
+						tableRowInfo.isEmpty());
+
+			} catch (AssertionError e) {
+				System.out.println("Assertion failed: " + e.getMessage());
+				aPHomePage.takeScreenShot(tableID);
+			}
 
 			// Compares the content of each string in the two lists.
 			for (int i = 0; i < tableRowInfo.size(); i++) {
-				Assert.assertEquals(tableRowInfo.get(i), bookInfo.get(i));
+				try {
+					Assert.assertEquals(tableRowInfo.get(i), bookInfo.get(i));
+				} catch (AssertionError e) {
+					System.out.println("Assertion failed: " + e.getMessage());
+					aPHomePage.takeScreenShot(tableID);
+				}
 			}
 		}
 	}
@@ -80,12 +119,25 @@ public class NavigateTablesStep {
 	@When("the user sees the paginated table")
 	public void the_user_sees_the_paginated_table() {
 
-		Assert.assertTrue(aPHomePage.canFindWebelement("paginated table"));
-		Assert.assertTrue(aPHomePage.canFindWebelement("paginated button field"));
+		Assert.assertTrue("Couldn't find the paginated table.", aPHomePage.canFindWebelement("paginated table"));
+		Assert.assertTrue("Couldn't find the paginated button field.",
+				aPHomePage.canFindWebelement("paginated button field"));
 	}
 
-	// TODO: Consider adding test for controlling so that the first one is selected
-	// to begin with?
+	// TODO: Check what is printed if this one is changed to index "2"
+	@Then("the first page is selected")
+	public void the_first_page_is_selected() {
+		int firstPageIndex = 1;
+
+		try {
+			Assert.assertTrue("Page number " + firstPageIndex + " in the paginated table wasn't selected!",
+					aPHomePage.isPaginationButtonSelected(firstPageIndex));
+		} catch (AssertionError e) {
+			System.out.println("Assertion failed: " + e.getMessage());
+			aPHomePage.takeScreenShot("paginated buttons field");
+		}
+	}
+
 	// TODO: Read up on if this should be a @then instead of a @when according to
 	// cucumber?
 	@When("the user selects all items with a price higher than {string}")
