@@ -13,5 +13,5 @@ Feature: Navigate Tables
     Given the user is on the webpage
     When the user sees the paginated table
     Then the first page is selected
-    And the user selects all items with a price higher than "price"
+    And the user selects all items with a price higher than "4.50"
     Then a "amount" amount of items should be selected.

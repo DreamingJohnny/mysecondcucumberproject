@@ -124,17 +124,16 @@ public class NavigateTablesStep {
 				aPHomePage.canFindWebelement("paginated button field"));
 	}
 
-	// TODO: Check what is printed if this one is changed to index "2"
 	@Then("the first page is selected")
 	public void the_first_page_is_selected() {
-		int firstPageIndex = 1;
+		int firstPageIndex = 0;
 
 		try {
 			Assert.assertTrue("Page number " + firstPageIndex + " in the paginated table wasn't selected!",
 					aPHomePage.isPaginationButtonSelected(firstPageIndex));
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot("paginated buttons field");
+			aPHomePage.takeScreenShot("paginated button field");
 		}
 	}
 
@@ -143,18 +142,12 @@ public class NavigateTablesStep {
 	@When("the user selects all items with a price higher than {string}")
 	public void the_user_selects_all_items_with_a_price_higher_than(String _price) {
 
-		// Get all of the buttons for the pages in the table
-		List<WebElement> paginationButtons = aPHomePage.getButtons("paginated button field");
+		for (int i = 0; i < aPHomePage.getProductPageAmount(); i++) {
 
-		Assert.assertTrue("Couldn't find any buttons for pages in the table", paginationButtons.size() > 0);
-
-		// for each, go through the cells under price.
-		for (WebElement pageButton : paginationButtons) {
-			pageButton.click();
-			aPHomePage.selectProductTableObjectsWithHigherPrice(_price);
+			aPHomePage.clickProductPageButton(i);
+			aPHomePage.selectProductsWithHigherPrice(_price);
 
 		}
-
 	}
 
 	@Then("a {string} amount of items should be selected.")

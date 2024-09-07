@@ -48,30 +48,28 @@ public class AutomationPracticeHomePage extends BasePage {
 	@FindBy(xpath = "//*[@id=\"sunday\"]")
 	WebElement sundayCheckBox;
 
+	// Book table
 	@FindBy(xpath = "//*[@id=\"HTML1\"]/div[1]/table")
 	WebElement bookTable;
+
+	// Paginated table
 	@FindBy(xpath = "//*[@id=\"productTable\"]")
 	WebElement paginatedTable;
+	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody")
+	WebElement paginatedTableBody;
 	@FindBy(xpath = "//*[@id=\"pagination\"]")
 	WebElement paginationButtonsField;
-	// TODO: Look into removing/changing these, they are far too specific/brittle.
-	// If I need either of them, it should be one that helps me iterate through the
-	// column.
-	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody/tr[1]/td[3]")
-	WebElement priceDataCell;
-	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody/tr[1]/td[4]/input")
-	WebElement productCheckBox;
-	// TODO: Look at, can I use these to get a list from here?
 	@FindBy(xpath = "//*[@id=\"pagination\"]//a")
 	List<WebElement> productTablePageButtons;
+	@FindBy(xpath = "//*[@id=\"productTable\"]//th")
+	List<WebElement> productTableHeaders;
 
-	private int getColumnIndexOf(WebElement table, String searchTerm) {
-		List<WebElement> tableHeaders = table.findElements(By.tagName("th"));
+	private int getProductTableColumnIndexOf(String searchTerm) {
 
 		int columnIndex = 0;
-		for (WebElement webElement : tableHeaders) {
+		for (WebElement webElement : productTableHeaders) {
 			columnIndex++;
-			if (webElement.getText().toLowerCase() == searchTerm.toLowerCase())
+			if (webElement.getText().toLowerCase().contains(searchTerm.toLowerCase()))
 				return columnIndex;
 		}
 		System.out.println("Couldn't find any header of column with the searchterm: " + searchTerm);
@@ -341,8 +339,7 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	// TODO: Go through this function, look at simplifying or redoing.
-	public void selectProductTableObjectsWithHigherPrice(String _price) {
+	public void selectProductsWithHigherPrice(String _price) {
 
 		// Finds everything in a string except digits and periods inbetween digits.
 		String regex = "[^\\d\\.]| |\\.$";
@@ -353,19 +350,18 @@ public class AutomationPracticeHomePage extends BasePage {
 		float testInputPrice = Float.parseFloat(_price.replaceAll(regex, ""));
 
 		// TODO: These both will also need checks for if they cannot find them.
-		int priceColumnIndex = getColumnIndexOf(paginatedTable, "price");
+		int priceColumnIndex = getProductTableColumnIndexOf("price");
+		int selectionColumnIndex = getProductTableColumnIndexOf("select");
 
-		int selectionColumnIndex = getColumnIndexOf(paginatedTable, "select");
-
-		for (WebElement tableRow : paginatedTable.findElements(By.xpath("./tr"))) {
+		for (WebElement tableRow : paginatedTableBody.findElements(By.xpath(".//tr"))) {
 
 			String priceText = tableRow.findElement(By.xpath("./td[" + priceColumnIndex + "]")).getText();
-
 			// TODO: Add try catch here for this.
 			// TODO: Also handle if string is empty.
 			// Cleans the text according to the regex expression so that it can be parsed to
 			// float.
 			float actualPrice = Float.parseFloat(priceText.replaceAll(regex, ""));
+			System.out.println("Actual price is parsed as: " + actualPrice);
 
 			if (actualPrice > testInputPrice) {
 				tableRow.findElement(By.xpath("./td[" + selectionColumnIndex + "]")).click();
@@ -374,16 +370,22 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	public boolean isPaginationButtonSelected(int index) {
+		return productTablePageButtons.get(index).getAttribute("class").contains("active") == true ? true : false;
+	}
 
-		int actualIndex = 0;
+	public int getProductPageAmount() {
+		return Integer.parseInt(productTablePageButtons.getLast().getText());
+	}
 
-		for (WebElement webElement : productTablePageButtons) {
-			actualIndex++;
-			if (actualIndex == index && webElement.isSelected()) {
-				return true;
-			}
+	public void clickProductPageButton(int index) {
+
+		try {
+			productTablePageButtons.get(index).click();
+
+		} catch (Exception e) {
+			System.out.println("Couldn't click on the Product Table Page Button with the index: " + index);
+			System.out.println(e.getMessage());
 		}
-		return false;
 	}
 
 	/*
