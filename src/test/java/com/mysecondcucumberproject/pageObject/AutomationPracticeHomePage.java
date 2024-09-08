@@ -63,8 +63,10 @@ public class AutomationPracticeHomePage extends BasePage {
 	List<WebElement> productTablePageButtons;
 	@FindBy(xpath = "//*[@id=\"productTable\"]//th")
 	List<WebElement> productTableHeaders;
+	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody//td")
+	WebElement topLeftmostProductTableCell;
 
-	private int getProductTableColumnIndexOf(String searchTerm) {
+	public int getProductTableColumnIndexOf(String searchTerm) {
 
 		int columnIndex = 0;
 		for (WebElement webElement : productTableHeaders) {
@@ -312,16 +314,18 @@ public class AutomationPracticeHomePage extends BasePage {
 				saturdayCheckbox, sundayCheckBox);
 	}
 
-	public String getFieldAttributeValue(String fieldID) {
-		switch (fieldID.toLowerCase()) {
+	public String getElementText(String elementID) {
+		switch (elementID.toLowerCase()) {
 			case "name":
 				return nameField.getAttribute("value");
 			case "email":
 				return emailField.getAttribute("value");
 			case "phone":
 				return phoneField.getAttribute("value");
+			case "top leftmost product table cell":
+				return topLeftmostProductTableCell.getText();
 			default:
-				System.out.println(this + "couldn't find a field to get the value of with the field ID of: " + fieldID);
+				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
 				return null;
 		}
 	}
@@ -339,19 +343,9 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	public void selectProductsWithHigherPrice(String _price) {
+	public void selectProductsWithLowerPrice(float testInputPrice, int priceColumnIndex, int selectionColumnIndex) {
 
-		// Finds everything in a string except digits and periods inbetween digits.
 		String regex = "[^\\d\\.]| |\\.$";
-
-		// TODO: Add try catch here to handle if the string isn't possible to parse.
-		// Cleans the text according to the regex expression so that it can be parsed to
-		// float.
-		float testInputPrice = Float.parseFloat(_price.replaceAll(regex, ""));
-
-		// TODO: These both will also need checks for if they cannot find them.
-		int priceColumnIndex = getProductTableColumnIndexOf("price");
-		int selectionColumnIndex = getProductTableColumnIndexOf("select");
 
 		for (WebElement tableRow : paginatedTableBody.findElements(By.xpath(".//tr"))) {
 
@@ -363,21 +357,24 @@ public class AutomationPracticeHomePage extends BasePage {
 			float actualPrice = Float.parseFloat(priceText.replaceAll(regex, ""));
 			System.out.println("Actual price is parsed as: " + actualPrice);
 
-			if (actualPrice > testInputPrice) {
+			if (actualPrice < testInputPrice) {
 				tableRow.findElement(By.xpath("./td[" + selectionColumnIndex + "]")).click();
 			}
 		}
 	}
 
 	public boolean isPaginationButtonSelected(int index) {
-		return productTablePageButtons.get(index).getAttribute("class").contains("active") == true ? true : false;
+		return productTablePageButtons.get(index - 1).getAttribute("class").contains("active") == true ? true : false;
 	}
 
 	public int getProductPageAmount() {
 		return Integer.parseInt(productTablePageButtons.getLast().getText());
 	}
 
+	// TODO: Add explanation how this handles stuff with the index, also, might want
+	// some protection here.
 	public void clickProductPageButton(int index) {
+		index = index - 1;
 
 		try {
 			productTablePageButtons.get(index).click();

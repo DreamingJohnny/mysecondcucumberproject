@@ -16,13 +16,6 @@ import io.cucumber.java.en.When;
 
 public class FillingInFieldsStep {
 
-	/*
-	 * This one will have a reference to the driver, and it will need to get the
-	 * driver, and create the page that it wants to have.
-	 * But it won't need to bother with starting webbrowser etc, because those steps
-	 * have been taken care of in the Hooks-file.
-	 */
-
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
 
@@ -60,7 +53,7 @@ public class FillingInFieldsStep {
 
 		if (aPHomePage.canFindWebelement(fieldID)) {
 			Assert.assertEquals("Field value was not equal to the expected value. Expected: " + input + ". Actual: "
-					+ aPHomePage.getFieldAttributeValue(fieldID), input, aPHomePage.getFieldAttributeValue(fieldID));
+					+ aPHomePage.getElementText(fieldID), input, aPHomePage.getElementText(fieldID));
 		} else {
 			Assert.fail("Couldn't find webelement with: " + fieldID);
 		}

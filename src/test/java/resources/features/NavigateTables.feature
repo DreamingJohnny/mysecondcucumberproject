@@ -11,7 +11,16 @@ Feature: Navigate Tables
 
   Scenario: User goes through the paginated table
     Given the user is on the webpage
-    When the user sees the paginated table
+    When the user sees the table "paginatedTable"
     Then the first page is selected
-    And the user selects all items with a price higher than "4.50"
-    Then a "amount" amount of items should be selected.
+    Then the user can switch between pages of the table
+
+  Scenario: User selects items on each of the pages
+    Given the user is on the webpage
+    When the user sees the table "paginatedTable"
+    When the user selects items costing less than "<price>" on page "<page>".
+    Then the "<expectedAmount>" of items should be selected according to "<expectedOutcome>"
+      | price | page | expectedAmount | expectedOutcome |
+      |  8.20 |    1 |              2 | pass            |
+      | 26.00 |    3 |              4 | pass            |
+      |   17. |    4 |              3 | fail            |

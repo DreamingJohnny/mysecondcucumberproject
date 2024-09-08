@@ -3,6 +3,7 @@ package com.mysecondcucumberproject.stepdefinitions;
 import java.util.List;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -126,7 +127,7 @@ public class NavigateTablesStep {
 
 	@Then("the first page is selected")
 	public void the_first_page_is_selected() {
-		int firstPageIndex = 0;
+		int firstPageIndex = 1;
 
 		try {
 			Assert.assertTrue("Page number " + firstPageIndex + " in the paginated table wasn't selected!",
@@ -137,21 +138,108 @@ public class NavigateTablesStep {
 		}
 	}
 
+	@Then("the user can switch between pages of the table")
+	public void the_user_can_switch_between_pages_of_the_table() {
+
+		String toCompareID = "";
+
+		for (int i = 1; i <= aPHomePage.getProductPageAmount(); i++) {
+
+			aPHomePage.clickProductPageButton(i);
+
+			try {
+				// Checks if the correct page has been selected
+				Assert.assertTrue("Page number " + i + " in the paginated table wasn't selected!",
+						aPHomePage.isPaginationButtonSelected(i));
+			} catch (AssertionError e) {
+				System.out.println("Assertion failed: " + e.getMessage());
+				aPHomePage.takeScreenShot("paginated button field");
+			}
+
+			try {
+				// Compares the stored variable to the attribute of the topmost ID field. If it
+				// has changed, the table has been updated since last time. If it hasn't it
+				// indicates that the table hasn't been refreshed.
+				Assert.assertFalse("The product table didn't seem to refresh when the next page was selected.",
+						toCompareID.toLowerCase() == aPHomePage.getElementText("top leftmost product table cell")
+								.toLowerCase());
+
+				// Stores the attribute of the topmost ID field on the current page of the
+				// table, to compare against the next one.
+				toCompareID = aPHomePage.getElementText("top leftmost product table cell");
+
+			} catch (AssertionError e) {
+				System.out.println("Assertion failed: " + e.getMessage());
+				// TODO: Ask MY, is it okay that I use strings like this? Should they be
+				// gathered somewhere instead? Top of this document? Part of config file?
+				aPHomePage.takeScreenShot("paginated table");
+			}
+		}
+	}
+
 	// TODO: Read up on if this should be a @then instead of a @when according to
 	// cucumber?
 	@When("the user selects all items with a price higher than {string}")
 	public void the_user_selects_all_items_with_a_price_higher_than(String _price) {
 
-		for (int i = 0; i < aPHomePage.getProductPageAmount(); i++) {
+		for (int i = 1; i <= aPHomePage.getProductPageAmount(); i++) {
 
 			aPHomePage.clickProductPageButton(i);
-			aPHomePage.selectProductsWithHigherPrice(_price);
+			aPHomePage.selectProductsWithLowerPrice(_price);
+			aPHomePage.takeScreenShot("paginated button field");
+
+			/*
+			 * So, I need to figure out how to test this, the marked items disappear when
+			 * you switch page, so it needs to be tested on the same page then.
+			 * I could set something up, so that the system also takes a screenshot if the
+			 * items...
+			 * But then it would take a screenshot even when things are right, which doesn't
+			 * seem like it should be the way to do it.
+			 */
 
 		}
 	}
 
-	@Then("a {string} amount of items should be selected.")
-	public void a_amount_of_items_should_be_selected(String s) {
+	@When("the user selects items costing less than {string} on page {string}.")
+	public void the_user_selects_items_costing_less_than_on_page(String priceThresholdString, String pageNumber) {
+		
+		//TODO: Think about moving this one to config or similar?
+		String regex = "[^\\d\\.]| |\\.$";
+
+		int pageIndex = 0;
+		try {
+			pageIndex = Integer.parseInt(pageNumber);
+		} catch (NumberFormatException e) {
+			System.err.println("Error: Unable to parse string to integer: " + pageNumber);
+			Assert.fail("Test failed, unable to parse the string for pageNumber");
+		}
+
+		// Checks so that the index is within the bounds of the available pages.
+		Assert.assertFalse("The index for the page was outside the available pages for the product table",
+				pageIndex > 0 && pageIndex <= aPHomePage.getProductPageAmount());
+
+		aPHomePage.clickProductPageButton(pageIndex);
+
+		float maxPrice = 0;
+		try {
+			// Cleans the text according to the regex expression so that it can be parsed to
+			// float.
+			maxPrice = Float.parseFloat(priceThresholdString.replaceAll(regex, ""));
+
+		} catch (NumberFormatException e) {
+			System.err.println("Error: Unable to parse string to float: " + priceThresholdString);
+			Assert.fail("Test failed, unable to parse the string for top price");
+		}
+
+		// TODO: These both will also need checks for if they cannot find them.
+		int priceColumnIndex = aPHomePage.getProductTableColumnIndexOf("price");
+		int selectionColumnIndex = aPHomePage.getProductTableColumnIndexOf("select"); 
+
+		aPHomePage.selectProductsWithLowerPrice(maxPrice,priceColumnIndex,selectionColumnIndex);
+	}
+
+	@Then("the {string} of items should be selected according to {string}")
+	public void the_of_items_should_be_selected_according_to(String s, String s2) {
 		// Write code here that turns the phrase above into concrete actions
 	}
 
