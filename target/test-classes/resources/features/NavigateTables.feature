@@ -1,10 +1,13 @@
 Feature: Navigate Tables
 
-  Scenario Outline: User views the book table
+  Scenario: User views the book table
     Given the user is on the webpage
     When the user sees the table "book table"
-    Then the table "book table" should have a header with "<BookName>", "<Author>", "<Subject>" and "<Price>"
-    Then the table "book table" should display the following books with the correct information:
+    Then the book table should have a header with "BookName", "Author", "Subject" and "Price"
+
+  Scenario Outline: User reads the book table
+    Given the user is on the webpage
+    Then the book table should display the following books with the correct information:
 
     Examples:
       | BookName       | Author | Subject  | Price |
@@ -20,7 +23,7 @@ Feature: Navigate Tables
 
   Scenario Outline: User selects items on each of the pages
     Given the user is on the webpage
-    When the user sees the table "paginated table"
+    When the user sees the paginated table
     And the user selects items costing less than "<price>" on page "<page>".
     Then the "<expectedAmount>" of items should be selected according to "<expectedOutcome>"
 

@@ -32,16 +32,15 @@ public class NavigateTablesStep {
 		Assert.assertTrue("Couln't find a table with the tableID: " + tableID, aPHomePage.canFindWebelement(tableID));
 	}
 
-	@Then("the table {string} should have a header with {string}, {string}, {string} and {string}")
-	public void the_table_should_have_a_header_with_and(String tableID, String bookName, String author, String subject,
-			String price) {
-		List<String> headers = aPHomePage.getTableHeadersContent(tableID);
+	@Then("the book table should have a header with {string}, {string}, {string} and {string}")
+	public void the_book_table_should_have_a_header_with_and(String bookName, String author, String subject, String price) {
+		List<String> headers = aPHomePage.getTableHeadersContent("book table");
 
 		try {
 			Assert.assertTrue(!headers.isEmpty());
 		} catch (Exception e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(tableID);
+			aPHomePage.takeScreenShot("book table");
 		}
 
 		// TODO: This one feels really inflexible, look through if you could/should
@@ -51,28 +50,28 @@ public class NavigateTablesStep {
 
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(tableID);
+			aPHomePage.takeScreenShot("book table");
 		}
 
 		try {
 			Assert.assertEquals(author, headers.get(1));
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(tableID);
+			aPHomePage.takeScreenShot("book table");
 		}
 
 		try {
 			Assert.assertEquals(subject, headers.get(2));
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(tableID);
+			aPHomePage.takeScreenShot("book table");
 		}
 
 		try {
 			Assert.assertEquals(price, headers.get(3));
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(tableID);
+			aPHomePage.takeScreenShot("book table");
 		}
 	}
 
