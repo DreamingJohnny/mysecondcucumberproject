@@ -3,9 +3,7 @@ package com.mysecondcucumberproject.stepdefinitions;
 import java.util.List;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
@@ -20,13 +18,6 @@ public class NavigateTablesStep {
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
 
-	// Get the element for the web table
-	// Check so that it is "displayed"
-	// Check the parts of the header
-	// Go through each of the books and check the things for each of them.
-	// So, will need to search for one of the words and then check against the
-	// others
-
 	@Given("the user is on the webpage")
 	public void the_used_is_on_the_webpage() {
 		aPHomePage = new AutomationPracticeHomePage(BaseUtilities.getWebDriver());
@@ -38,7 +29,7 @@ public class NavigateTablesStep {
 
 	@When("the user sees the table {string}")
 	public void the_user_sees_the_table(String tableID) {
-		Assert.assertTrue(aPHomePage.canFindWebelement(tableID));
+		Assert.assertTrue("Couln't find a table with the tableID: " + tableID, aPHomePage.canFindWebelement(tableID));
 	}
 
 	@Then("the table {string} should have a header with {string}, {string}, {string} and {string}")
@@ -177,33 +168,10 @@ public class NavigateTablesStep {
 		}
 	}
 
-	// TODO: Read up on if this should be a @then instead of a @when according to
-	// cucumber?
-	@When("the user selects all items with a price higher than {string}")
-	public void the_user_selects_all_items_with_a_price_higher_than(String _price) {
-
-		for (int i = 1; i <= aPHomePage.getProductPageAmount(); i++) {
-
-			aPHomePage.clickProductPageButton(i);
-			aPHomePage.selectProductsWithLowerPrice(_price);
-			aPHomePage.takeScreenShot("paginated button field");
-
-			/*
-			 * So, I need to figure out how to test this, the marked items disappear when
-			 * you switch page, so it needs to be tested on the same page then.
-			 * I could set something up, so that the system also takes a screenshot if the
-			 * items...
-			 * But then it would take a screenshot even when things are right, which doesn't
-			 * seem like it should be the way to do it.
-			 */
-
-		}
-	}
-
 	@When("the user selects items costing less than {string} on page {string}.")
 	public void the_user_selects_items_costing_less_than_on_page(String priceThresholdString, String pageNumber) {
-		
-		//TODO: Think about moving this one to config or similar?
+
+		// TODO: Think about moving this one to config or similar?
 		String regex = "[^\\d\\.]| |\\.$";
 
 		int pageIndex = 0;
@@ -211,7 +179,7 @@ public class NavigateTablesStep {
 			pageIndex = Integer.parseInt(pageNumber);
 		} catch (NumberFormatException e) {
 			System.err.println("Error: Unable to parse string to integer: " + pageNumber);
-			Assert.fail("Test failed, unable to parse the string for pageNumber");
+			Assert.fail("Test failed, unable to parse the string for pageNumber: " + pageNumber);
 		}
 
 		// Checks so that the index is within the bounds of the available pages.
@@ -233,14 +201,37 @@ public class NavigateTablesStep {
 
 		// TODO: These both will also need checks for if they cannot find them.
 		int priceColumnIndex = aPHomePage.getProductTableColumnIndexOf("price");
-		int selectionColumnIndex = aPHomePage.getProductTableColumnIndexOf("select"); 
+		int selectionColumnIndex = aPHomePage.getProductTableColumnIndexOf("select");
 
-		aPHomePage.selectProductsWithLowerPrice(maxPrice,priceColumnIndex,selectionColumnIndex);
+		aPHomePage.selectProductsWithLowerPrice(maxPrice, priceColumnIndex, selectionColumnIndex);
 	}
 
 	@Then("the {string} of items should be selected according to {string}")
-	public void the_of_items_should_be_selected_according_to(String s, String s2) {
-		// Write code here that turns the phrase above into concrete actions
-	}
+	public void the_of_items_should_be_selected_according_to(String _expectedAmount, String _expectedOutcome) {
 
+		int expectedAmount = -1;
+
+		try {
+			expectedAmount = Integer.parseInt(_expectedAmount);
+
+		} catch (NumberFormatException e) {
+			System.err.println("Unable to parse the string for amount of items to an int.");
+			Assert.fail("Test failed. Unable to parse the string for amount of items to an int.");
+		}
+
+		int actualAmount = aPHomePage.productTableAmountOfSelectedItems();
+
+		boolean expectedOutcome = (_expectedOutcome.toLowerCase() == "pass") ? true : false;
+		boolean actualOutcome = (expectedAmount == actualAmount) ? true : false;
+		try {
+			Assert.assertEquals(
+					"The actual outcome and the expected outcome did not match. The expected amount of items was: "
+							+ expectedAmount + ". And the actual amount was: " + actualAmount,
+					expectedOutcome, actualOutcome);
+
+		} catch (AssertionError e) {
+			Assert.fail();
+			aPHomePage.takeScreenShot("paginated table");
+		}
+	}
 }

@@ -205,7 +205,7 @@ public class AutomationPracticeHomePage extends BasePage {
 				return saturdayCheckbox.isDisplayed() == true ? true : false;
 			case "sunday":
 				return sundayCheckBox.isDisplayed() == true ? true : false;
-			case "booktable":
+			case "book table":
 				return bookTable.isDisplayed() == true ? true : false;
 			case "paginated table":
 				return paginatedTable.isDisplayed() == true ? true : false;
@@ -219,7 +219,7 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	@Override
 	protected WebElement getWebelement(String fieldID) {
-		switch (fieldID.toLowerCase()) {
+		switch (fieldID.toLowerCase().trim()) {
 			case "name":
 				return nameField;
 			case "email":
@@ -244,7 +244,7 @@ public class AutomationPracticeHomePage extends BasePage {
 				return saturdayCheckbox;
 			case "sunday":
 				return sundayCheckBox;
-			case "booktable":
+			case "book table":
 				return bookTable;
 			case "paginated table":
 				return paginatedTable;
@@ -265,7 +265,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	 */
 	public List<String> getTableHeadersContent(String tableID) {
 		switch (tableID.toLowerCase()) {
-			case "booktable":
+			case "book table":
 				List<WebElement> tempElements = bookTable.findElements(By.tagName("th"));
 				List<String> tempStrings = new ArrayList<>();
 
@@ -284,7 +284,7 @@ public class AutomationPracticeHomePage extends BasePage {
 		// TODO: Is this method sensitive to exceptions thrown if not finding elements?
 		// Look into that.
 		switch (tableID.toLowerCase()) {
-			case "booktable":
+			case "book table":
 				WebElement tableRow = bookTable
 						.findElement(By.xpath(".//tr[descendant::*[text()='" + searchTerm + "']]"));
 				if (tableRow == null) {
@@ -383,6 +383,19 @@ public class AutomationPracticeHomePage extends BasePage {
 			System.out.println("Couldn't click on the Product Table Page Button with the index: " + index);
 			System.out.println(e.getMessage());
 		}
+	}
+
+	public int productTableAmountOfSelectedItems() {
+
+		int amountOfSelectedItems = 0;
+		for (WebElement tableRow : paginatedTableBody.findElements(By.xpath(".//tr"))) {
+
+			if (tableRow.findElement(By.xpath("//input")).isSelected())
+				amountOfSelectedItems++;
+			// TODO: Add try catch here for this.
+			// TODO: Also handle if string is empty.
+		}
+		return amountOfSelectedItems;
 	}
 
 	/*
