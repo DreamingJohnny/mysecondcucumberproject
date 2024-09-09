@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
 
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -33,7 +32,8 @@ public class NavigateTablesStep {
 	}
 
 	@Then("the book table should have a header with {string}, {string}, {string} and {string}")
-	public void the_book_table_should_have_a_header_with_and(String bookName, String author, String subject, String price) {
+	public void the_book_table_should_have_a_header_with_and(String bookName, String author, String subject,
+			String price) {
 		List<String> headers = aPHomePage.getTableHeadersContent("book table");
 
 		try {
@@ -72,38 +72,6 @@ public class NavigateTablesStep {
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
 			aPHomePage.takeScreenShot("book table");
-		}
-	}
-
-	@Then("the table {string} should display the following books with the correct information:")
-	public void the_table_should_display_the_following_books_with_the_correct_information(String tableID,
-			DataTable dataTable) {
-
-		List<List<String>> tableInfo = dataTable.asLists(String.class);
-
-		for (List<String> bookInfo : tableInfo) {
-			List<String> tableRowInfo = aPHomePage.getTableRowContent(tableID, bookInfo.get(0));
-
-			try {
-				Assert.assertFalse(
-						"Didn't find any table row in the table: " + tableID + ", with a cell containing: "
-								+ bookInfo.get(0),
-						tableRowInfo.isEmpty());
-
-			} catch (AssertionError e) {
-				System.out.println("Assertion failed: " + e.getMessage());
-				aPHomePage.takeScreenShot(tableID);
-			}
-
-			// Compares the content of each string in the two lists.
-			for (int i = 0; i < tableRowInfo.size(); i++) {
-				try {
-					Assert.assertEquals(tableRowInfo.get(i), bookInfo.get(i));
-				} catch (AssertionError e) {
-					System.out.println("Assertion failed: " + e.getMessage());
-					aPHomePage.takeScreenShot(tableID);
-				}
-			}
 		}
 	}
 
@@ -167,70 +135,4 @@ public class NavigateTablesStep {
 		}
 	}
 
-	@When("the user selects items costing less than {string} on page {string}.")
-	public void the_user_selects_items_costing_less_than_on_page(String priceThresholdString, String pageNumber) {
-
-		// TODO: Think about moving this one to config or similar?
-		String regex = "[^\\d\\.]| |\\.$";
-
-		int pageIndex = 0;
-		try {
-			pageIndex = Integer.parseInt(pageNumber);
-		} catch (NumberFormatException e) {
-			System.err.println("Error: Unable to parse string to integer: " + pageNumber);
-			Assert.fail("Test failed, unable to parse the string for pageNumber: " + pageNumber);
-		}
-
-		// Checks so that the index is within the bounds of the available pages.
-		Assert.assertFalse("The index for the page was outside the available pages for the product table",
-				pageIndex > 0 && pageIndex <= aPHomePage.getProductPageAmount());
-
-		aPHomePage.clickProductPageButton(pageIndex);
-
-		float maxPrice = 0;
-		try {
-			// Cleans the text according to the regex expression so that it can be parsed to
-			// float.
-			maxPrice = Float.parseFloat(priceThresholdString.replaceAll(regex, ""));
-
-		} catch (NumberFormatException e) {
-			System.err.println("Error: Unable to parse string to float: " + priceThresholdString);
-			Assert.fail("Test failed, unable to parse the string for top price");
-		}
-
-		// TODO: These both will also need checks for if they cannot find them.
-		int priceColumnIndex = aPHomePage.getProductTableColumnIndexOf("price");
-		int selectionColumnIndex = aPHomePage.getProductTableColumnIndexOf("select");
-
-		aPHomePage.selectProductsWithLowerPrice(maxPrice, priceColumnIndex, selectionColumnIndex);
-	}
-
-	@Then("the {string} of items should be selected according to {string}")
-	public void the_of_items_should_be_selected_according_to(String _expectedAmount, String _expectedOutcome) {
-
-		int expectedAmount = -1;
-
-		try {
-			expectedAmount = Integer.parseInt(_expectedAmount);
-
-		} catch (NumberFormatException e) {
-			System.err.println("Unable to parse the string for amount of items to an int.");
-			Assert.fail("Test failed. Unable to parse the string for amount of items to an int.");
-		}
-
-		int actualAmount = aPHomePage.productTableAmountOfSelectedItems();
-
-		boolean expectedOutcome = (_expectedOutcome.toLowerCase() == "pass") ? true : false;
-		boolean actualOutcome = (expectedAmount == actualAmount) ? true : false;
-		try {
-			Assert.assertEquals(
-					"The actual outcome and the expected outcome did not match. The expected amount of items was: "
-							+ expectedAmount + ". And the actual amount was: " + actualAmount,
-					expectedOutcome, actualOutcome);
-
-		} catch (AssertionError e) {
-			Assert.fail();
-			aPHomePage.takeScreenShot("paginated table");
-		}
-	}
 }

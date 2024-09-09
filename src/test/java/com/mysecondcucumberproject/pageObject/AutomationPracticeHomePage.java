@@ -1,7 +1,6 @@
 package com.mysecondcucumberproject.pageObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -18,21 +17,24 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	// Page factory style locators
 
-	// Form fields
+	// #region Form fields
 	@FindBy(xpath = "//*[@id=\"name\"]")
 	WebElement nameField;
 	@FindBy(xpath = "//*[@id=\"email\"]")
 	WebElement emailField;
 	@FindBy(xpath = "//*[@id=\"phone\"]")
 	WebElement phoneField;
+	// #endregion
 
-	// Gender checkboxes
+	// #region Gender checkboxes
 	@FindBy(xpath = "//*[@id=\"male\"]")
 	WebElement maleCheckBox;
 	@FindBy(xpath = "//*[@id=\"female\"]")
 	WebElement femaleCheckBox;
+	// #endregion
 
-	// Weekday checkboxes
+	// #region Weekday checkboxes
+	// TODO: Check if these specifics for the weekdays are actually needed.
 	@FindBy(xpath = "//*[@id=\"monday\"]")
 	WebElement mondayCheckBox;
 	@FindBy(xpath = "//*[@id=\"tuesday\"]")
@@ -48,11 +50,16 @@ public class AutomationPracticeHomePage extends BasePage {
 	@FindBy(xpath = "//*[@id=\"sunday\"]")
 	WebElement sundayCheckBox;
 
-	// Book table
+	@FindBy(xpath = "//*[label[@for='days']]//input[@type='checkbox']")
+	List<WebElement> weekdayCheckboxes;
+	// #endregion
+
+	// #region Book table
 	@FindBy(xpath = "//*[@id=\"HTML1\"]/div[1]/table")
 	WebElement bookTable;
+	// #endregion
 
-	// Paginated table
+	// #region Paginated table
 	@FindBy(xpath = "//*[@id=\"productTable\"]")
 	WebElement paginatedTable;
 	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody")
@@ -65,6 +72,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	List<WebElement> productTableHeaders;
 	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody//td")
 	WebElement topLeftmostProductTableCell;
+	// #endregion
 
 	public int getProductTableColumnIndexOf(String searchTerm) {
 
@@ -77,6 +85,74 @@ public class AutomationPracticeHomePage extends BasePage {
 		System.out.println("Couldn't find any header of column with the searchterm: " + searchTerm);
 		return columnIndex = 0;
 	}
+
+	// #region Tabs
+	@FindBy(xpath = "//*[@id=\"Wikipedia1\"]")
+	WebElement tabsContainer;
+	@FindBy(xpath = "//*[@id=\"Wikipedia1_wikipedia-search-form\"]")
+	WebElement tabsInputSearchField;
+	@FindBy(xpath = "//*[@id=\"Wikipedia1_wikipedia-search-form\"]//input[@type='submit']")
+	WebElement tabsSubmitButton;
+	@FindBy(xpath = "//*[@id=\"Wikipedia1_wikipedia-search-results\"]")
+	WebElement searchResults;
+	// #endregion
+
+	// #region New Browser Window
+	@FindBy(xpath = "//div[h2[@class='title' and text()='New Browser Window']]")
+	WebElement newBrowserWindowContainer;
+	@FindBy(xpath = "//button[normalize-space()='New Browser Window']")
+	WebElement newBrowserWindowButton;
+	// #endregion
+
+	// #region JS Alerts
+	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]")
+	WebElement jsAlertsContainer;
+	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]//button[text()='Alert']")
+	WebElement alertBoxButton;
+	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]//button[text()='Confirm Box']")
+	WebElement confirmBoxButton;
+	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]//button[text()='Prompt']")
+	WebElement promptButton;
+	// #endregion
+
+	// #region Double Click
+	@FindBy(xpath = "//div[h2[@class='title' and text()='Double Click']]")
+	WebElement doubleClickContainer;
+	@FindBy(xpath = "//*[@id=\"field1\"]")
+	WebElement field1;
+	@FindBy(xpath = "//*[@id=\"field2\"]")
+	WebElement field2;
+	@FindBy(xpath = "//div[h2[@class='title' and text()='Double Click']]//button[text()='Copy Text']")
+	WebElement copyTestButton;
+	// #endregion
+
+	// #region Drag and Drop
+	@FindBy(xpath = "//div[h2[@class='title' and text()='Drag and Drop']]")
+	WebElement dragAndDropContainer;
+	@FindBy(xpath = "//*[@id=\"draggable\"]")
+	WebElement draggableElement;
+	@FindBy(xpath = "//*[@id=\"droppable\"]")
+	WebElement droppableElement;
+	// #endregion
+
+	// #region Slider
+	@FindBy(xpath = "//div[h2[@class='title' and text()='Slider']]")
+	WebElement sliderContainer;
+
+	// Slider handle? And the rest of the slider probably?
+
+	// #endregion
+
+	// #region Frames
+
+	// #endregion
+
+	// #region Resizable
+	@FindBy(xpath = "//div[h2[@class='title' and text()='Resizable']]")
+	WebElement resizeableContainer;
+	@FindBy(xpath = "//*[@id=\"resizable\"]")
+	WebElement resizableElement;
+	// #endregion
 
 	// Action methods
 
@@ -176,9 +252,6 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	// TODO: If you want to keep this one, you might want to expand it further,
-	// otherwise, remove it, other otherwise have public getters for the locators
-	// instead?
 	public boolean canFindWebelement(String fieldID) {
 		switch (fieldID.toLowerCase()) {
 			case "name":
@@ -211,6 +284,18 @@ public class AutomationPracticeHomePage extends BasePage {
 				return paginatedTable.isDisplayed() == true ? true : false;
 			case "paginated button field":
 				return paginationButtonsField.isDisplayed() == true ? true : false;
+			case "tabs container":
+				return tabsContainer.isDisplayed() == true ? true : false;
+			case "tabs input search field":
+				return tabsInputSearchField.isDisplayed() == true ? true : false;
+			case "tabs submit button":
+				return tabsSubmitButton.isDisplayed() == true ? true : false;
+			case "tabs search result":
+				return searchResults.isDisplayed() == true ? true : false;
+			case "new browser window container":
+				return newBrowserWindowContainer.isDisplayed() == true ? true : false;
+			case "new browser window button":
+				return newBrowserWindowButton.isDisplayed() == true ? true : false;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
@@ -279,39 +364,8 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	public List<String> getTableRowContent(String tableID, String searchTerm) {
-		// TODO: Rethink this method considering if it is sensitive to caps
-		// TODO: Is this method sensitive to exceptions thrown if not finding elements?
-		// Look into that.
-		switch (tableID.toLowerCase()) {
-			case "book table":
-				WebElement tableRow = bookTable
-						.findElement(By.xpath(".//tr[descendant::*[text()='" + searchTerm + "']]"));
-				if (tableRow == null) {
-					return new ArrayList<>();
-				}
-
-				List<WebElement> tempElements = tableRow.findElements(By.tagName("td"));
-				if (tempElements == null) {
-					return new ArrayList<>();
-				}
-				List<String> tableRowContent = new ArrayList<>();
-
-				for (WebElement webElement : tempElements) {
-					tableRowContent.add(webElement.getText());
-				}
-				return tableRowContent;
-			default:
-				System.out.println("Couldn't find a case in the switch matching: " + tableID);
-				return new ArrayList<>();
-		}
-	}
-
-	// TODO: Check if this is considered good practices? Should you send webelements
-	// like this? Probably not, better to have indirect clicking.
-	public List<WebElement> getAllWeekdayCheckboxes() {
-		return Arrays.asList(mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox, fridayCheckbox,
-				saturdayCheckbox, sundayCheckBox);
+	public int getWeekdayCheckboxAmount() {
+		return weekdayCheckboxes.size();
 	}
 
 	public String getElementText(String elementID) {
@@ -330,39 +384,6 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	// TODO: Fix this, shouldn't be sending buttons away outside of POM
-	public List<WebElement> getButtons(String fieldID) {
-
-		switch (fieldID) {
-			// TODO: Look at renamning these cases.
-			case "paginated button field":
-				return productTablePageButtons;
-			default:
-				System.out.println("Couldn't find a set of buttons looking with the fieldID of: " + fieldID);
-				return null;
-		}
-	}
-
-	public void selectProductsWithLowerPrice(float testInputPrice, int priceColumnIndex, int selectionColumnIndex) {
-
-		String regex = "[^\\d\\.]| |\\.$";
-
-		for (WebElement tableRow : paginatedTableBody.findElements(By.xpath(".//tr"))) {
-
-			String priceText = tableRow.findElement(By.xpath("./td[" + priceColumnIndex + "]")).getText();
-			// TODO: Add try catch here for this.
-			// TODO: Also handle if string is empty.
-			// Cleans the text according to the regex expression so that it can be parsed to
-			// float.
-			float actualPrice = Float.parseFloat(priceText.replaceAll(regex, ""));
-			System.out.println("Actual price is parsed as: " + actualPrice);
-
-			if (actualPrice < testInputPrice) {
-				tableRow.findElement(By.xpath("./td[" + selectionColumnIndex + "]")).click();
-			}
-		}
-	}
-
 	public boolean isPaginationButtonSelected(int index) {
 		return productTablePageButtons.get(index - 1).getAttribute("class").contains("active") == true ? true : false;
 	}
@@ -371,8 +392,7 @@ public class AutomationPracticeHomePage extends BasePage {
 		return Integer.parseInt(productTablePageButtons.getLast().getText());
 	}
 
-	// TODO: Add explanation how this handles stuff with the index, also, might want
-	// some protection here.
+	// TODO: Add explanation how this handles stuff with the index,
 	public void clickProductPageButton(int index) {
 		index = index - 1;
 
@@ -385,27 +405,28 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	public int productTableAmountOfSelectedItems() {
+	public boolean isWeekdayCheckBoxSelected(int index) {
 
-		int amountOfSelectedItems = 0;
-		for (WebElement tableRow : paginatedTableBody.findElements(By.xpath(".//tr"))) {
+		// Creates array with correct size
+		WebElement[] arr = new WebElement[weekdayCheckboxes.size()];
 
-			if (tableRow.findElement(By.xpath("//input")).isSelected())
-				amountOfSelectedItems++;
-			// TODO: Add try catch here for this.
-			// TODO: Also handle if string is empty.
+		// Converting List to Array
+		for (int i = 0; i < weekdayCheckboxes.size(); i++) {
+			arr[i] = weekdayCheckboxes.get(i);
 		}
-		return amountOfSelectedItems;
+
+		return (arr[index].isSelected()) == true ? true : false;
 	}
 
-	/*
-	 * Search through multiple pages of table for specific object.
-	 * Send search term to open tabs, control correct tab.
-	 * Check if search term disappears?
-	 * Open new window and navigate to it, control, close.
-	 * Double click
-	 * Dragable
-	 * Move slider
-	 * Enter date of birth
-	 */
+	public String getWeekdayCheckboxValue(int index) {
+		// Creates array with correct size
+		WebElement[] arr = new WebElement[weekdayCheckboxes.size()];
+
+		// Converting List to Array
+		for (int i = 0; i < weekdayCheckboxes.size(); i++) {
+			arr[i] = weekdayCheckboxes.get(i);
+		}
+
+		return arr[index].getAttribute("value");
+	}
 }

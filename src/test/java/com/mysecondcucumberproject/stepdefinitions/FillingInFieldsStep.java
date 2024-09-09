@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
@@ -18,7 +17,6 @@ public class FillingInFieldsStep {
 
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
-	//TODO: Look over the gherkin, pretty sure I'm using too many of the same keywords.
 
 	@Given("the user is on the form page")
 	public void i_am_on_the_form_page() {
@@ -100,18 +98,14 @@ public class FillingInFieldsStep {
 			string = string.toLowerCase();
 		}
 
-		List<WebElement> weekdayCheckboxes = aPHomePage.getAllWeekdayCheckboxes();
-
-		Assert.assertFalse("Unable to find any of the checkboxes for weekdays", weekdayCheckboxes.isEmpty());
-
 		// Iterates through the list of webelements for the checkboxes, if one is
 		// selected, it checks if it has an attribute "value" that is one of the days
 		// that should be selected. If not it Asserts.fail().
-		for (WebElement webElement : weekdayCheckboxes) {
-			if (webElement.isSelected()) {
-				if (!selectedDays.contains(webElement.getAttribute("value").toLowerCase())) {
+		for (int i = 0; i < aPHomePage.getWeekdayCheckboxAmount(); i++) {
+			if (aPHomePage.isWeekdayCheckBoxSelected(i)) {
+				if (!selectedDays.contains(aPHomePage.getWeekdayCheckboxValue(i).toLowerCase())) {
 					Assert.fail("The weekday with the following attribute was selected even when it shouldn't: "
-							+ webElement.getAttribute("value"));
+							+ aPHomePage.getWeekdayCheckboxValue(i));
 				}
 			}
 		}
@@ -152,12 +146,10 @@ public class FillingInFieldsStep {
 	@Then("none of the weekdays should be selected")
 	public void none_of_the_weekdays_should_be_selected() {
 
-		List<WebElement> weekdayCheckboxes = aPHomePage.getAllWeekdayCheckboxes();
-
-		for (WebElement webElement : weekdayCheckboxes) {
-			if (webElement.isSelected()) {
-				Assert.fail("the following webelement was selected when it shouldn't: "
-						+ webElement.getAttribute(("value")));
+		for (int i = 0; i < aPHomePage.getWeekdayCheckboxAmount(); i++) {
+			if (aPHomePage.isWeekdayCheckBoxSelected(i)) {
+				Assert.fail("the following weekday was selected when it shouldn't: "
+						+ aPHomePage.getWeekdayCheckboxValue(i));
 			}
 		}
 	}

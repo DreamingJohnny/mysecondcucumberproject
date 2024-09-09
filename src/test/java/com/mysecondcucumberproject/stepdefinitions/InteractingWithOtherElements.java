@@ -1,18 +1,25 @@
 package com.mysecondcucumberproject.stepdefinitions;
 
+import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
+
+import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class InteractingWithOtherElements {
 
-	// TODO: Check if perhaps this is different enough to be another pageobject
-	// also?
+	WebDriver driver;
+	AutomationPracticeHomePage aPHomePage;
 
 	@Given("the user sees the container for {string}")
-	public void the_user_sees_the_container_for(String string) {
+	public void the_user_sees_the_container_for(String elementID) {
+
+		Assert.assertTrue(aPHomePage.canFindWebelement(elementID));
 		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		
 	}
 
 	@When("the user navigates to the searchbar")
