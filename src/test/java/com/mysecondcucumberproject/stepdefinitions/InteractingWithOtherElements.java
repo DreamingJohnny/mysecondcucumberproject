@@ -19,7 +19,7 @@ public class InteractingWithOtherElements {
 
 		Assert.assertTrue(aPHomePage.canFindWebelement(elementID));
 		// Write code here that turns the phrase above into concrete actions
-		
+
 	}
 
 	@When("the user navigates to the searchbar")
