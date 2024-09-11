@@ -8,6 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.mysecondcucumberproject.utilities.TestConstants;
+
+import net.bytebuddy.implementation.bytecode.constant.TextConstant;
+
 public class AutomationPracticeHomePage extends BasePage {
 
 	// Constructor
@@ -163,24 +167,26 @@ public class AutomationPracticeHomePage extends BasePage {
 	 * @return
 	 */
 	public boolean isCheckBoxSelected(String checkboxID) {
+		// TODO: Check with MY, shouldn't it be better if I protected all of these with
+		// the "canFind"?
 		switch (checkboxID.toLowerCase()) {
-			case "male":
+			case TestConstants.MALECHECKBOX_ID:
 				return maleCheckBox.isSelected() == true ? true : false;
-			case "female":
+			case TestConstants.FEMALECHECKBOX_ID:
 				return femaleCheckBox.isSelected() == true ? true : false;
-			case "monday":
+			case TestConstants.MONDAYCHECKBOX_ID:
 				return mondayCheckBox.isSelected() == true ? true : false;
-			case "tuesday":
+			case TestConstants.TUESDAYCHECKBOX_ID:
 				return tuesdayCheckBox.isSelected() == true ? true : false;
-			case "wednesday":
+			case TestConstants.WEDNESDAYCHECKBOX_ID:
 				return wednesdayCheckBox.isSelected() == true ? true : false;
-			case "thursday":
+			case TestConstants.THURSDAYCHECKBOX_ID:
 				return thursdayCheckBox.isSelected() == true ? true : false;
-			case "friday":
+			case TestConstants.FRIDAYCHECKBOX_ID:
 				return fridayCheckbox.isSelected() == true ? true : false;
-			case "saturday":
+			case TestConstants.SATURDAYCHECKBOX_ID:
 				return saturdayCheckbox.isSelected() == true ? true : false;
-			case "sunday":
+			case TestConstants.SUNDAYCHECKBOX_ID:
 				return sundayCheckBox.isSelected() == true ? true : false;
 			default:
 				// TODO: Check how to best print log messages, if System.out.println, is
@@ -192,31 +198,31 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	public void toggleCheckBox(String checkboxID) {
 		switch (checkboxID.toLowerCase()) {
-			case "male":
+			case TestConstants.MALECHECKBOX_ID:
 				maleCheckBox.click();
 				break;
-			case "female":
+			case TestConstants.FEMALECHECKBOX_ID:
 				femaleCheckBox.click();
 				break;
-			case "monday":
+			case TestConstants.MONDAYCHECKBOX_ID:
 				mondayCheckBox.click();
 				break;
-			case "tuesday":
+			case TestConstants.TUESDAYCHECKBOX_ID:
 				tuesdayCheckBox.click();
 				break;
-			case "wednesday":
+			case TestConstants.WEDNESDAYCHECKBOX_ID:
 				wednesdayCheckBox.click();
 				break;
-			case "thursday":
+			case TestConstants.THURSDAYCHECKBOX_ID:
 				thursdayCheckBox.click();
 				break;
-			case "friday":
+			case TestConstants.FRIDAYCHECKBOX_ID:
 				fridayCheckbox.click();
 				break;
-			case "saturday":
+			case TestConstants.SATURDAYCHECKBOX_ID:
 				saturdayCheckbox.click();
 				break;
-			case "sunday":
+			case TestConstants.SUNDAYCHECKBOX_ID:
 				sundayCheckBox.click();
 				break;
 			default:
@@ -234,15 +240,15 @@ public class AutomationPracticeHomePage extends BasePage {
 	 */
 	public void setField(String input, String fieldID) {
 		switch (fieldID.toLowerCase()) {
-			case "name":
+			case TestConstants.NAMEFIELD_ID:
 				nameField.clear();
 				nameField.sendKeys(input);
 				break;
-			case "email":
+			case TestConstants.EMAILFIELD_ID:
 				emailField.clear();
 				emailField.sendKeys(input);
 				break;
-			case "phone":
+			case TestConstants.PHONEFIELD_ID:
 				phoneField.clear();
 				phoneField.sendKeys(input);
 				break;
@@ -253,48 +259,49 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	public boolean canFindWebelement(String fieldID) {
+		// TODO: Should I include Enabled here aswell?
 		switch (fieldID.toLowerCase()) {
-			case "name":
+			case TestConstants.NAMEFIELD_ID:
 				return nameField.isDisplayed() == true ? true : false;
-			case "email":
+			case TestConstants.EMAILFIELD_ID:
 				return emailField.isDisplayed() == true ? true : false;
-			case "phone":
+			case TestConstants.PHONEFIELD_ID:
 				return phoneField.isDisplayed() == true ? true : false;
-			case "male":
+			case TestConstants.MALECHECKBOX_ID:
 				return maleCheckBox.isDisplayed() == true ? true : false;
-			case "female":
+			case TestConstants.FEMALECHECKBOX_ID:
 				return femaleCheckBox.isDisplayed() == true ? true : false;
-			case "monday":
+			case TestConstants.MONDAYCHECKBOX_ID:
 				return mondayCheckBox.isDisplayed() == true ? true : false;
-			case "tuesday":
+			case TestConstants.TUESDAYCHECKBOX_ID:
 				return tuesdayCheckBox.isDisplayed() == true ? true : false;
-			case "wednesday":
+			case TestConstants.WEDNESDAYCHECKBOX_ID:
 				return wednesdayCheckBox.isDisplayed() == true ? true : false;
-			case "thursday":
+			case TestConstants.THURSDAYCHECKBOX_ID:
 				return thursdayCheckBox.isDisplayed() == true ? true : false;
-			case "friday":
+			case TestConstants.FRIDAYCHECKBOX_ID:
 				return fridayCheckbox.isDisplayed() == true ? true : false;
-			case "saturday":
+			case TestConstants.SATURDAYCHECKBOX_ID:
 				return saturdayCheckbox.isDisplayed() == true ? true : false;
-			case "sunday":
+			case TestConstants.SUNDAYCHECKBOX_ID:
 				return sundayCheckBox.isDisplayed() == true ? true : false;
-			case "book table":
+			case TestConstants.BOOKTABLE_ID:
 				return bookTable.isDisplayed() == true ? true : false;
-			case "paginated table":
+			case TestConstants.PAGINATEDTABLE_ID:
 				return paginatedTable.isDisplayed() == true ? true : false;
-			case "paginated button field":
+			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID:
 				return paginationButtonsField.isDisplayed() == true ? true : false;
-			case "tabs container":
+			case TestConstants.TABSCONTAINER_ID:
 				return tabsContainer.isDisplayed() == true ? true : false;
-			case "tabs input search field":
+			case TestConstants.TABSINPUTSEARCHFIELD_ID:
 				return tabsInputSearchField.isDisplayed() == true ? true : false;
-			case "tabs submit button":
+			case TestConstants.TABSSUBMITBUTTON_ID:
 				return tabsSubmitButton.isDisplayed() == true ? true : false;
-			case "tabs search result":
+			case TestConstants.TABSSEARCHRESULT_ID:
 				return searchResults.isDisplayed() == true ? true : false;
-			case "new browser window container":
+			case TestConstants.NEWBROWSERWINDOWCONTAINER_ID:
 				return newBrowserWindowContainer.isDisplayed() == true ? true : false;
-			case "new browser window button":
+			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
 				return newBrowserWindowButton.isDisplayed() == true ? true : false;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
@@ -305,35 +312,35 @@ public class AutomationPracticeHomePage extends BasePage {
 	@Override
 	protected WebElement getWebelement(String fieldID) {
 		switch (fieldID.toLowerCase().trim()) {
-			case "name":
+			case TestConstants.NAMEFIELD_ID:
 				return nameField;
-			case "email":
+			case TestConstants.EMAILFIELD_ID:
 				return emailField;
-			case "phone":
+			case TestConstants.PHONEFIELD_ID:
 				return phoneField;
-			case "male":
+			case TestConstants.MALECHECKBOX_ID:
 				return maleCheckBox;
-			case "female":
+			case TestConstants.FEMALECHECKBOX_ID:
 				return femaleCheckBox;
-			case "monday":
+			case TestConstants.MONDAYCHECKBOX_ID:
 				return mondayCheckBox;
-			case "tuesday":
+			case TestConstants.TUESDAYCHECKBOX_ID:
 				return tuesdayCheckBox;
-			case "wednesday":
+			case TestConstants.WEDNESDAYCHECKBOX_ID:
 				return wednesdayCheckBox;
-			case "thursday":
+			case TestConstants.THURSDAYCHECKBOX_ID:
 				return thursdayCheckBox;
-			case "friday":
+			case TestConstants.FRIDAYCHECKBOX_ID:
 				return fridayCheckbox;
-			case "saturday":
+			case TestConstants.SATURDAYCHECKBOX_ID:
 				return saturdayCheckbox;
-			case "sunday":
+			case TestConstants.SUNDAYCHECKBOX_ID:
 				return sundayCheckBox;
-			case "book table":
+			case TestConstants.BOOKTABLE_ID:
 				return bookTable;
-			case "paginated table":
+			case TestConstants.PAGINATEDTABLE_ID:
 				return paginatedTable;
-			case "paginated button field":
+			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID:
 				return paginationButtonsField;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
@@ -350,7 +357,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	 */
 	public List<String> getTableHeadersContent(String tableID) {
 		switch (tableID.toLowerCase()) {
-			case "book table":
+			case TestConstants.BOOKTABLE_ID:
 				List<WebElement> tempElements = bookTable.findElements(By.tagName("th"));
 				List<String> tempStrings = new ArrayList<>();
 
@@ -370,13 +377,13 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	public String getElementText(String elementID) {
 		switch (elementID.toLowerCase()) {
-			case "name":
+			case TestConstants.NAMEFIELD_ID:
 				return nameField.getAttribute("value");
-			case "email":
+			case TestConstants.EMAILFIELD_ID:
 				return emailField.getAttribute("value");
-			case "phone":
+			case TestConstants.PHONEFIELD_ID:
 				return phoneField.getAttribute("value");
-			case "top leftmost product table cell":
+			case TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID:
 				return topLeftmostProductTableCell.getText();
 			default:
 				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
@@ -428,5 +435,21 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 
 		return arr[index].getAttribute("value");
+	}
+
+	public void clicksButton(String buttonID) {
+
+		if (canFindWebelement(buttonID)) {
+			switch (buttonID) {
+				case TestConstants.TABSSUBMITBUTTON_ID:
+					tabsSubmitButton.click();
+					break;
+
+				default:
+					System.out.println("Couldn't find a case for that button using string id: " + buttonID);
+					break;
+
+			}
+		}
 	}
 }

@@ -38,13 +38,13 @@ public class NavigateTablesStep {
 	@Then("the book table should have a header with {string}, {string}, {string} and {string}")
 	public void the_book_table_should_have_a_header_with_and(String bookName, String author, String subject,
 			String price) {
-		List<String> headers = aPHomePage.getTableHeadersContent(TestConstants.BOOKTABLEID);
+		List<String> headers = aPHomePage.getTableHeadersContent(TestConstants.BOOKTABLE_ID);
 
 		try {
 			Assert.assertTrue(!headers.isEmpty());
 		} catch (Exception e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(TestConstants.BOOKTABLEID);
+			aPHomePage.takeScreenShot(TestConstants.BOOKTABLE_ID);
 		}
 
 		// TODO: This one feels really inflexible, look through if you could/should
@@ -54,28 +54,28 @@ public class NavigateTablesStep {
 
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(TestConstants.BOOKTABLEID);
+			aPHomePage.takeScreenShot(TestConstants.BOOKTABLE_ID);
 		}
 
 		try {
 			Assert.assertEquals(author, headers.get(1));
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(TestConstants.BOOKTABLEID);
+			aPHomePage.takeScreenShot(TestConstants.BOOKTABLE_ID);
 		}
 
 		try {
 			Assert.assertEquals(subject, headers.get(2));
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(TestConstants.BOOKTABLEID);
+			aPHomePage.takeScreenShot(TestConstants.BOOKTABLE_ID);
 		}
 
 		try {
 			Assert.assertEquals(price, headers.get(3));
 		} catch (AssertionError e) {
 			System.out.println("Assertion failed: " + e.getMessage());
-			aPHomePage.takeScreenShot(TestConstants.BOOKTABLEID);
+			aPHomePage.takeScreenShot(TestConstants.BOOKTABLE_ID);
 		}
 	}
 
@@ -83,9 +83,9 @@ public class NavigateTablesStep {
 	public void the_user_sees_the_paginated_table() {
 
 		Assert.assertTrue("Couldn't find the paginated table.",
-				aPHomePage.canFindWebelement(TestConstants.PAGINATEDTABLEID));
+				aPHomePage.canFindWebelement(TestConstants.PAGINATEDTABLE_ID));
 		Assert.assertTrue("Couldn't find the paginated button field.",
-				aPHomePage.canFindWebelement(TestConstants.PAGINATEDTABLEBUTTONFIELDID));
+				aPHomePage.canFindWebelement(TestConstants.PAGINATEDTABLEBUTTONFIELD_ID));
 	}
 
 	@Then("the first page is selected")
@@ -116,7 +116,7 @@ public class NavigateTablesStep {
 						aPHomePage.isPaginationButtonSelected(i));
 			} catch (AssertionError e) {
 				System.out.println("Assertion failed: " + e.getMessage());
-				aPHomePage.takeScreenShot(TestConstants.PAGINATEDTABLEBUTTONFIELDID);
+				aPHomePage.takeScreenShot(TestConstants.PAGINATEDTABLEBUTTONFIELD_ID);
 			}
 
 			try {
@@ -125,16 +125,16 @@ public class NavigateTablesStep {
 				// indicates that the table hasn't been refreshed.
 				Assert.assertFalse("The product table didn't seem to refresh when the next page was selected.",
 						toCompareID.toLowerCase() == aPHomePage
-								.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELLID)
+								.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID)
 								.toLowerCase());
 
 				// Stores the attribute of the topmost ID field on the current page of the
 				// table, to compare against the next one.
-				toCompareID = aPHomePage.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELLID);
+				toCompareID = aPHomePage.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID);
 
 			} catch (AssertionError e) {
 				System.out.println("Assertion failed: " + e.getMessage());
-				aPHomePage.takeScreenShot(TestConstants.PAGINATEDTABLEID);
+				aPHomePage.takeScreenShot(TestConstants.PAGINATEDTABLE_ID);
 			}
 		}
 	}

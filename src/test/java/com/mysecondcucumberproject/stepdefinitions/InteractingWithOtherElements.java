@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
+import com.mysecondcucumberproject.utilities.TestConstants;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -17,21 +18,27 @@ public class InteractingWithOtherElements {
 	@Given("the user sees the container for {string}")
 	public void the_user_sees_the_container_for(String elementID) {
 
-		Assert.assertTrue(aPHomePage.canFindWebelement(elementID));
-		// Write code here that turns the phrase above into concrete actions
-
+		Assert.assertTrue("Couldn't find a webelement usig the string id: " + elementID,
+				aPHomePage.canFindWebelement(elementID));
 	}
 
 	@When("the user navigates to the searchbar")
 	public void the_user_navigates_to_the_searchbar() {
+		// TODO: Remove this if not needed to switch frame or so for the search bar.
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
 
 	@When("the user enters {string} into the searchbar")
-	public void the_user_enters_into_the_searchbar(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_user_enters_into_the_searchbar(String searchInput) {
+
+		if (aPHomePage.canFindWebelement(TestConstants.TABSINPUTSEARCHFIELD_ID)) {
+			aPHomePage.setField(searchInput, TestConstants.TABSINPUTSEARCHFIELD_ID);
+		} else {
+			// TODO: Check if this then invalidates the whole scenario, I think it does,
+			// ideally, it shouldn't try the next step.
+			Assert.fail("Couldn't find the search bar with the string id: " + TestConstants.TABSINPUTSEARCHFIELD_ID);
+		}
 	}
 
 	@When("the user selects the {string} result")
@@ -53,7 +60,13 @@ public class InteractingWithOtherElements {
 	}
 
 	@When("the user clicks on the {string} button")
-	public void the_user_clicks_on_the_button(String string) {
+	public void the_user_clicks_on_the_button(String buttonID) {
+
+		// TODO: Check with MY, should I rework this so that it does the check in the
+		// method instead? Why not right?
+		if (aPHomePage.canFindWebelement(buttonID)) {
+			aPHomePage.clicksButton(buttonID);
+		}
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
