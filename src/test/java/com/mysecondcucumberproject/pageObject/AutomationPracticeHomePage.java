@@ -252,7 +252,7 @@ public class AutomationPracticeHomePage extends BasePage {
 				phoneField.sendKeys(input);
 				break;
 			case TestConstants.TABSINPUTSEARCHFIELD_ID:
-				tabsInputSearchField.clear();
+				// tabsInputSearchField.clear();
 				tabsInputSearchField.sendKeys(input);
 			default:
 				System.out.println(this + " couldn't find a field with a value to set for the input " + input);
@@ -463,11 +463,11 @@ public class AutomationPracticeHomePage extends BasePage {
 			return false;
 		else {
 			try {
-				getWebelement(parentFieldID).findElement(By.xpath("/div["+childIndex+"]//a")).click();
+				getWebelement(parentFieldID).findElement(By.xpath("/div[" + childIndex + "]//a")).click();
 				return true;
-				
+
 			} catch (NoSuchElementException e) {
-				System.out.println("Child element not found."+e.getMessage());
+				System.out.println("Child element not found." + e.getMessage());
 				return false;
 			}
 		}

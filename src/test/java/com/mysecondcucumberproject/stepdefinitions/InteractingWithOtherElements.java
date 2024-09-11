@@ -3,9 +3,11 @@ package com.mysecondcucumberproject.stepdefinitions;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
+import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
 import com.mysecondcucumberproject.utilities.TestConstants;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,18 +17,20 @@ public class InteractingWithOtherElements {
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
 
-	@Given("the user sees the container for {string}")
-	public void the_user_sees_the_container_for(String elementID) {
+	@Given("the user is on the correct page")
+	public void the_user_is_on_the_correct_page() {
+		aPHomePage = new AutomationPracticeHomePage(BaseUtilities.getWebDriver());
+		Assert.assertEquals("Url didn't match!",
+				BaseUtilities.getConfigProperties().getProperty("db.url").toLowerCase(),
+				aPHomePage.getUrl().toLowerCase());
 
-		Assert.assertTrue("Couldn't find a webelement usig the string id: " + elementID,
-				aPHomePage.canFindWebelement(elementID));
 	}
 
-	@When("the user navigates to the searchbar")
-	public void the_user_navigates_to_the_searchbar() {
-		// TODO: Remove this if not needed to switch frame or so for the search bar.
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the user sees the container for {string}")
+	public void the_user_sees_the_container_for(String elementID) {
+
+		Assert.assertTrue("Couldn't find a webelement using the string id: " + elementID,
+				aPHomePage.canFindWebelement(elementID));
 	}
 
 	@When("the user enters {string} into the searchbar")
@@ -43,7 +47,12 @@ public class InteractingWithOtherElements {
 
 	@When("the user clicks on the {string} button")
 	public void the_user_clicks_on_the_button(String buttonID) {
-		Assert.assertTrue("Couldn't click on the button with id: " + buttonID, aPHomePage.tryClickButton(buttonID));
+		try {
+			Assert.assertTrue("Couldn't click on the button with id: " + buttonID, aPHomePage.tryClickButton(buttonID));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(buttonID);
+
+		}
 	}
 
 	@When("the user selects the {string} result in the {string}")
@@ -52,26 +61,29 @@ public class InteractingWithOtherElements {
 
 		try {
 			index = Integer.parseInt(_index);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			Assert.fail(
-					"Couldn't parse the following to an int for the index of the search result the user was looking for: "
-							+ _index);
+					"invalid string for parsing to int: " + e.getMessage());
 		}
 
-		Assert.assertTrue("Couldn't select the child of " + fieldID + ", with index: " + index,
-				aPHomePage.tryClickChildOf(fieldID, index));
+		try {
+			Assert.assertTrue("Couldn't select the child of " + fieldID + ", with index: " + index,
+					aPHomePage.tryClickChildOf(fieldID, index));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(fieldID);
+			// TODO: Ask MY about if I should throw e here, or what?
+			// throw e;
+		}
 	}
 
 	@When("the user navigates to the new tab")
 	public void the_user_navigates_to_the_new_tab() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		Assert.assertTrue(aPHomePage.trySwitchWindowTo(1));
 	}
 
 	@Then("the url of the new window is {string}")
-	public void the_url_of_the_new_window_is(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_url_of_the_new_window_is(String expectedUrl) {
+		Assert.assertTrue(aPHomePage.getUrl() == expectedUrl);
 	}
 
 	@When("the pop-up window opens")

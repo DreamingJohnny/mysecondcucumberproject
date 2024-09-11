@@ -78,7 +78,7 @@ public class BasePage {
 	}
 
 	public void takeScreenShot(String tableID) {
-		//TODO: what happens here if the element doesn't exist?
+		// TODO: what happens here if the element doesn't exist?
 		WebElement element = getWebelement(tableID);
 		File screenshotFile = element.getScreenshotAs(OutputType.FILE);
 		File targetDirectory = new File(System.getProperty("user.dir"),
@@ -102,5 +102,17 @@ public class BasePage {
 
 	public static String getScreenShotName() {
 		return "screenshot_" + new SimpleDateFormat("yyyymmddhhmmss").format(new Date()) + ".png";
+	}
+
+	public boolean trySwitchWindowTo(int index) {
+
+		Object[] windowHandles = driver.getWindowHandles().toArray();
+
+		if (windowHandles[index] == null)
+			return false;
+		else {
+			driver.switchTo().window((String) windowHandles[index]);
+			return true;
+		}
 	}
 }
