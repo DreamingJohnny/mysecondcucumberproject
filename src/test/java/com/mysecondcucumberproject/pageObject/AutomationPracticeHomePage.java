@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.mysecondcucumberproject.utilities.TestConstants;
-
-import net.bytebuddy.implementation.bytecode.constant.TextConstant;
 
 public class AutomationPracticeHomePage extends BasePage {
 
@@ -252,6 +251,9 @@ public class AutomationPracticeHomePage extends BasePage {
 				phoneField.clear();
 				phoneField.sendKeys(input);
 				break;
+			case TestConstants.TABSINPUTSEARCHFIELD_ID:
+				tabsInputSearchField.clear();
+				tabsInputSearchField.sendKeys(input);
 			default:
 				System.out.println(this + " couldn't find a field with a value to set for the input " + input);
 				break;
@@ -437,18 +439,36 @@ public class AutomationPracticeHomePage extends BasePage {
 		return arr[index].getAttribute("value");
 	}
 
-	public void clicksButton(String buttonID) {
+	// TODO: Ask MY about these changes, do they seem reasonable?
+	public boolean tryClickButton(String buttonID) {
 
-		if (canFindWebelement(buttonID)) {
+		if (!canFindWebelement(buttonID))
+			return false;
+		else {
 			switch (buttonID) {
 				case TestConstants.TABSSUBMITBUTTON_ID:
 					tabsSubmitButton.click();
-					break;
-
+					return true;
 				default:
 					System.out.println("Couldn't find a case for that button using string id: " + buttonID);
-					break;
+					return false;
 
+			}
+		}
+	}
+
+	public boolean tryClickChildOf(String parentFieldID, int childIndex) {
+
+		if (!canFindWebelement(parentFieldID))
+			return false;
+		else {
+			try {
+				getWebelement(parentFieldID).findElement(By.xpath("/div["+childIndex+"]//a")).click();
+				return true;
+				
+			} catch (NoSuchElementException e) {
+				System.out.println("Child element not found."+e.getMessage());
+				return false;
 			}
 		}
 	}

@@ -6,7 +6,7 @@ Feature: Interact with other WebElements
     When the user navigates to the searchbar
     And the user enters "Sweden" into the searchbar
     And the user clicks on the "tabs submit" button
-    And the user selects the "3" result
+    And the user selects the "3" result in the "tabs search results"
     And the user navigates to the new tab
     Then the url of the new window is "https://en.wikipedia.org/wiki/Sweden_during_World_War_II"
 

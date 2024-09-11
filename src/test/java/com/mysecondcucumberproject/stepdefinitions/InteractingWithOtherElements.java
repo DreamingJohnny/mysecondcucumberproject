@@ -41,10 +41,25 @@ public class InteractingWithOtherElements {
 		}
 	}
 
-	@When("the user selects the {string} result")
-	public void the_user_selects_the_result(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("the user clicks on the {string} button")
+	public void the_user_clicks_on_the_button(String buttonID) {
+		Assert.assertTrue("Couldn't click on the button with id: " + buttonID, aPHomePage.tryClickButton(buttonID));
+	}
+
+	@When("the user selects the {string} result in the {string}")
+	public void the_user_selects_the_result_in_the(String _index, String fieldID) {
+		int index = -1;
+
+		try {
+			index = Integer.parseInt(_index);
+		} catch (Exception e) {
+			Assert.fail(
+					"Couldn't parse the following to an int for the index of the search result the user was looking for: "
+							+ _index);
+		}
+
+		Assert.assertTrue("Couldn't select the child of " + fieldID + ", with index: " + index,
+				aPHomePage.tryClickChildOf(fieldID, index));
 	}
 
 	@When("the user navigates to the new tab")
@@ -55,18 +70,6 @@ public class InteractingWithOtherElements {
 
 	@Then("the url of the new window is {string}")
 	public void the_url_of_the_new_window_is(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@When("the user clicks on the {string} button")
-	public void the_user_clicks_on_the_button(String buttonID) {
-
-		// TODO: Check with MY, should I rework this so that it does the check in the
-		// method instead? Why not right?
-		if (aPHomePage.canFindWebelement(buttonID)) {
-			aPHomePage.clicksButton(buttonID);
-		}
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}

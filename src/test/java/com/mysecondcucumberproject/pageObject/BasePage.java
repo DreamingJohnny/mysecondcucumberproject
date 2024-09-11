@@ -78,6 +78,7 @@ public class BasePage {
 	}
 
 	public void takeScreenShot(String tableID) {
+		//TODO: what happens here if the element doesn't exist?
 		WebElement element = getWebelement(tableID);
 		File screenshotFile = element.getScreenshotAs(OutputType.FILE);
 		File targetDirectory = new File(System.getProperty("user.dir"),
