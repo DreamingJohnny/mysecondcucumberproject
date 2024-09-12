@@ -5,8 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -106,13 +109,16 @@ public class BasePage {
 
 	public boolean trySwitchWindowTo(int index) {
 
-		Object[] windowHandles = driver.getWindowHandles().toArray();
+		Set<String> windowHandles = driver.getWindowHandles();
 
-		if (windowHandles[index] == null)
+		List<String> handleList = new ArrayList<>(windowHandles);
+
+		if (handleList.get(index) == null) {
 			return false;
-		else {
-			driver.switchTo().window((String) windowHandles[index]);
-			return true;
 		}
+
+		driver.switchTo().window(handleList.get(index));
+		return true;
+
 	}
 }

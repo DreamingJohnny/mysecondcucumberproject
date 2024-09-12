@@ -15,9 +15,6 @@ import io.cucumber.java.en.When;
 
 public class NavigateTablesStep {
 
-	// TODO: Check if Java contains a way to do functions that returns bool and arg,
-	// like TryGets.
-
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
 

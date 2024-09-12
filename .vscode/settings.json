@@ -3,5 +3,6 @@
 	"java.compile.nullAnalysis.mode": "automatic",
 	"xml.format.maxLineWidth": 220,
 	"editor.wordWrap": "off",
-	"diffEditor.wordWrap": "off"
+	"diffEditor.wordWrap": "off",
+	"testing.openTesting": "openExplorerOnTestStart"
 }

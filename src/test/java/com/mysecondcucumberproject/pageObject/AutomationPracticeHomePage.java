@@ -91,13 +91,14 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	// #region Tabs
 	@FindBy(xpath = "//*[@id=\"Wikipedia1\"]")
-	WebElement tabsContainer;
-	@FindBy(xpath = "//*[@id=\"Wikipedia1_wikipedia-search-form\"]")
-	WebElement tabsInputSearchField;
+	WebElement tabContainer;
+	@FindBy(xpath = "//*[@id=\"Wikipedia1_wikipedia-search-input\"]")
+	WebElement tabInputSearchField;
 	@FindBy(xpath = "//*[@id=\"Wikipedia1_wikipedia-search-form\"]//input[@type='submit']")
-	WebElement tabsSubmitButton;
+	WebElement tabSubmitButton;
 	@FindBy(xpath = "//*[@id=\"Wikipedia1_wikipedia-search-results\"]")
-	WebElement searchResults;
+	WebElement tabSearchResults;
+	// *[@id="Wikipedia1_wikipedia-search-results"]/div[4]/a
 	// #endregion
 
 	// #region New Browser Window
@@ -251,9 +252,10 @@ public class AutomationPracticeHomePage extends BasePage {
 				phoneField.clear();
 				phoneField.sendKeys(input);
 				break;
-			case TestConstants.TABSINPUTSEARCHFIELD_ID:
-				// tabsInputSearchField.clear();
-				tabsInputSearchField.sendKeys(input);
+			case TestConstants.TABINPUTSEARCHFIELD_ID:
+				tabInputSearchField.clear();
+				tabInputSearchField.sendKeys(input);
+				break;
 			default:
 				System.out.println(this + " couldn't find a field with a value to set for the input " + input);
 				break;
@@ -293,14 +295,14 @@ public class AutomationPracticeHomePage extends BasePage {
 				return paginatedTable.isDisplayed() == true ? true : false;
 			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID:
 				return paginationButtonsField.isDisplayed() == true ? true : false;
-			case TestConstants.TABSCONTAINER_ID:
-				return tabsContainer.isDisplayed() == true ? true : false;
-			case TestConstants.TABSINPUTSEARCHFIELD_ID:
-				return tabsInputSearchField.isDisplayed() == true ? true : false;
-			case TestConstants.TABSSUBMITBUTTON_ID:
-				return tabsSubmitButton.isDisplayed() == true ? true : false;
-			case TestConstants.TABSSEARCHRESULT_ID:
-				return searchResults.isDisplayed() == true ? true : false;
+			case TestConstants.TABCONTAINER_ID:
+				return tabContainer.isDisplayed() == true ? true : false;
+			case TestConstants.TABINPUTSEARCHFIELD_ID:
+				return tabInputSearchField.isDisplayed() == true ? true : false;
+			case TestConstants.TABSUBMITBUTTON_ID:
+				return tabSubmitButton.isDisplayed() == true ? true : false;
+			case TestConstants.TABSEARCHRESULT_ID:
+				return tabSearchResults.isDisplayed() == true ? true : false;
 			case TestConstants.NEWBROWSERWINDOWCONTAINER_ID:
 				return newBrowserWindowContainer.isDisplayed() == true ? true : false;
 			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
@@ -344,6 +346,10 @@ public class AutomationPracticeHomePage extends BasePage {
 				return paginatedTable;
 			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID:
 				return paginationButtonsField;
+			case TestConstants.TABCONTAINER_ID:
+				return tabContainer;
+			case TestConstants.TABSEARCHRESULT_ID:
+				return tabSearchResults;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -439,15 +445,14 @@ public class AutomationPracticeHomePage extends BasePage {
 		return arr[index].getAttribute("value");
 	}
 
-	// TODO: Ask MY about these changes, do they seem reasonable?
 	public boolean tryClickButton(String buttonID) {
 
 		if (!canFindWebelement(buttonID))
 			return false;
 		else {
 			switch (buttonID) {
-				case TestConstants.TABSSUBMITBUTTON_ID:
-					tabsSubmitButton.click();
+				case TestConstants.TABSUBMITBUTTON_ID:
+					tabSubmitButton.click();
 					return true;
 				default:
 					System.out.println("Couldn't find a case for that button using string id: " + buttonID);
@@ -463,7 +468,7 @@ public class AutomationPracticeHomePage extends BasePage {
 			return false;
 		else {
 			try {
-				getWebelement(parentFieldID).findElement(By.xpath("/div[" + childIndex + "]//a")).click();
+				getWebelement(parentFieldID).findElement(By.xpath("./div[" + childIndex + "]/a")).click();
 				return true;
 
 			} catch (NoSuchElementException e) {

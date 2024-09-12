@@ -6,11 +6,5 @@ Feature: Interact with other WebElements
     And the user enters "Sweden" into the searchbar
     And the user clicks on the "tabs submit" button
     And the user selects the "4" result in the "tabs search results"
-    And the user navigates to the new tab
-    Then the url of the new window is "https://en.wikipedia.org/wiki/Sweden_during_World_War_II"
-
-  Scenario: Close pop-up window
-    Given the user sees the container for "JS alerts"
-    When the user clicks on the "alert" button
-    And the pop-up window opens
-    Then the user clicks on the button in the window to dismiss it
+    And the user switches to the tab with index "1"
+    Then the url of the new active window is "https://en.wikipedia.org/wiki/Sweden_during_World_War_II"

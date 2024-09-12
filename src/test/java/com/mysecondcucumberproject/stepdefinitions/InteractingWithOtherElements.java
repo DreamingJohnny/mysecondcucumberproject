@@ -36,12 +36,12 @@ public class InteractingWithOtherElements {
 	@When("the user enters {string} into the searchbar")
 	public void the_user_enters_into_the_searchbar(String searchInput) {
 
-		if (aPHomePage.canFindWebelement(TestConstants.TABSINPUTSEARCHFIELD_ID)) {
-			aPHomePage.setField(searchInput, TestConstants.TABSINPUTSEARCHFIELD_ID);
+		if (aPHomePage.canFindWebelement(TestConstants.TABINPUTSEARCHFIELD_ID)) {
+			aPHomePage.setField(searchInput, TestConstants.TABINPUTSEARCHFIELD_ID);
 		} else {
 			// TODO: Check if this then invalidates the whole scenario, I think it does,
 			// ideally, it shouldn't try the next step.
-			Assert.fail("Couldn't find the search bar with the string id: " + TestConstants.TABSINPUTSEARCHFIELD_ID);
+			Assert.fail("Couldn't find the search bar with the string id: " + TestConstants.TABINPUTSEARCHFIELD_ID);
 		}
 	}
 
@@ -76,14 +76,27 @@ public class InteractingWithOtherElements {
 		}
 	}
 
-	@When("the user navigates to the new tab")
-	public void the_user_navigates_to_the_new_tab() {
-		Assert.assertTrue(aPHomePage.trySwitchWindowTo(1));
+	@And("the user switches to the tab with index {string}")
+	public void the_user_switches_to_the_new_tab(String _index) {
+		int index = -1;
+
+		try {
+			index = Integer.parseInt(_index);
+		} catch (NumberFormatException e) {
+			Assert.fail(
+					"invalid string for parsing to int: " + e.getMessage());
+		}
+
+		Assert.assertTrue("Was unable to find another window to switch to", aPHomePage.trySwitchWindowTo(index));
 	}
 
-	@Then("the url of the new window is {string}")
-	public void the_url_of_the_new_window_is(String expectedUrl) {
-		Assert.assertTrue(aPHomePage.getUrl() == expectedUrl);
+	@Then("the url of the new active window is {string}")
+	public void the_url_of_the_new_active_window_is(String expectedUrl) {
+
+		Assert.assertTrue(
+				"Urls didn't match, expected url was: " + expectedUrl + ", while actual url was: "
+						+ aPHomePage.getUrl(),
+				aPHomePage.getUrl().contains(expectedUrl));
 	}
 
 	@When("the pop-up window opens")

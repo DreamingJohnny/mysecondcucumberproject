@@ -1,6 +1,12 @@
 @skip
 Feature: Next Feature
 
+  Scenario: Close pop-up window
+    Given the user sees the container for "JS alerts"
+    When the user clicks on the "alert" button
+    And the pop-up window opens
+    Then the user clicks on the button in the window to dismiss it
+
   Scenario: Confirm pop-up window
     Given the user sees the container for "JS alerts"
     When the user clicks on the "confirm box" button

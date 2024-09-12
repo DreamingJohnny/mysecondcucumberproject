@@ -17,10 +17,10 @@ public class TestConstants {
 	public static final String EMAILFIELD_ID = "email";
 	public static final String PHONEFIELD_ID = "phone";
 
-	public static final String TABSCONTAINER_ID = "tabs container";
-	public static final String TABSINPUTSEARCHFIELD_ID = "tabs input search field";
-	public static final String TABSSUBMITBUTTON_ID = "tabs submit";
-	public static final String TABSSEARCHRESULT_ID = "tabs search result";
+	public static final String TABCONTAINER_ID = "tabs container";
+	public static final String TABINPUTSEARCHFIELD_ID = "tabs input search field";
+	public static final String TABSUBMITBUTTON_ID = "tabs submit";
+	public static final String TABSEARCHRESULT_ID = "tabs search results";
 
 	public static final String NEWBROWSERWINDOWCONTAINER_ID = "new browser window container";
 	public static final String NEWBROWSERWINDOWBUTTON_ID = "new browser window button";
@@ -33,4 +33,6 @@ public class TestConstants {
 	public static final int[] SLIDERNEWPOSITION = { 0, 200 };
 
 	public static final String CALENDARICON_ID = "calendar icon";
+
+	public static final String[] UNWANTEDWEBSITEURLS = { "chrome://search-engine-choice/", };
 }
