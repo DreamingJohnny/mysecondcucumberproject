@@ -56,7 +56,7 @@ public class InteractingWithOtherElements {
 	}
 
 	@When("the user selects the {string} result in the {string}")
-	public void the_user_selects_the_result_in_the(String _index, String fieldID) {
+	public void the_user_selects_the_result_in_the(String _index, String elementID) {
 		int index = -1;
 
 		try {
@@ -67,10 +67,10 @@ public class InteractingWithOtherElements {
 		}
 
 		try {
-			Assert.assertTrue("Couldn't select the child of " + fieldID + ", with index: " + index,
-					aPHomePage.tryClickChildOf(fieldID, index));
+			Assert.assertTrue("Couldn't select the child of " + elementID + ", with index: " + index,
+					aPHomePage.tryClickChildOf(elementID, index));
 		} catch (AssertionError e) {
-			aPHomePage.takeScreenShot(fieldID);
+			aPHomePage.takeScreenShot(elementID);
 			System.out.println(e.getMessage());
 			// TODO: Ask MY about if I should throw e here, or what?
 			// throw e;
@@ -134,7 +134,8 @@ public class InteractingWithOtherElements {
 
 	@When("the user clicks on the {string} button in the pop-up window")
 	public void the_user_clicks_on_the_in_the_pop_up_window(String s) {
-
+		// TODO: Change this method to not need an argument since it is just user
+		// accepts or confirms.
 		try {
 			Assert.assertTrue(aPHomePage.tryAcceptAlert());
 		} catch (AssertionError e) {
@@ -191,10 +192,10 @@ public class InteractingWithOtherElements {
 	}
 
 	@When("the user double clicks on the {string} button.")
-	public void the_user_double_clicks_on_the_button(String fieldID) {
+	public void the_user_double_clicks_on_the_button(String elementID) {
 		try {
-			Assert.assertTrue("Couldn't double click on the button with: " + fieldID,
-					aPHomePage.tryDoubleClickButton(fieldID));
+			Assert.assertTrue("Couldn't double click on the button with: " + elementID,
+					aPHomePage.tryDoubleClickButton(elementID));
 
 		} catch (AssertionError e) {
 			aPHomePage.takeScreenShot(TestConstants.DOUBLECLICKCONTAINER_ID);
@@ -213,28 +214,76 @@ public class InteractingWithOtherElements {
 		}
 	}
 
-	@Then("the user moves the draggable object into the target object")
-	public void the_user_moves_the_draggable_object_into_the_target_object() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Then("the user moves the {string} object on to the {string} object")
+	public void the_user_moves_the_object_on_to_the_object(String sourceID, String targetID) {
+		try {
+			Assert.assertTrue("Couldn't drag and drop the two elements.",
+					aPHomePage.tryDragAndDropElements(sourceID, targetID));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(TestConstants.DRAGANDDROPCONTAINER);
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Given("the user sees the {string}")
-	public void the_user_sees_the(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_user_sees_the(String elementID) {
+		try {
+			Assert.assertTrue("Couldn't find the element.",
+					aPHomePage.canFindWebelement(elementID));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 	}
 
-	@When("the user uses the cursor to move the slider to a new position")
-	public void the_user_uses_the_cursor_to_move_the_slider_to_a_new_position() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the {string} is in the {string}")
+	public void the_is_in_the(String elementID, String _expectedPosition) {
+
+		System.out.println(aPHomePage.getPositionOfY(elementID));
+		long expectedPosition = 0;
+
+		try {
+			expectedPosition = Long.parseLong(_expectedPosition);
+		} catch (NumberFormatException e) {
+			Assert.fail(
+					"invalid string for parsing to long: " + e.getMessage());
+		}
+
+		try {
+			Assert.assertEquals("The webelement was not in the expected position.", expectedPosition,
+					aPHomePage.getPositionOfY(elementID));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(TestConstants.SLIDERCONTAINER_ID);
+			System.out.println(e.getMessage());
+		}
 	}
 
-	@Then("the slider is in the new position")
-	public void the_slider_is_in_the_new_position() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("the user uses the cursor to move the {string} to a {string}")
+	public void the_user_uses_the_cursor_to_move_the_slider_to_a_new_position(String elementID,
+			String _addedPositionY) {
+
+		long addedPositionY = 0;
+
+		try {
+			addedPositionY = Long.parseLong(_addedPositionY);
+		} catch (NumberFormatException e) {
+			Assert.fail(
+					"invalid string for parsing to long: " + e.getMessage());
+		}
+
+		try {
+			Assert.assertTrue("Couldn't move the element on the y correctly",
+					aPHomePage.tryMoveElementOnY(elementID, addedPositionY));
+
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(TestConstants.SLIDERCONTAINER_ID);
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Then("the {string} is in the {string} according to the {string}")
+	public void the_is_in_the_according_to_the(String elementID, String expectedPosition, String expectedResult) {
+
 	}
 
 	@Given("the user switches to {string}")

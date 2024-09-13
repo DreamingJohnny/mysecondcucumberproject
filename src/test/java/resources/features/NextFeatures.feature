@@ -1,16 +1,7 @@
 @skip
 Feature: Next Feature
 
-  Scenario: Drag and drop
-    Given the user sees the container for "drag and drop"
-    Then the user moves the draggable object into the target object
-
-  Scenario: Move slider
-    Given the user sees the "slider"
-    When the user uses the cursor to move the slider to a new position
-    Then the slider is in the new position
-
-  Scenario: Fill in frame
+   Scenario: Fill in frame
     Given the user sees the container for "frames"
     And the user switches to "frames"
     And the user enters "John Doe" into the "frames name" field

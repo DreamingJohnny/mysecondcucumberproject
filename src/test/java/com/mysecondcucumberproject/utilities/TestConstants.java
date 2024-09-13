@@ -40,6 +40,12 @@ public class TestConstants {
 	public static final String FIELD_2_ID = "field2";
 	public static final String COPYTEXTBUTTON_ID = "copy text";
 
+	public static final String DRAGANDDROPCONTAINER = "drag and drop";
+	public static final String DRAGGABLE_ID = "draggable";
+	public static final String DROPPABLE_ID = "droppable";
+
+	public static final String SLIDERCONTAINER_ID = "slider container";
+	public static final String SLIDER_ID = "slider";
 	public static final int[] SLIDERNEWPOSITION = { 0, 200 };
 
 	public static final String CALENDARICON_ID = "calendar icon";

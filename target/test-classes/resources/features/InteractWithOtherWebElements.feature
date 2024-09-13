@@ -46,3 +46,21 @@ Feature: Interact with other WebElements
     When the user inputs "generic greeting" to "field1"
     And the user double clicks on the "copy text" button.
     Then the "field2" and "field1" should contain the same data
+
+  Scenario: Drag and drop
+    Given the user is on the correct page
+    And the user sees the container for "drag and drop"
+    Then the user moves the "draggable" object on to the "droppable" object
+
+  Scenario Outline: Move slider
+    Given the user is on the correct page
+    And the user sees the "<webelement>"
+    And the "<webelement>" is in the "<starting position>"
+    When the user uses the cursor to move the "<webelement>" to a "<add position>"
+    Then the "<webelement>" is in the "<expected position>" according to the "<expected result>"
+
+    Examples:
+      | webelement | starting position | add position | expected position | expected result |
+      | slider     |              1085 |          200 |              1285 | pass            |
+      | slider     |              1085 |          300 |              1385 | pass            |
+      | slider     |              1085 |         1000 |              2085 | fail            |

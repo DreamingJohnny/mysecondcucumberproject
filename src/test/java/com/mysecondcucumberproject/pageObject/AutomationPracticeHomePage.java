@@ -143,9 +143,8 @@ public class AutomationPracticeHomePage extends BasePage {
 	// #region Slider
 	@FindBy(xpath = "//div[h2[@class='title' and text()='Slider']]")
 	WebElement sliderContainer;
-
-	// Slider handle? And the rest of the slider probably?
-
+	@FindBy(xpath = "//*[@id='slider']/span")
+	WebElement slider;
 	// #endregion
 
 	// #region Frames
@@ -335,6 +334,16 @@ public class AutomationPracticeHomePage extends BasePage {
 				return field2.isDisplayed() == true ? true : false;
 			case TestConstants.COPYTEXTBUTTON_ID:
 				return copyTextButton.isDisplayed() == true ? true : false;
+			case TestConstants.DRAGANDDROPCONTAINER:
+				return dragAndDropContainer.isDisplayed() == true ? true : false;
+			case TestConstants.DRAGGABLE_ID:
+				return draggableElement.isDisplayed() == true ? true : false;
+			case TestConstants.DROPPABLE_ID:
+				return droppableElement.isDisplayed() == true ? true : false;
+			case TestConstants.SLIDERCONTAINER_ID:
+				return sliderContainer.isDisplayed() == true ? true : false;
+			case TestConstants.SLIDER_ID:
+				return slider.isDisplayed();
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
@@ -378,8 +387,18 @@ public class AutomationPracticeHomePage extends BasePage {
 				return tabContainer;
 			case TestConstants.TABSEARCHRESULT_ID:
 				return tabSearchResults;
-				case TestConstants.COPYTEXTBUTTON_ID:
+			case TestConstants.COPYTEXTBUTTON_ID:
 				return copyTextButton;
+			case TestConstants.DRAGANDDROPCONTAINER:
+				return dragAndDropContainer;
+			case TestConstants.DRAGGABLE_ID:
+				return draggableElement;
+			case TestConstants.DROPPABLE_ID:
+				return droppableElement;
+			case TestConstants.SLIDERCONTAINER_ID:
+				return sliderContainer;
+			case TestConstants.SLIDER_ID:
+				return slider;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -423,6 +442,10 @@ public class AutomationPracticeHomePage extends BasePage {
 				return phoneField.getAttribute("value");
 			case TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID:
 				return topLeftmostProductTableCell.getText();
+			case TestConstants.FIELD_1_ID:
+				return field1.getText();
+			case TestConstants.FIELD_2_ID:
+				return field2.getText();
 			default:
 				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
 				return null;
@@ -521,7 +544,6 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	public boolean tryDoubleClickButton(String fieldID) {
-
 		if (!canFindWebelement(fieldID)) {
 			return false;
 		} else {
@@ -533,7 +555,35 @@ public class AutomationPracticeHomePage extends BasePage {
 				System.out.println(e.getMessage());
 				return false;
 			}
+		}
+	}
 
+	public boolean tryDragAndDropElements(String dragID, String dropID) {
+		if (!canFindWebelement(dragID) || !canFindWebelement(dropID)) {
+			return false;
+		} else {
+			Actions action = new Actions(driver);
+			action.dragAndDrop(getWebelement(dragID), getWebelement(dropID)).perform();
+			return true;
+		}
+	}
+
+	public long getPositionOfY(String elementID) {
+		if (!canFindWebelement(elementID)) {
+			return 0;
+		}
+		return getWebelement(elementID).getLocation().getY();
+	}
+
+	public boolean tryMoveElementOnY(String elementID, long addedPositionY) {
+
+		if (!canFindWebelement(elementID))
+			return false;
+		else {
+			Actions action = new Actions(driver);
+			action.dragAndDropBy(getWebelement(elementID), 0,
+					getWebelement(elementID).getLocation().getY() + Math.toIntExact(addedPositionY));
+			return true;
 		}
 	}
 }
