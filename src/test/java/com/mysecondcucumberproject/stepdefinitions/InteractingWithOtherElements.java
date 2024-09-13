@@ -37,7 +37,7 @@ public class InteractingWithOtherElements {
 	public void the_user_enters_into_the_searchbar(String searchInput) {
 
 		if (aPHomePage.canFindWebelement(TestConstants.TABINPUTSEARCHFIELD_ID)) {
-			aPHomePage.setField(searchInput, TestConstants.TABINPUTSEARCHFIELD_ID);
+			aPHomePage.trySetField(searchInput, TestConstants.TABINPUTSEARCHFIELD_ID);
 		} else {
 			// TODO: Check if this then invalidates the whole scenario, I think it does,
 			// ideally, it shouldn't try the next step.
@@ -179,21 +179,38 @@ public class InteractingWithOtherElements {
 	}
 
 	@When("the user inputs {string} to {string}")
-	public void the_user_inputs_to(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_user_inputs_to(String userInput, String fieldID) {
+
+		try {
+			Assert.assertTrue("Couldn't set the text to the field: " + fieldID,
+					aPHomePage.trySetField(userInput, fieldID));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(fieldID);
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@When("the user double clicks on the {string} button.")
-	public void the_user_double_clicks_on_the_button(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_user_double_clicks_on_the_button(String fieldID) {
+		try {
+			Assert.assertTrue("Couldn't double click on the button with: " + fieldID,
+					aPHomePage.tryDoubleClickButton(fieldID));
+
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(TestConstants.DOUBLECLICKCONTAINER_ID);
+			System.out.println(e.getMessage());
+		}
 	}
 
-	@Then("{string} and {string} should contain the same data")
-	public void and_should_contain_the_same_data(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Then("the {string} and {string} should contain the same data")
+	public void and_should_contain_the_same_data(String field_1_ID, String field_2_ID) {
+		try {
+			Assert.assertEquals("The two fields did not contain the same text.", aPHomePage.getElementText(field_1_ID),
+					aPHomePage.getElementText(field_2_ID));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(TestConstants.DOUBLECLICKCONTAINER_ID);
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Then("the user moves the draggable object into the target object")

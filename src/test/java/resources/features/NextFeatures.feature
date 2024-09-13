@@ -1,12 +1,6 @@
 @skip
 Feature: Next Feature
 
-   Scenario: Double click on button to copy field
-    Given the user sees the container for "double click"
-    When the user inputs "generic greeting" to "field1"
-    And the user double clicks on the "copy text" button.
-    Then "field2" and "field1" should contain the same data
-
   Scenario: Drag and drop
     Given the user sees the container for "drag and drop"
     Then the user moves the draggable object into the target object

@@ -35,7 +35,13 @@ public class TestConstants {
 	public static final String PAGINATEDTABLEBUTTONFIELD_ID = "paginated button field";
 	public static final String PAGINATEDTABLETOPLEFTMOSTCELL_ID = "paginated table top leftmost cell";
 
+	public static final String DOUBLECLICKCONTAINER_ID = "double click";
+	public static final String FIELD_1_ID = "field1";
+	public static final String FIELD_2_ID = "field2";
+	public static final String COPYTEXTBUTTON_ID = "copy text";
+
 	public static final int[] SLIDERNEWPOSITION = { 0, 200 };
 
 	public static final String CALENDARICON_ID = "calendar icon";
+
 }

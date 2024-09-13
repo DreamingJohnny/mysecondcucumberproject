@@ -41,7 +41,7 @@ public class FillingInFieldsStep {
 	public void the_user_enters_into_the_field(String input, String fieldID) {
 
 		if (aPHomePage.canFindWebelement(fieldID)) {
-			aPHomePage.setField(input, fieldID);
+			aPHomePage.trySetField(input, fieldID);
 		} else {
 			Assert.fail("Couldn't find webelement with: " + fieldID);
 		}

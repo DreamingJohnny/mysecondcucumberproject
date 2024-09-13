@@ -1,17 +1,14 @@
 package com.mysecondcucumberproject.pageObject;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.mysecondcucumberproject.utilities.TestConstants;
 
@@ -131,7 +128,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	@FindBy(xpath = "//*[@id=\"field2\"]")
 	WebElement field2;
 	@FindBy(xpath = "//div[h2[@class='title' and text()='Double Click']]//button[text()='Copy Text']")
-	WebElement copyTestButton;
+	WebElement copyTextButton;
 	// #endregion
 
 	// #region Drag and Drop
@@ -242,27 +239,38 @@ public class AutomationPracticeHomePage extends BasePage {
 	 * @param input
 	 * @param fieldID
 	 */
-	public void setField(String input, String fieldID) {
+	public boolean trySetField(String input, String fieldID) {
+		if (!canFindWebelement(fieldID))
+			return false;
+
 		switch (fieldID.toLowerCase()) {
 			case TestConstants.NAMEFIELD_ID:
 				nameField.clear();
 				nameField.sendKeys(input);
-				break;
+				return true;
 			case TestConstants.EMAILFIELD_ID:
 				emailField.clear();
 				emailField.sendKeys(input);
-				break;
+				return true;
 			case TestConstants.PHONEFIELD_ID:
 				phoneField.clear();
 				phoneField.sendKeys(input);
-				break;
+				return true;
 			case TestConstants.TABINPUTSEARCHFIELD_ID:
 				tabInputSearchField.clear();
 				tabInputSearchField.sendKeys(input);
-				break;
+				return true;
+			case TestConstants.FIELD_1_ID:
+				field1.click();
+				field1.sendKeys(input);
+				return true;
+			case TestConstants.FIELD_2_ID:
+				field2.click();
+				field2.sendKeys(input);
+				return true;
 			default:
 				System.out.println(this + " couldn't find a field with a value to set for the input " + input);
-				break;
+				return false;
 		}
 	}
 
@@ -319,6 +327,14 @@ public class AutomationPracticeHomePage extends BasePage {
 				return confirmBoxButton.isDisplayed() == true ? true : false;
 			case TestConstants.PROMPTBUTTON_ID:
 				return promptButton.isDisplayed() == true ? true : false;
+			case TestConstants.DOUBLECLICKCONTAINER_ID:
+				return doubleClickContainer.isDisplayed() == true ? true : false;
+			case TestConstants.FIELD_1_ID:
+				return field1.isDisplayed() == true ? true : false;
+			case TestConstants.FIELD_2_ID:
+				return field2.isDisplayed() == true ? true : false;
+			case TestConstants.COPYTEXTBUTTON_ID:
+				return copyTextButton.isDisplayed() == true ? true : false;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
@@ -362,6 +378,8 @@ public class AutomationPracticeHomePage extends BasePage {
 				return tabContainer;
 			case TestConstants.TABSEARCHRESULT_ID:
 				return tabSearchResults;
+				case TestConstants.COPYTEXTBUTTON_ID:
+				return copyTextButton;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -499,6 +517,23 @@ public class AutomationPracticeHomePage extends BasePage {
 				System.out.println("Child element not found." + e.getMessage());
 				return false;
 			}
+		}
+	}
+
+	public boolean tryDoubleClickButton(String fieldID) {
+
+		if (!canFindWebelement(fieldID)) {
+			return false;
+		} else {
+			Actions action = new Actions(driver);
+			try {
+				action.doubleClick(getWebelement(fieldID)).perform();
+				return true;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return false;
+			}
+
 		}
 	}
 }

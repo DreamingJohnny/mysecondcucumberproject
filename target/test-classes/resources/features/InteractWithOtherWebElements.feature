@@ -39,3 +39,10 @@ Feature: Interact with other WebElements
     And the pop-up window opens
     And the user fills in the field with "John Doe" and confirms
     Then the pop-up window has disappeared
+
+  Scenario: Double click on button to copy field
+    Given the user is on the correct page
+    And the user sees the container for "double click"
+    When the user inputs "generic greeting" to "field1"
+    And the user double clicks on the "copy text" button.
+    Then the "field2" and "field1" should contain the same data
