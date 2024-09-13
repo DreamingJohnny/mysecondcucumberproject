@@ -1,13 +1,17 @@
 package com.mysecondcucumberproject.pageObject;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.mysecondcucumberproject.utilities.TestConstants;
 
@@ -307,6 +311,14 @@ public class AutomationPracticeHomePage extends BasePage {
 				return newBrowserWindowContainer.isDisplayed() == true ? true : false;
 			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
 				return newBrowserWindowButton.isDisplayed() == true ? true : false;
+			case TestConstants.JSALERTSCONTAINER_ID:
+				return jsAlertsContainer.isDisplayed() == true ? true : false;
+			case TestConstants.JSALERTDISMISSBUTTON_ID:
+				return alertBoxButton.isDisplayed() == true ? true : false;
+			case TestConstants.CONFIRMBUTTON_ID:
+				return confirmBoxButton.isDisplayed() == true ? true : false;
+			case TestConstants.PROMPTBUTTON_ID:
+				return promptButton.isDisplayed() == true ? true : false;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
@@ -453,6 +465,18 @@ public class AutomationPracticeHomePage extends BasePage {
 			switch (buttonID) {
 				case TestConstants.TABSUBMITBUTTON_ID:
 					tabSubmitButton.click();
+					return true;
+				case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
+					newBrowserWindowButton.click();
+					return true;
+				case TestConstants.JSALERTDISMISSBUTTON_ID:
+					alertBoxButton.click();
+					return true;
+				case TestConstants.CONFIRMBUTTON_ID:
+					confirmBoxButton.click();
+					return true;
+				case TestConstants.PROMPTBUTTON_ID:
+					promptButton.click();
 					return true;
 				default:
 					System.out.println("Couldn't find a case for that button using string id: " + buttonID);

@@ -1,27 +1,7 @@
 @skip
 Feature: Next Feature
 
-  Scenario: Close pop-up window
-    Given the user sees the container for "JS alerts"
-    When the user clicks on the "alert" button
-    And the pop-up window opens
-    Then the user clicks on the button in the window to dismiss it
-
-  Scenario: Confirm pop-up window
-    Given the user sees the container for "JS alerts"
-    When the user clicks on the "confirm box" button
-    And the pop-up window opens
-    And the user clicks on the "confirm button" in the pop-up window
-    Then the pop-up window has disappeared
-
-  Scenario: Fill in pop-up window
-    Given the user sees the container for "JS alerts"
-    When the user clicks on the "prompt" button
-    And the pop-up window opens
-    And the pop-up window has a input field
-    Then the user fills in the field with "John Doe" and confirms
-
-  Scenario: Double click on button to copy field
+   Scenario: Double click on button to copy field
     Given the user sees the container for "double click"
     When the user inputs "generic greeting" to "field1"
     And the user double clicks on the "copy text" button.

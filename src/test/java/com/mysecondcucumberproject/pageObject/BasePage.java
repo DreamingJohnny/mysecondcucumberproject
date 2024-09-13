@@ -5,18 +5,22 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
 
@@ -120,5 +124,52 @@ public class BasePage {
 		driver.switchTo().window(handleList.get(index));
 		return true;
 
+	}
+
+	public boolean canFindAlert() {
+
+		WebDriverWait wait = new WebDriverWait(
+				driver,
+				Duration.ofMillis(Long.parseLong(getConfigProperties().getProperty("web.waitForAlertsInMillis"))));
+
+		try {
+			wait.until(ExpectedConditions.alertIsPresent());
+			driver.switchTo().alert();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean tryCloseAlert() {
+
+		if (!canFindAlert())
+			return false;
+		else {
+			Alert myAlert = driver.switchTo().alert();
+			myAlert.dismiss();
+			return true;
+		}
+	}
+
+	public boolean tryAcceptAlert() {
+
+		if (!canFindAlert()) {
+			return false;
+
+		} else {
+			driver.switchTo().alert().accept();
+			return true;
+		}
+	}
+
+	public boolean trySetAlertField(String userInput) {
+
+		if (!canFindAlert()) {
+			return false;
+		} else {
+			driver.switchTo().alert().sendKeys(userInput);
+			return true;
+		}
 	}
 }

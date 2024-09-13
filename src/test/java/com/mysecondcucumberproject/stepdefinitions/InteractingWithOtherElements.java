@@ -51,7 +51,7 @@ public class InteractingWithOtherElements {
 			Assert.assertTrue("Couldn't click on the button with id: " + buttonID, aPHomePage.tryClickButton(buttonID));
 		} catch (AssertionError e) {
 			aPHomePage.takeScreenShot(buttonID);
-
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -71,6 +71,7 @@ public class InteractingWithOtherElements {
 					aPHomePage.tryClickChildOf(fieldID, index));
 		} catch (AssertionError e) {
 			aPHomePage.takeScreenShot(fieldID);
+			System.out.println(e.getMessage());
 			// TODO: Ask MY about if I should throw e here, or what?
 			// throw e;
 		}
@@ -86,51 +87,95 @@ public class InteractingWithOtherElements {
 			Assert.fail(
 					"invalid string for parsing to int: " + e.getMessage());
 		}
+		try {
+			Assert.assertTrue("Was unable to find another window to switch to", aPHomePage.trySwitchWindowTo(index));
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 
-		Assert.assertTrue("Was unable to find another window to switch to", aPHomePage.trySwitchWindowTo(index));
 	}
 
 	@Then("the url of the new active window is {string}")
 	public void the_url_of_the_new_active_window_is(String expectedUrl) {
 
-		Assert.assertTrue(
-				"Urls didn't match, expected url was: " + expectedUrl + ", while actual url was: "
-						+ aPHomePage.getUrl(),
-				aPHomePage.getUrl().contains(expectedUrl));
+		try {
+			Assert.assertTrue(
+					"Urls didn't match, expected url was: " + expectedUrl + ", while actual url was: "
+							+ aPHomePage.getUrl(),
+					aPHomePage.getUrl().contains(expectedUrl));
+
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@When("the pop-up window opens")
 	public void the_pop_up_window_opens() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		try {
+			Assert.assertTrue("Couldn't find any alert.", aPHomePage.canFindAlert());
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 	}
 
-	@Then("the user clicks on the button in the window to dismiss it")
-	public void the_user_clicks_on_the_button_in_the_window_to_dismiss_it() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the user dismisses the window")
+	public void the_user_dismisses_the_window() {
+		try {
+			Assert.assertTrue("Was unable to close the alert.", aPHomePage.tryCloseAlert());
+
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 	}
 
-	@When("the user clicks on the {string} in the pop-up window")
+	@When("the user clicks on the {string} button in the pop-up window")
 	public void the_user_clicks_on_the_in_the_pop_up_window(String s) {
-		// Write code here that turns the phrase above into concrete actions
+
+		try {
+			Assert.assertTrue(aPHomePage.tryAcceptAlert());
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Then("the pop-up window has disappeared")
 	public void the_pop_up_window_has_disappeared() {
-		// Write code here that turns the phrase above into concrete actions
+		try {
+			Assert.assertFalse("Could find a alert, even when they were supposedly all closed.",
+					aPHomePage.canFindAlert());
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 	}
 
-	@When("the pop-up window has a input field")
-	public void the_pop_up_window_has_a_input_field() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the user accepts the window")
+	public void the_user_accepts_the_window() {
+		try {
+			Assert.assertTrue(aPHomePage.tryAcceptAlert());
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
 	}
 
-	@Then("the user fills in the field with {string} and confirms")
-	public void the_user_fills_in_the_field_with_and_confirms(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the user fills in the field with {string} and confirms")
+	public void the_user_fills_in_the_field_with_and_confirms(String userInput) {
+
+		try {
+			Assert.assertTrue("Couldn't send keys to the alert window.", aPHomePage.trySetAlertField(userInput));
+
+			Assert.assertTrue("Couldn't confirm the alert window.", aPHomePage.tryAcceptAlert());
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot();
+			System.out.println(e.getMessage());
+		}
+
 	}
 
 	@When("the user inputs {string} to {string}")
@@ -228,4 +273,5 @@ public class InteractingWithOtherElements {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
+
 }

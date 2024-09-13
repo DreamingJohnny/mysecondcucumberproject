@@ -25,6 +25,11 @@ public class TestConstants {
 	public static final String NEWBROWSERWINDOWCONTAINER_ID = "new browser window container";
 	public static final String NEWBROWSERWINDOWBUTTON_ID = "new browser window button";
 
+	public static final String JSALERTSCONTAINER_ID = "js alerts container";
+	public static final String JSALERTDISMISSBUTTON_ID = "dismiss alert";
+	public static final String CONFIRMBUTTON_ID = "confirm alert";
+	public static final String PROMPTBUTTON_ID = "prompt alert";
+
 	public static final String BOOKTABLE_ID = "book table";
 	public static final String PAGINATEDTABLE_ID = "paginated table";
 	public static final String PAGINATEDTABLEBUTTONFIELD_ID = "paginated button field";
@@ -33,6 +38,4 @@ public class TestConstants {
 	public static final int[] SLIDERNEWPOSITION = { 0, 200 };
 
 	public static final String CALENDARICON_ID = "calendar icon";
-
-	public static final String[] UNWANTEDWEBSITEURLS = { "chrome://search-engine-choice/", };
 }
