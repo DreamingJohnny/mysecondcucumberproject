@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.FindBy;
 
 import com.mysecondcucumberproject.utilities.TestConstants;
@@ -568,22 +570,26 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	public long getPositionOfY(String elementID) {
+	public Point getPosition(String elementID) {
 		if (!canFindWebelement(elementID)) {
-			return 0;
+			return null;
 		}
-		return getWebelement(elementID).getLocation().getY();
+		return getWebelement(elementID).getLocation();
 	}
 
-	public boolean tryMoveElementOnY(String elementID, long addedPositionY) {
+	public boolean tryMoveElement(String elementID, Point addedPosition) {
 
 		if (!canFindWebelement(elementID))
 			return false;
 		else {
 			Actions action = new Actions(driver);
-			action.dragAndDropBy(getWebelement(elementID), 0,
-					getWebelement(elementID).getLocation().getY() + Math.toIntExact(addedPositionY));
-			return true;
+			try {
+				action.dragAndDropBy(getWebelement(elementID), addedPosition.getX(), addedPosition.getY()).perform();
+				return true;
+			} catch (MoveTargetOutOfBoundsException e) {
+				System.out.println(e.getMessage());
+				return false;
+			}
 		}
 	}
 }

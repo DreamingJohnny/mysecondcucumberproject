@@ -57,10 +57,11 @@ Feature: Interact with other WebElements
     And the user sees the "<webelement>"
     And the "<webelement>" is in the "<starting position>"
     When the user uses the cursor to move the "<webelement>" to a "<add position>"
-    Then the "<webelement>" is in the "<expected position>" according to the "<expected result>"
+    Then the "<webelement>" is in the "<expected position>" and the test should "<expected result>"
 
     Examples:
       | webelement | starting position | add position | expected position | expected result |
-      | slider     |              1085 |          200 |              1285 | pass            |
-      | slider     |              1085 |          300 |              1385 | pass            |
-      | slider     |              1085 |         1000 |              2085 | fail            |
+      | slider     |         1081,1085 |         30,0 |         1110,1085 | pass            |
+      | slider     |         1081,1085 |         50,0 |         1131,1085 | pass            |
+      | slider     |         1081,1085 |         10,0 |         1091,1085 | pass            |
+      | slider     |         1081,1085 |        -10,0 |         1071,1085 | fail            |

@@ -1,6 +1,9 @@
 package com.mysecondcucumberproject.stepdefinitions;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Assert;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
@@ -239,19 +242,20 @@ public class InteractingWithOtherElements {
 	@And("the {string} is in the {string}")
 	public void the_is_in_the(String elementID, String _expectedPosition) {
 
-		System.out.println(aPHomePage.getPositionOfY(elementID));
-		long expectedPosition = 0;
+		String[] coordinates = _expectedPosition.split(",");
+
+		Point expectedPosition = new Point(0, 0);
 
 		try {
-			expectedPosition = Long.parseLong(_expectedPosition);
+			expectedPosition = new Point(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));
 		} catch (NumberFormatException e) {
 			Assert.fail(
-					"invalid string for parsing to long: " + e.getMessage());
+					"invalid strings for parsing to point: " + e.getMessage());
 		}
 
 		try {
 			Assert.assertEquals("The webelement was not in the expected position.", expectedPosition,
-					aPHomePage.getPositionOfY(elementID));
+					aPHomePage.getPosition(elementID));
 		} catch (AssertionError e) {
 			aPHomePage.takeScreenShot(TestConstants.SLIDERCONTAINER_ID);
 			System.out.println(e.getMessage());
@@ -260,20 +264,22 @@ public class InteractingWithOtherElements {
 
 	@When("the user uses the cursor to move the {string} to a {string}")
 	public void the_user_uses_the_cursor_to_move_the_slider_to_a_new_position(String elementID,
-			String _addedPositionY) {
+			String _addedPosition) {
 
-		long addedPositionY = 0;
+		String[] coordinates = _addedPosition.split(",");
+
+		Point expectedPosition = new Point(0, 0);
 
 		try {
-			addedPositionY = Long.parseLong(_addedPositionY);
+			expectedPosition = new Point(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));
 		} catch (NumberFormatException e) {
 			Assert.fail(
-					"invalid string for parsing to long: " + e.getMessage());
+					"invalid strings for parsing to point: " + e.getMessage());
 		}
 
 		try {
 			Assert.assertTrue("Couldn't move the element on the y correctly",
-					aPHomePage.tryMoveElementOnY(elementID, addedPositionY));
+					aPHomePage.tryMoveElement(elementID, expectedPosition));
 
 		} catch (AssertionError e) {
 			aPHomePage.takeScreenShot(TestConstants.SLIDERCONTAINER_ID);
@@ -281,8 +287,43 @@ public class InteractingWithOtherElements {
 		}
 	}
 
-	@Then("the {string} is in the {string} according to the {string}")
-	public void the_is_in_the_according_to_the(String elementID, String expectedPosition, String expectedResult) {
+	@Then("the {string} is in the {string} and the test should {string}")
+	public void the_is_in_the_and_the_test_should(String elementID, String _expectedPosition, String _expectedResult) {
+
+		boolean expectedResult = false;
+
+		if (_expectedResult.contains("pass")) {
+			expectedResult = true;
+		} else if (_expectedResult.contains("fail")) {
+			expectedResult = false;
+		} else {
+			throw new IllegalArgumentException("Unknown expected result" + _expectedResult);
+		}
+
+		String[] coordinates = _expectedPosition.split(",");
+
+		Point expectedPosition = new Point(0, 0);
+
+		try {
+			expectedPosition = new Point(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));
+		} catch (NumberFormatException e) {
+			Assert.fail(
+					"invalid strings for parsing to point: " + e.getMessage());
+		}
+
+		boolean actualResult = aPHomePage.getPosition(elementID).equals(expectedPosition);
+
+		if (expectedResult == actualResult) {
+			// TODO: Look over this, how to best handle when you have a check, and then
+			// another Assert, but it should be expected to be true.
+			Assert.assertTrue(expectedResult == actualResult);
+		} else if (actualResult) {
+			Assert.fail("The test passed when it was expected to fail");
+		} else if (expectedResult) {
+			Assert.fail("The test was meant to pass, but didn't.");
+		} else {
+			Assert.fail("The test failed due to unclear reasons");
+		}
 
 	}
 
