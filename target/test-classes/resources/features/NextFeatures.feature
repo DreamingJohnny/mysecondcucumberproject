@@ -1,20 +1,9 @@
 @skip
 Feature: Next Feature
 
-   Scenario: Fill in frame
-    Given the user sees the container for "frames"
-    And the user switches to "frames"
-    And the user enters "John Doe" into the "frames name" field
-    Then the "frames name" field should contain "John Doe"
-
-  Scenario: Select from dropdown
-    Given the user sees the container for "frames"
-    And the user switches to "frames"
-    And the user selects "QA Engineer" from the "job drop down"
-    Then the "job drop down" contains "QA Engineer"
-
   Scenario Outline: Inputting date of birth
-    Given the user sees the container for "frames"
+    Given the user is on the correct page
+    And the user sees the container for "frames"
     And the user switches to "frames"
     And the user inputs "<date of birth>"
     Then the "DOBfield" should contain "<expected date>" according to "<expected outcome>"
@@ -29,7 +18,8 @@ Feature: Next Feature
       | p0a2r2s9i1n9g90 |    02/29/1990 | pass             |
 
   Scenario Outline: Selecting date of birth
-    Given the user sees the container for "frames"
+    Given the user is on the correct page
+    And the user sees the container for "frames"
     And the user switches to "frames"
     And the user clicks on the calendar icon
     And the user selects "<year>", "<month>" and "<day>"
@@ -44,5 +34,6 @@ Feature: Next Feature
       |    02 |  29 | 1990 |    02/29/1990 | fail             |
 
   Scenario: Change size of area
-    Given the user sees the container for "changing size"
+    Given the user is on the correct page
+    And the user sees the container for "changing size"
     Then the user uses the cursor to change the size of the object

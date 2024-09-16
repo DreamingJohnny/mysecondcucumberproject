@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -150,6 +151,8 @@ public class AutomationPracticeHomePage extends BasePage {
 	// #endregion
 
 	// #region Frames
+	@FindBy(xpath = "//*[@id=\"frame-one796456169\"]")
+	WebElement practiceFormFrame;
 
 	// #endregion
 
@@ -173,23 +176,23 @@ public class AutomationPracticeHomePage extends BasePage {
 		// the "canFind"?
 		switch (checkboxID.toLowerCase()) {
 			case TestConstants.MALECHECKBOX_ID:
-				return maleCheckBox.isSelected() == true ? true : false;
+				return maleCheckBox.isSelected();
 			case TestConstants.FEMALECHECKBOX_ID:
-				return femaleCheckBox.isSelected() == true ? true : false;
+				return femaleCheckBox.isSelected();
 			case TestConstants.MONDAYCHECKBOX_ID:
-				return mondayCheckBox.isSelected() == true ? true : false;
+				return mondayCheckBox.isSelected();
 			case TestConstants.TUESDAYCHECKBOX_ID:
-				return tuesdayCheckBox.isSelected() == true ? true : false;
+				return tuesdayCheckBox.isSelected();
 			case TestConstants.WEDNESDAYCHECKBOX_ID:
-				return wednesdayCheckBox.isSelected() == true ? true : false;
+				return wednesdayCheckBox.isSelected();
 			case TestConstants.THURSDAYCHECKBOX_ID:
-				return thursdayCheckBox.isSelected() == true ? true : false;
+				return thursdayCheckBox.isSelected();
 			case TestConstants.FRIDAYCHECKBOX_ID:
-				return fridayCheckbox.isSelected() == true ? true : false;
+				return fridayCheckbox.isSelected();
 			case TestConstants.SATURDAYCHECKBOX_ID:
-				return saturdayCheckbox.isSelected() == true ? true : false;
+				return saturdayCheckbox.isSelected();
 			case TestConstants.SUNDAYCHECKBOX_ID:
-				return sundayCheckBox.isSelected() == true ? true : false;
+				return sundayCheckBox.isSelected();
 			default:
 				// TODO: Check how to best print log messages, if System.out.println, is
 				// disabled during testing.
@@ -279,73 +282,75 @@ public class AutomationPracticeHomePage extends BasePage {
 		// TODO: Should I include Enabled here aswell?
 		switch (fieldID.toLowerCase()) {
 			case TestConstants.NAMEFIELD_ID:
-				return nameField.isDisplayed() == true ? true : false;
+				return nameField.isDisplayed();
 			case TestConstants.EMAILFIELD_ID:
-				return emailField.isDisplayed() == true ? true : false;
+				return emailField.isDisplayed();
 			case TestConstants.PHONEFIELD_ID:
-				return phoneField.isDisplayed() == true ? true : false;
+				return phoneField.isDisplayed();
 			case TestConstants.MALECHECKBOX_ID:
-				return maleCheckBox.isDisplayed() == true ? true : false;
+				return maleCheckBox.isDisplayed();
 			case TestConstants.FEMALECHECKBOX_ID:
-				return femaleCheckBox.isDisplayed() == true ? true : false;
+				return femaleCheckBox.isDisplayed();
 			case TestConstants.MONDAYCHECKBOX_ID:
-				return mondayCheckBox.isDisplayed() == true ? true : false;
+				return mondayCheckBox.isDisplayed();
 			case TestConstants.TUESDAYCHECKBOX_ID:
-				return tuesdayCheckBox.isDisplayed() == true ? true : false;
+				return tuesdayCheckBox.isDisplayed();
 			case TestConstants.WEDNESDAYCHECKBOX_ID:
-				return wednesdayCheckBox.isDisplayed() == true ? true : false;
+				return wednesdayCheckBox.isDisplayed();
 			case TestConstants.THURSDAYCHECKBOX_ID:
-				return thursdayCheckBox.isDisplayed() == true ? true : false;
+				return thursdayCheckBox.isDisplayed();
 			case TestConstants.FRIDAYCHECKBOX_ID:
-				return fridayCheckbox.isDisplayed() == true ? true : false;
+				return fridayCheckbox.isDisplayed();
 			case TestConstants.SATURDAYCHECKBOX_ID:
-				return saturdayCheckbox.isDisplayed() == true ? true : false;
+				return saturdayCheckbox.isDisplayed();
 			case TestConstants.SUNDAYCHECKBOX_ID:
-				return sundayCheckBox.isDisplayed() == true ? true : false;
+				return sundayCheckBox.isDisplayed();
 			case TestConstants.BOOKTABLE_ID:
-				return bookTable.isDisplayed() == true ? true : false;
+				return bookTable.isDisplayed();
 			case TestConstants.PAGINATEDTABLE_ID:
-				return paginatedTable.isDisplayed() == true ? true : false;
+				return paginatedTable.isDisplayed();
 			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID:
-				return paginationButtonsField.isDisplayed() == true ? true : false;
+				return paginationButtonsField.isDisplayed();
 			case TestConstants.TABCONTAINER_ID:
-				return tabContainer.isDisplayed() == true ? true : false;
+				return tabContainer.isDisplayed();
 			case TestConstants.TABINPUTSEARCHFIELD_ID:
-				return tabInputSearchField.isDisplayed() == true ? true : false;
+				return tabInputSearchField.isDisplayed();
 			case TestConstants.TABSUBMITBUTTON_ID:
-				return tabSubmitButton.isDisplayed() == true ? true : false;
+				return tabSubmitButton.isDisplayed();
 			case TestConstants.TABSEARCHRESULT_ID:
-				return tabSearchResults.isDisplayed() == true ? true : false;
+				return tabSearchResults.isDisplayed();
 			case TestConstants.NEWBROWSERWINDOWCONTAINER_ID:
-				return newBrowserWindowContainer.isDisplayed() == true ? true : false;
+				return newBrowserWindowContainer.isDisplayed();
 			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
-				return newBrowserWindowButton.isDisplayed() == true ? true : false;
+				return newBrowserWindowButton.isDisplayed();
 			case TestConstants.JSALERTSCONTAINER_ID:
-				return jsAlertsContainer.isDisplayed() == true ? true : false;
+				return jsAlertsContainer.isDisplayed();
 			case TestConstants.JSALERTDISMISSBUTTON_ID:
-				return alertBoxButton.isDisplayed() == true ? true : false;
+				return alertBoxButton.isDisplayed();
 			case TestConstants.CONFIRMBUTTON_ID:
-				return confirmBoxButton.isDisplayed() == true ? true : false;
+				return confirmBoxButton.isDisplayed();
 			case TestConstants.PROMPTBUTTON_ID:
-				return promptButton.isDisplayed() == true ? true : false;
+				return promptButton.isDisplayed();
 			case TestConstants.DOUBLECLICKCONTAINER_ID:
-				return doubleClickContainer.isDisplayed() == true ? true : false;
+				return doubleClickContainer.isDisplayed();
 			case TestConstants.FIELD_1_ID:
-				return field1.isDisplayed() == true ? true : false;
+				return field1.isDisplayed();
 			case TestConstants.FIELD_2_ID:
-				return field2.isDisplayed() == true ? true : false;
+				return field2.isDisplayed();
 			case TestConstants.COPYTEXTBUTTON_ID:
-				return copyTextButton.isDisplayed() == true ? true : false;
+				return copyTextButton.isDisplayed();
 			case TestConstants.DRAGANDDROPCONTAINER:
-				return dragAndDropContainer.isDisplayed() == true ? true : false;
+				return dragAndDropContainer.isDisplayed();
 			case TestConstants.DRAGGABLE_ID:
-				return draggableElement.isDisplayed() == true ? true : false;
+				return draggableElement.isDisplayed();
 			case TestConstants.DROPPABLE_ID:
-				return droppableElement.isDisplayed() == true ? true : false;
+				return droppableElement.isDisplayed();
 			case TestConstants.SLIDERCONTAINER_ID:
-				return sliderContainer.isDisplayed() == true ? true : false;
+				return sliderContainer.isDisplayed();
 			case TestConstants.SLIDER_ID:
 				return slider.isDisplayed();
+			case TestConstants.PRACTICEFORMCONTAINER_ID:
+				return practiceFormFrame.isDisplayed();
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
@@ -401,6 +406,8 @@ public class AutomationPracticeHomePage extends BasePage {
 				return sliderContainer;
 			case TestConstants.SLIDER_ID:
 				return slider;
+			case TestConstants.PRACTICEFORMCONTAINER_ID:
+				return practiceFormFrame;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -591,5 +598,21 @@ public class AutomationPracticeHomePage extends BasePage {
 				return false;
 			}
 		}
+	}
+
+	public PracticeFormPage goToPracticeForm() {
+		try {
+			driver.switchTo().frame(practiceFormFrame);
+
+			// TODO: What if it is another error then? Should I always have a catch for
+			// general errors?
+		} catch (NoSuchFrameException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+
+		PracticeFormPage temp = new PracticeFormPage(driver);
+
+		return temp;
 	}
 }

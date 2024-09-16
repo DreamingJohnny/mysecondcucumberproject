@@ -46,8 +46,9 @@ public class TestConstants {
 
 	public static final String SLIDERCONTAINER_ID = "slider container";
 	public static final String SLIDER_ID = "slider";
-	public static final int[] SLIDERNEWPOSITION = { 0, 200 };
 
 	public static final String CALENDARICON_ID = "calendar icon";
+
+	public static final String PRACTICEFORMCONTAINER_ID = "practice form container";
 
 }

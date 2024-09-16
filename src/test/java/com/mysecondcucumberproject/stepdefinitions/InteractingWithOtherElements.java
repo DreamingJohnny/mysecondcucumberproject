@@ -1,13 +1,12 @@
 package com.mysecondcucumberproject.stepdefinitions;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
+import com.mysecondcucumberproject.pageObject.PracticeFormPage;
 import com.mysecondcucumberproject.utilities.TestConstants;
 
 import io.cucumber.java.en.And;
@@ -19,6 +18,7 @@ public class InteractingWithOtherElements {
 
 	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
+	PracticeFormPage practiceFormPage;
 
 	@Given("the user is on the correct page")
 	public void the_user_is_on_the_correct_page() {
@@ -263,8 +263,7 @@ public class InteractingWithOtherElements {
 	}
 
 	@When("the user uses the cursor to move the {string} to a {string}")
-	public void the_user_uses_the_cursor_to_move_the_slider_to_a_new_position(String elementID,
-			String _addedPosition) {
+	public void the_user_uses_the_cursor_to_move_the_slider_to_a_new_position(String elementID, String _addedPosition) {
 
 		String[] coordinates = _addedPosition.split(",");
 
@@ -273,14 +272,12 @@ public class InteractingWithOtherElements {
 		try {
 			expectedPosition = new Point(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));
 		} catch (NumberFormatException e) {
-			Assert.fail(
-					"invalid strings for parsing to point: " + e.getMessage());
+			Assert.fail("invalid strings for parsing to point: " + e.getMessage());
 		}
 
 		try {
-			Assert.assertTrue("Couldn't move the element on the y correctly",
+			Assert.assertTrue("Couldn't move the element correctly",
 					aPHomePage.tryMoveElement(elementID, expectedPosition));
-
 		} catch (AssertionError e) {
 			aPHomePage.takeScreenShot(TestConstants.SLIDERCONTAINER_ID);
 			System.out.println(e.getMessage());
@@ -327,8 +324,25 @@ public class InteractingWithOtherElements {
 
 	}
 
+	@And("the url is now the one for {string}")
+	public void the_url_is_now_the_one_for(String configKey) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
 	@Given("the user switches to {string}")
 	public void the_user_switches_to(String string) {
+
+		practiceFormPage = aPHomePage.goToPracticeForm();
+
+		try {
+			Assert.assertNotNull("Recieved a null page object when it attempted to go to practice form.",
+					practiceFormPage);
+		} catch (AssertionError e) {
+			aPHomePage.takeScreenShot(TestConstants.PRACTICEFORMCONTAINER_ID);
+			System.out.println(e.getMessage());
+		}
+
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
