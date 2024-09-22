@@ -324,12 +324,6 @@ public class InteractingWithOtherElements {
 
 	}
 
-	@And("the url is now the one for {string}")
-	public void the_url_is_now_the_one_for(String configKey) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
 	@Given("the user switches to {string}")
 	public void the_user_switches_to(String string) {
 
@@ -339,24 +333,48 @@ public class InteractingWithOtherElements {
 			Assert.assertNotNull("Recieved a null page object when it attempted to go to practice form.",
 					practiceFormPage);
 		} catch (AssertionError e) {
-			aPHomePage.takeScreenShot(TestConstants.PRACTICEFORMCONTAINER_ID);
 			System.out.println(e.getMessage());
 		}
-
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
 	}
 
-	@Then("the {string} field should contain {string}")
-	public void the_field_should_contain(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the user enters {string} into the {string} field in the iframe")
+	public void the_user_enters_into_the_field_in_the_iframe(String userInput, String fieldID) {
+		try {
+			Assert.assertTrue("Couldn't set the field of the practiceFormPage with the field id: " + fieldID,
+					practiceFormPage.trySetField(userInput, fieldID));
+		} catch (AssertionError e) {
+			practiceFormPage.takeScreenShot(fieldID);
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Then("the {string} field in the iframe should contain {string}")
+	public void the_field_in_the_iframe_should_contain(String fieldID, String expectedValue) {
+		try {
+			Assert.assertTrue("The name field on the practiceFormPage did not have the expected value",
+					practiceFormPage.getFieldValue(fieldID).contains(expectedValue));
+		} catch (AssertionError e) {
+			System.out.println(e.getMessage());
+			practiceFormPage.takeScreenShot(fieldID);
+		}
 	}
 
 	@Given("the user selects {string} from the {string}")
-	public void the_user_selects_from_the(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_user_selects_from_the(String userSelection, String elementID) {
+
+		try {
+			Assert.assertTrue("Couldn't find the element using the id: " + elementID,
+					practiceFormPage.canFindWebelement(elementID));
+		} catch (AssertionError e) {
+			System.out.println(e.getMessage());
+		}
+
+		// TODO: Need to work out if the general takeScreenShot method works now or not.
+		try {
+			Assert.assertTrue(practiceFormPage.trySelectInDropdown(userSelection, elementID));
+		} catch (AssertionError e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Then("the {string} contains {string}")

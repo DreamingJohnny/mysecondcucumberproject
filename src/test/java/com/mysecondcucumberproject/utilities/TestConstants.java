@@ -49,6 +49,9 @@ public class TestConstants {
 
 	public static final String CALENDARICON_ID = "calendar icon";
 
-	public static final String PRACTICEFORMCONTAINER_ID = "practice form container";
+	public static final String PRACTICEFORMCONTAINTER_ID = "practice form";
+	public static final String FRAMENAMEFIELD_ID = "frames name";
+	public static final String FRAMEDOBFIELD_ID = "job dropdown";
+	public static final String FRAMECALENDARICON_ID = "frame calendar icon";
 
 }

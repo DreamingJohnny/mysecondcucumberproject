@@ -85,6 +85,8 @@ public class BasePage {
 	}
 
 	public void takeScreenShot(String tableID) {
+		// TODO: This method needs to become more durable, might need to add a tryget on
+		// the function for webelement to begin with.
 		// TODO: what happens here if the element doesn't exist?
 		WebElement element = getWebelement(tableID);
 		File screenshotFile = element.getScreenshotAs(OutputType.FILE);

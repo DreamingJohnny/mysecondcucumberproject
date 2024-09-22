@@ -151,7 +151,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	// #endregion
 
 	// #region Frames
-	@FindBy(xpath = "//*[@id=\"frame-one796456169\"]")
+	@FindBy(xpath = "//*[@id='frame-one796456169']")
 	WebElement practiceFormFrame;
 
 	// #endregion
@@ -349,7 +349,7 @@ public class AutomationPracticeHomePage extends BasePage {
 				return sliderContainer.isDisplayed();
 			case TestConstants.SLIDER_ID:
 				return slider.isDisplayed();
-			case TestConstants.PRACTICEFORMCONTAINER_ID:
+			case TestConstants.PRACTICEFORMCONTAINTER_ID:
 				return practiceFormFrame.isDisplayed();
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
@@ -406,7 +406,7 @@ public class AutomationPracticeHomePage extends BasePage {
 				return sliderContainer;
 			case TestConstants.SLIDER_ID:
 				return slider;
-			case TestConstants.PRACTICEFORMCONTAINER_ID:
+			case TestConstants.PRACTICEFORMCONTAINTER_ID:
 				return practiceFormFrame;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
@@ -575,6 +575,7 @@ public class AutomationPracticeHomePage extends BasePage {
 			action.dragAndDrop(getWebelement(dragID), getWebelement(dropID)).perform();
 			return true;
 		}
+
 	}
 
 	public Point getPosition(String elementID) {
