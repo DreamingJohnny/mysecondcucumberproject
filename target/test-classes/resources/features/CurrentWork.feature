@@ -11,5 +11,5 @@ Feature: Current Work
     Given the user is on the correct page
     And the user sees the container for "practice form"
     When the user switches to "practice form"
-    And the user selects "QA Engineer" from the "job dropdown"
-    Then the "job dropdown" contains "QA Engineer"
+    And the user selects "QA Engineer" from the "frame work dropdown"
+    Then the "frame work dropdown" contains "QA Engineer"

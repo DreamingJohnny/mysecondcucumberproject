@@ -1,10 +1,17 @@
 package com.mysecondcucumberproject.pageObject;
 
+import java.util.Properties;
+
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 import com.mysecondcucumberproject.utilities.TestConstants;
+
+import io.cucumber.java.eo.Se;
 
 public class PracticeFormPage extends BasePage {
 
@@ -27,14 +34,18 @@ public class PracticeFormPage extends BasePage {
 	@FindBy(xpath = "//*[@id='RESULT_TextField-0']")
 	WebElement nameField;
 	@FindBy(xpath = "//*[@id='RESULT_TextField-2']")
-	WebElement dOBFieldOld;
+	WebElement DOBField;
 	@FindBy(xpath = "//*[@id='q4']/span")
 	WebElement calendarIcon;
+	@FindBy(xpath = "//*[@id=\"RESULT_RadioButton-3\"]")
+	WebElement workDropDown;
 
 	public boolean canFindWebelement(String fieldID) {
 		switch (fieldID) {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				return (nameField.isDisplayed() && nameField.isEnabled());
+			case TestConstants.FRAMEWORKDROPDOWN_ID:
+				return (workDropDown.isDisplayed() && workDropDown.isEnabled());
 			default:
 				System.out.println("Couldn't get the element using: " + fieldID);
 				return false;
@@ -46,6 +57,8 @@ public class PracticeFormPage extends BasePage {
 		switch (fieldID.toLowerCase().trim()) {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				return nameField;
+			case TestConstants.FRAMEWORKDROPDOWN_ID:
+				return workDropDown;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -70,10 +83,13 @@ public class PracticeFormPage extends BasePage {
 	// TODO: Fix so that this method is an overload of a method in the parent
 	// basepage.
 	public String getFieldValue(String elementID) {
+		if (!canFindWebelement(elementID)) {
+			return "";
+		}
 
 		switch (elementID.toLowerCase()) {
 			case TestConstants.FRAMENAMEFIELD_ID:
-				return nameField.getText();
+				return nameField.getAttribute("value");
 			default:
 				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
 				return null;
@@ -81,10 +97,55 @@ public class PracticeFormPage extends BasePage {
 	}
 
 	public boolean trySelectInDropdown(String userSelection, String elementID) {
-		// Needs to set the value, and return false if the option or the element wasn't
-		// found.
 
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'trySelectInDropdown'");
+		if (!canFindWebelement(elementID))
+			return false;
+
+		Select dropDown;
+
+		try {
+			dropDown = new Select(getWebelement(elementID));
+		} catch (UnexpectedTagNameException e) {
+			System.out.println("Couldn't create a select object from the web element");
+			System.out.println(e.getMessage());
+			return false;
+		}
+
+		try {
+			dropDown.selectByVisibleText(userSelection);
+		} catch (NoSuchElementException e) {
+			System.out.println("Couldn't find an element using this value.");
+			System.out.println(e.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
+	public String getSelectedText(String elementID) {
+
+		if (!canFindWebelement(elementID)) {
+			return "";
+		}
+
+		Select tempSelect;
+		try {
+			tempSelect = new Select(getWebelement(elementID));
+		} catch (UnexpectedTagNameException e) {
+			// TODO: Look into what a message of this kind contains, and what value my
+			// additional messages might give, if any.
+			System.out.println("Couldn't create a select object from the web element");
+			System.out.println(e.getMessage());
+			takeScreenShot(elementID);
+			return "";
+		}
+
+		try {
+			return tempSelect.getFirstSelectedOption().getText();
+		} catch (NoSuchElementException e) {
+			System.out.println(e.getMessage());
+			takeScreenShot(elementID);
+			return "";
+		}
 	}
 }

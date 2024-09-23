@@ -344,18 +344,22 @@ public class InteractingWithOtherElements {
 					practiceFormPage.trySetField(userInput, fieldID));
 		} catch (AssertionError e) {
 			practiceFormPage.takeScreenShot(fieldID);
-			System.out.println(e.getMessage());
+			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
 	}
 
 	@Then("the {string} field in the iframe should contain {string}")
 	public void the_field_in_the_iframe_should_contain(String fieldID, String expectedValue) {
 		try {
-			Assert.assertTrue("The name field on the practiceFormPage did not have the expected value",
-					practiceFormPage.getFieldValue(fieldID).contains(expectedValue));
+			// TODO: Check if this test passes even if this fails, seems so from some
+			// results. Go back through and check that you use Assert.fail() in catches.
+			Assert.assertTrue(
+					"The name field on the practiceFormPage did not have the expected value. Practice form: "
+							+ practiceFormPage.getFieldValue(fieldID) + ", expected value: " + expectedValue,
+					practiceFormPage.getFieldValue(fieldID).toLowerCase().contains(expectedValue.toLowerCase()));
 		} catch (AssertionError e) {
-			System.out.println(e.getMessage());
 			practiceFormPage.takeScreenShot(fieldID);
+			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
 	}
 
@@ -366,21 +370,31 @@ public class InteractingWithOtherElements {
 			Assert.assertTrue("Couldn't find the element using the id: " + elementID,
 					practiceFormPage.canFindWebelement(elementID));
 		} catch (AssertionError e) {
-			System.out.println(e.getMessage());
+			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
 
 		// TODO: Need to work out if the general takeScreenShot method works now or not.
 		try {
 			Assert.assertTrue(practiceFormPage.trySelectInDropdown(userSelection, elementID));
 		} catch (AssertionError e) {
-			System.out.println(e.getMessage());
+			practiceFormPage.takeScreenShot(elementID);
+			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
 	}
 
 	@Then("the {string} contains {string}")
-	public void the_contains(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_contains(String elementID, String expectedText) {
+
+		try {
+			Assert.assertTrue(
+					"The selected option in the dropdown did not contain the expected text. Selection gave back the text: "
+							+ practiceFormPage.getSelectedText(elementID) + ", and the expected text was: "
+							+ expectedText,
+					practiceFormPage.getSelectedText(elementID).contains(expectedText));
+		} catch (AssertionError e) {
+			practiceFormPage.takeScreenShot(elementID);
+			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
+		}
 	}
 
 	@Given("the user inputs {string}")
