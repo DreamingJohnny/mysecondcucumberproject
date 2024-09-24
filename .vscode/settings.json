@@ -1,8 +1,9 @@
 {
 	"java.configuration.updateBuildConfiguration": "automatic",
 	"java.compile.nullAnalysis.mode": "automatic",
-	"xml.format.maxLineWidth": 220,
+	"xml.format.maxLineWidth": 800,
 	"editor.wordWrap": "off",
 	"diffEditor.wordWrap": "off",
-	"testing.openTesting": "openExplorerOnTestStart"
+	"testing.openTesting": "openExplorerOnTestStart",
+	"html.format.wrapLineLength": 800
 }

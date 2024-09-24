@@ -55,7 +55,7 @@ public class BasePage {
 	}
 
 	protected WebElement getWebelement(String fieldID) {
-		switch (fieldID.toLowerCase()) {
+		switch (fieldID.toLowerCase().trim()) {
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -145,33 +145,32 @@ public class BasePage {
 
 	public boolean tryCloseAlert() {
 
-		if (!canFindAlert())
+		if (!canFindAlert()) {
 			return false;
-		else {
-			Alert myAlert = driver.switchTo().alert();
-			myAlert.dismiss();
-			return true;
 		}
+
+		Alert myAlert = driver.switchTo().alert();
+		myAlert.dismiss();
+		return true;
 	}
 
 	public boolean tryAcceptAlert() {
 
 		if (!canFindAlert()) {
 			return false;
-
-		} else {
-			driver.switchTo().alert().accept();
-			return true;
 		}
+
+		driver.switchTo().alert().accept();
+		return true;
 	}
 
 	public boolean trySetAlertField(String userInput) {
 
 		if (!canFindAlert()) {
 			return false;
-		} else {
-			driver.switchTo().alert().sendKeys(userInput);
-			return true;
 		}
+
+		driver.switchTo().alert().sendKeys(userInput);
+		return true;
 	}
 }

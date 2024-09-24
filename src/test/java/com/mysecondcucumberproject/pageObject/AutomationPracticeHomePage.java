@@ -174,7 +174,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	public boolean isCheckBoxSelected(String checkboxID) {
 		// TODO: Check with MY, shouldn't it be better if I protected all of these with
 		// the "canFind"?
-		switch (checkboxID.toLowerCase()) {
+		switch (checkboxID.toLowerCase().trim()) {
 			case TestConstants.MALECHECKBOX_ID:
 				return maleCheckBox.isSelected();
 			case TestConstants.FEMALECHECKBOX_ID:
@@ -202,7 +202,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	public void toggleCheckBox(String checkboxID) {
-		switch (checkboxID.toLowerCase()) {
+		switch (checkboxID.toLowerCase().trim()) {
 			case TestConstants.MALECHECKBOX_ID:
 				maleCheckBox.click();
 				break;
@@ -247,7 +247,7 @@ public class AutomationPracticeHomePage extends BasePage {
 		if (!canFindWebelement(fieldID))
 			return false;
 
-		switch (fieldID.toLowerCase()) {
+		switch (fieldID.toLowerCase().trim()) {
 			case TestConstants.NAMEFIELD_ID:
 				nameField.clear();
 				nameField.sendKeys(input);
@@ -280,7 +280,7 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	public boolean canFindWebelement(String fieldID) {
 		// TODO: Should I include Enabled here aswell?
-		switch (fieldID.toLowerCase()) {
+		switch (fieldID.toLowerCase().trim()) {
 			case TestConstants.NAMEFIELD_ID:
 				return nameField.isDisplayed();
 			case TestConstants.EMAILFIELD_ID:
@@ -422,7 +422,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	 * @return
 	 */
 	public List<String> getTableHeadersContent(String tableID) {
-		switch (tableID.toLowerCase()) {
+		switch (tableID.toLowerCase().trim()) {
 			case TestConstants.BOOKTABLE_ID:
 				List<WebElement> tempElements = bookTable.findElements(By.tagName("th"));
 				List<String> tempStrings = new ArrayList<>();
@@ -442,7 +442,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	}
 
 	public String getElementText(String elementID) {
-		switch (elementID.toLowerCase()) {
+		switch (elementID.toLowerCase().trim()) {
 			case TestConstants.NAMEFIELD_ID:
 				return nameField.getAttribute("value");
 			case TestConstants.EMAILFIELD_ID:
@@ -509,61 +509,60 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	public boolean tryClickButton(String buttonID) {
 
-		if (!canFindWebelement(buttonID))
+		if (!canFindWebelement(buttonID)) {
 			return false;
-		else {
-			switch (buttonID) {
-				case TestConstants.TABSUBMITBUTTON_ID:
-					tabSubmitButton.click();
-					return true;
-				case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
-					newBrowserWindowButton.click();
-					return true;
-				case TestConstants.JSALERTDISMISSBUTTON_ID:
-					alertBoxButton.click();
-					return true;
-				case TestConstants.CONFIRMBUTTON_ID:
-					confirmBoxButton.click();
-					return true;
-				case TestConstants.PROMPTBUTTON_ID:
-					promptButton.click();
-					return true;
-				default:
-					System.out.println("Couldn't find a case for that button using string id: " + buttonID);
-					return false;
+		}
 
-			}
+		switch (buttonID.toLowerCase().trim()) {
+			case TestConstants.TABSUBMITBUTTON_ID:
+				tabSubmitButton.click();
+				return true;
+			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
+				newBrowserWindowButton.click();
+				return true;
+			case TestConstants.JSALERTDISMISSBUTTON_ID:
+				alertBoxButton.click();
+				return true;
+			case TestConstants.CONFIRMBUTTON_ID:
+				confirmBoxButton.click();
+				return true;
+			case TestConstants.PROMPTBUTTON_ID:
+				promptButton.click();
+				return true;
+			default:
+				System.out.println("Couldn't find a case for that button using string id: " + buttonID);
+				return false;
+
 		}
 	}
 
 	public boolean tryClickChildOf(String parentFieldID, int childIndex) {
 
-		if (!canFindWebelement(parentFieldID))
+		if (!canFindWebelement(parentFieldID)) {
 			return false;
-		else {
-			try {
-				getWebelement(parentFieldID).findElement(By.xpath("./div[" + childIndex + "]/a")).click();
-				return true;
+		}
 
-			} catch (NoSuchElementException e) {
-				System.out.println("Child element not found." + e.getMessage());
-				return false;
-			}
+		try {
+			getWebelement(parentFieldID).findElement(By.xpath("./div[" + childIndex + "]/a")).click();
+			return true;
+		} catch (NoSuchElementException e) {
+			System.out.println("Child element not found." + e.getMessage());
+			return false;
 		}
 	}
 
 	public boolean tryDoubleClickButton(String fieldID) {
 		if (!canFindWebelement(fieldID)) {
 			return false;
-		} else {
-			Actions action = new Actions(driver);
-			try {
-				action.doubleClick(getWebelement(fieldID)).perform();
-				return true;
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				return false;
-			}
+		}
+
+		Actions action = new Actions(driver);
+		try {
+			action.doubleClick(getWebelement(fieldID)).perform();
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
 		}
 	}
 
@@ -587,17 +586,17 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	public boolean tryMoveElement(String elementID, Point addedPosition) {
 
-		if (!canFindWebelement(elementID))
+		if (!canFindWebelement(elementID)) {
 			return false;
-		else {
-			Actions action = new Actions(driver);
-			try {
-				action.dragAndDropBy(getWebelement(elementID), addedPosition.getX(), addedPosition.getY()).perform();
-				return true;
-			} catch (MoveTargetOutOfBoundsException e) {
-				System.out.println(e.getMessage());
-				return false;
-			}
+		}
+
+		Actions action = new Actions(driver);
+		try {
+			action.dragAndDropBy(getWebelement(elementID), addedPosition.getX(), addedPosition.getY()).perform();
+			return true;
+		} catch (MoveTargetOutOfBoundsException e) {
+			System.out.println(e.getMessage());
+			return false;
 		}
 	}
 

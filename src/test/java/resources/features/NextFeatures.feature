@@ -1,22 +1,7 @@
 @skip
 Feature: Next Feature
 
-  Scenario Outline: Inputting date of birth
-    Given the user is on the correct page
-    And the user sees the container for "frames"
-    And the user switches to "frames"
-    And the user inputs "<date of birth>"
-    Then the "DOBfield" should contain "<expected date>" according to "<expected outcome>"
-
-    Examples:
-      | date of birth   | expected date | expected outcome |
-      |      09/10/1981 |    10/09/1981 | pass             |
-      |      12/22/1986 |    12/22/1986 | pass             |
-      |        10092026 |    10/09/1981 | pass             |
-      | johndoe         | johndoe       | fail             |
-      |     02/29/19900 |    02/29/1990 | pass             |
-      | p0a2r2s9i1n9g90 |    02/29/1990 | pass             |
-
+  
   Scenario Outline: Selecting date of birth
     Given the user is on the correct page
     And the user sees the container for "frames"

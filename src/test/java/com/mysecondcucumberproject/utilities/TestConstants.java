@@ -51,7 +51,7 @@ public class TestConstants {
 
 	public static final String PRACTICEFORMCONTAINTER_ID = "practice form";
 	public static final String FRAMENAMEFIELD_ID = "frames name";
-	public static final String FRAMEDOBFIELD_ID = "frame dob field";
+	public static final String FRAMEDOBFIELD_ID = "dob field";
 	public static final String FRAMECALENDARICON_ID = "frame calendar icon";
 	public static final String FRAMEWORKDROPDOWN_ID = "frame work dropdown";
 

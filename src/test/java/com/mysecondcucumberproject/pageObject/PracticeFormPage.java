@@ -1,7 +1,5 @@
 package com.mysecondcucumberproject.pageObject;
 
-import java.util.Properties;
-
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,19 +9,11 @@ import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 import com.mysecondcucumberproject.utilities.TestConstants;
 
-import io.cucumber.java.eo.Se;
-
 public class PracticeFormPage extends BasePage {
 
 	PracticeFormPage(WebDriver newDriver) {
 		super(newDriver);
 	}
-
-	// So, this one, it will be possible to create it, and to do that it will... it
-	// will be created with a url, just like the other stuff.
-	// So where is this one given it's url then?
-	// So, that's actually hardcoded in the driver, so I need a way to set that
-	// somewhere/somehow else?
 
 	// TODO: Don't like these xpaths, will want to check why I can't rewrite them
 	// after seeing if these work.
@@ -41,13 +31,15 @@ public class PracticeFormPage extends BasePage {
 	WebElement workDropDown;
 
 	public boolean canFindWebelement(String fieldID) {
-		switch (fieldID) {
+		switch (fieldID.toLowerCase().trim()) {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				return (nameField.isDisplayed() && nameField.isEnabled());
 			case TestConstants.FRAMEWORKDROPDOWN_ID:
 				return (workDropDown.isDisplayed() && workDropDown.isEnabled());
+			case TestConstants.FRAMEDOBFIELD_ID:
+				return (DOBField.isDisplayed() && DOBField.isEnabled());
 			default:
-				System.out.println("Couldn't get the element using: " + fieldID);
+				System.out.println("Couldn't find the element enabled and displayed using: " + fieldID);
 				return false;
 		}
 	}
@@ -59,6 +51,8 @@ public class PracticeFormPage extends BasePage {
 				return nameField;
 			case TestConstants.FRAMEWORKDROPDOWN_ID:
 				return workDropDown;
+			case TestConstants.FRAMEDOBFIELD_ID:
+				return DOBField;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -66,13 +60,18 @@ public class PracticeFormPage extends BasePage {
 	}
 
 	public boolean trySetField(String userInput, String fieldID) {
-		if (!canFindWebelement(fieldID))
+		if (!canFindWebelement(fieldID)) {
 			return false;
+		}
 
-		switch (fieldID.toLowerCase()) {
+		switch (fieldID.toLowerCase().trim()) {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				nameField.clear();
 				nameField.sendKeys(userInput);
+				return true;
+			case TestConstants.FRAMEDOBFIELD_ID:
+				DOBField.clear();
+				DOBField.sendKeys(userInput);
 				return true;
 			default:
 				System.out.println(this + " couldn't find a field with a value to set with the fieldID " + fieldID);
@@ -87,9 +86,11 @@ public class PracticeFormPage extends BasePage {
 			return "";
 		}
 
-		switch (elementID.toLowerCase()) {
+		switch (elementID.toLowerCase().trim()) {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				return nameField.getAttribute("value");
+			case TestConstants.FRAMEDOBFIELD_ID:
+				return DOBField.getAttribute("value");
 			default:
 				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
 				return null;

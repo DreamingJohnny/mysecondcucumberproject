@@ -384,7 +384,6 @@ public class InteractingWithOtherElements {
 
 	@Then("the {string} contains {string}")
 	public void the_contains(String elementID, String expectedText) {
-
 		try {
 			Assert.assertTrue(
 					"The selected option in the dropdown did not contain the expected text. Selection gave back the text: "
@@ -397,16 +396,42 @@ public class InteractingWithOtherElements {
 		}
 	}
 
-	@Given("the user inputs {string}")
-	public void the_user_inputs(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Given("the user inputs {string} into the {string}")
+	public void the_user_inputs_into_the(String input, String fieldID) {
+		try {
+			Assert.assertTrue("Couldn't set the field found using: " + fieldID,
+					practiceFormPage.trySetField(input, fieldID));
+		} catch (AssertionError e) {
+			practiceFormPage.takeScreenShot(fieldID);
+			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
+		}
 	}
 
 	@Then("the {string} should contain {string} according to {string}")
-	public void the_should_contain_according_to(String string, String string2, String string3) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_should_contain_according_to(String fieldID, String expectedValue, String _expectedOutcome) {
+
+		boolean expectedOutcome = false;
+
+		System.out.println("Actual value: " + practiceFormPage.getFieldValue(fieldID));
+		System.out.println("Expected value: " + expectedValue);
+		System.out.println("Expected outcome: " + _expectedOutcome);
+
+		if (_expectedOutcome.toLowerCase().contains("pass")) {
+			expectedOutcome = true;
+		} else if (_expectedOutcome.toLowerCase().contains("fail")) {
+			expectedOutcome = false;
+		} else {
+			Assert.fail("Test failed, couldn't parse expected outcome to either pass or fail.");
+		}
+
+		try {
+			Assert.assertEquals(practiceFormPage.getFieldValue(fieldID).contains(expectedValue),
+					expectedOutcome);
+		} catch (AssertionError e) {
+			practiceFormPage.takeScreenShot(fieldID);
+			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
+		}
+
 	}
 
 	@Given("the user clicks on the calendar icon")
