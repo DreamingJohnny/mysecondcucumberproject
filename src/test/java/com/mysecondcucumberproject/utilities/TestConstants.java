@@ -56,7 +56,7 @@ public class TestConstants {
 	public static final String FRAMEWORKDROPDOWN_ID = "frame work dropdown";
 
 	public static final String CALENDARBUTTON_ID = "frame calendar button";
-	public static final String DOBDROPDOWN_ID = "frame calendar button";
+	public static final String DOBDROPDOWN_ID = "dob dropdown";
 	public static final String DOBDROPDOWNPASTMONTH_ID = "dob dropdown past month";
 	public static final String DOBDROPDOWNCOMINGMONTH_ID = "dob dropdown coming month";
 	public static final String DOBDROPDOWNYEARDROPDOWN_ID = "dob dropdown year dropdown";

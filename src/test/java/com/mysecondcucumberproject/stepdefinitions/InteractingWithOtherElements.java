@@ -463,8 +463,9 @@ public class InteractingWithOtherElements {
 		// So, create has function that tries to set these then, and that returns true
 		// provided it can find it and turn it into a select.
 		try {
-			Assert.assertTrue(practiceFormPage.trySelectInDropdown(TestConstants.DOBDROPDOWN_ID, year, month, day));
-		} catch (Exception e) {
+			Assert.assertTrue(practiceFormPage.trySelectInDropdown(TestConstants.DOBDROPDOWN_ID, year,
+					Integer.parseInt(month), Integer.parseInt(day)));
+		} catch (AssertionError e) {
 			// TODO: handle exception
 		}
 

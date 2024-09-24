@@ -75,4 +75,9 @@ public class BaseUtilities {
 	public static String getScreenShotName() {
 		return "screenshot_" + new SimpleDateFormat("yyyymmddhhmmss").format(new Date()) + ".png";
 	}
+
+	public static int getIndexOfMonth(String month) {
+		// needs to return the index, probably based on what place the month has within
+		// a hashmap if you can index those?
+	}
 }

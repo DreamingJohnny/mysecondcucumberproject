@@ -57,6 +57,18 @@ public class PracticeFormPage extends BasePage {
 				return (calendarButton.isDisplayed() && calendarButton.isEnabled());
 			case TestConstants.FRAMEWORKDROPDOWN_ID:
 				return (workDropDown.isDisplayed() && workDropDown.isEnabled());
+			case TestConstants.DOBDROPDOWN_ID:
+				return (dobDropdown.isDisplayed() && dobDropdown.isEnabled());
+			case TestConstants.DOBDROPDOWNPASTMONTH_ID:
+				return (dobPastMonthButton.isDisplayed() && dobPastMonthButton.isEnabled());
+			case TestConstants.DOBDROPDOWNCOMINGMONTH_ID:
+				return (dobComingMonthButton.isDisplayed() && dobComingMonthButton.isEnabled());
+			case TestConstants.DOBDROPDOWNCURRENTMONTH_ID:
+				return (dobComingMonthButton.isDisplayed() && dobComingMonthButton.isEnabled());
+			case TestConstants.DOBDROPDOWNYEARDROPDOWN_ID:
+				return (dobYearDropDown.isDisplayed() && dobYearDropDown.isEnabled());
+			case TestConstants.DOBDROPDOWNTABLEBODY_ID:
+				return (dobTableBody.isDisplayed() && dobTableBody.isEnabled());
 			default:
 				System.out.println("Couldn't find the element enabled and displayed using: " + fieldID);
 				return false;
@@ -72,6 +84,20 @@ public class PracticeFormPage extends BasePage {
 				return dOBContainer;
 			case TestConstants.FRAMEDOBFIELD_ID:
 				return dOBField;
+			case TestConstants.CALENDARBUTTON_ID:
+				return calendarButton;
+			case TestConstants.DOBDROPDOWN_ID:
+				return dobDropdown;
+			case TestConstants.DOBDROPDOWNPASTMONTH_ID:
+				return dobPastMonthButton;
+			case TestConstants.DOBDROPDOWNCOMINGMONTH_ID:
+				return dobComingMonthButton;
+			case TestConstants.DOBDROPDOWNCURRENTMONTH_ID:
+				return dobComingMonthButton;
+			case TestConstants.DOBDROPDOWNYEARDROPDOWN_ID:
+				return dobYearDropDown;
+			case TestConstants.DOBDROPDOWNTABLEBODY_ID:
+				return dobTableBody;
 			case TestConstants.FRAMEWORKDROPDOWN_ID:
 				return workDropDown;
 			default:
@@ -144,7 +170,7 @@ public class PracticeFormPage extends BasePage {
 		return true;
 	}
 
-	public boolean trySelectInDropdown(String elementID, String year, String month, String day) {
+	public boolean trySelectInDropdown(String elementID, String year, int month, int day) {
 		if (!canFindWebelement(elementID))
 			return false;
 
@@ -162,25 +188,27 @@ public class PracticeFormPage extends BasePage {
 			return false;
 		}
 
-		// Rethink, should year, month and day be parsed to ints in a shared place then?
-		// In base utilities?
 		if (!trySetDOBMonth(dropDown, month)) {
+			// need to see what month it is, figure out if that is past of previous and act
+			// accordingly.
 			return false;
 		}
 
 		if (!trySetDOBDay(dropDown, day)) {
+			// need to iterate through, see if it finds one with the number, if not, return
+			// false
 			return false;
 		}
 
 		return true;
 	}
 
-	private boolean trySetDOBDay(Select dropDown, String day) {
+	private boolean trySetDOBDay(Select dropDown, int day) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'trySetDOBDay'");
 	}
 
-	private boolean trySetDOBMonth(Select dropDown, String month) {
+	private boolean trySetDOBMonth(Select dropDown, int month) {
 		/*
 		 * SO, this one will use the main dropdown, wait, does it need that?
 		 * It will need the text field for months,
