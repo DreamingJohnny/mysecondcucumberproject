@@ -47,12 +47,20 @@ public class TestConstants {
 	public static final String SLIDERCONTAINER_ID = "slider container";
 	public static final String SLIDER_ID = "slider";
 
-	public static final String CALENDARICON_ID = "calendar icon";
-
 	public static final String PRACTICEFORMCONTAINTER_ID = "practice form";
+
 	public static final String FRAMENAMEFIELD_ID = "frames name";
+	public static final String DOBCONTAINER_ID = "dob container";
 	public static final String FRAMEDOBFIELD_ID = "dob field";
-	public static final String FRAMECALENDARICON_ID = "frame calendar icon";
+
 	public static final String FRAMEWORKDROPDOWN_ID = "frame work dropdown";
+
+	public static final String CALENDARBUTTON_ID = "frame calendar button";
+	public static final String DOBDROPDOWN_ID = "frame calendar button";
+	public static final String DOBDROPDOWNPASTMONTH_ID = "dob dropdown past month";
+	public static final String DOBDROPDOWNCOMINGMONTH_ID = "dob dropdown coming month";
+	public static final String DOBDROPDOWNYEARDROPDOWN_ID = "dob dropdown year dropdown";
+	public static final String DOBDROPDOWNCURRENTMONTH_ID = "dob dropdown current month";
+	public static final String DOBDROPDOWNTABLEBODY_ID = "dob dropdown table body";
 
 }

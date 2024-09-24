@@ -1,5 +1,7 @@
 package com.mysecondcucumberproject.pageObject;
 
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,29 +17,46 @@ public class PracticeFormPage extends BasePage {
 		super(newDriver);
 	}
 
-	// TODO: Don't like these xpaths, will want to check why I can't rewrite them
-	// after seeing if these work.
-	// I wish they were more easily readible than they are.
-
 	// Page factory style locators
-
 	@FindBy(xpath = "//*[@id='RESULT_TextField-0']")
 	WebElement nameField;
+	@FindBy(xpath = "//*[@id=\"q4\"]")
+	WebElement dOBContainer;
 	@FindBy(xpath = "//*[@id='RESULT_TextField-2']")
-	WebElement DOBField;
-	@FindBy(xpath = "//*[@id='q4']/span")
-	WebElement calendarIcon;
+	WebElement dOBField;
+	@FindBy(xpath = "//span=[@class='icon_calendar']")
+	WebElement calendarButton;
 	@FindBy(xpath = "//*[@id=\"RESULT_RadioButton-3\"]")
 	WebElement workDropDown;
+	@FindBy(xpath = "//*[@id='ui-datepicker-div']")
+	WebElement dobDropdown;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/a[1]/span")
+	WebElement dobPastMonthButton;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/a[2]")
+	WebElement dobComingMonthButton;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/div/select")
+	WebElement dobYearDropDown;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/div/span")
+	WebElement dobCurrentMonthText;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody")
+	WebElement dobTableBody;
+
+	// So, I want a getter for the element of the dropdown, so that I can use it in
+	// canFind... but the parts of it... I can look at those individually. But then,
+	// needs to check if null on top of dislayed etc.
 
 	public boolean canFindWebelement(String fieldID) {
 		switch (fieldID.toLowerCase().trim()) {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				return (nameField.isDisplayed() && nameField.isEnabled());
+			case TestConstants.DOBCONTAINER_ID:
+				return (dOBContainer.isDisplayed() && dOBContainer.isEnabled());
+			case TestConstants.FRAMEDOBFIELD_ID:
+				return (dOBField.isDisplayed() && dOBField.isEnabled());
+			case TestConstants.CALENDARBUTTON_ID:
+				return (calendarButton.isDisplayed() && calendarButton.isEnabled());
 			case TestConstants.FRAMEWORKDROPDOWN_ID:
 				return (workDropDown.isDisplayed() && workDropDown.isEnabled());
-			case TestConstants.FRAMEDOBFIELD_ID:
-				return (DOBField.isDisplayed() && DOBField.isEnabled());
 			default:
 				System.out.println("Couldn't find the element enabled and displayed using: " + fieldID);
 				return false;
@@ -49,10 +68,12 @@ public class PracticeFormPage extends BasePage {
 		switch (fieldID.toLowerCase().trim()) {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				return nameField;
+			case TestConstants.DOBCONTAINER_ID:
+				return dOBContainer;
+			case TestConstants.FRAMEDOBFIELD_ID:
+				return dOBField;
 			case TestConstants.FRAMEWORKDROPDOWN_ID:
 				return workDropDown;
-			case TestConstants.FRAMEDOBFIELD_ID:
-				return DOBField;
 			default:
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
@@ -70,8 +91,8 @@ public class PracticeFormPage extends BasePage {
 				nameField.sendKeys(userInput);
 				return true;
 			case TestConstants.FRAMEDOBFIELD_ID:
-				DOBField.clear();
-				DOBField.sendKeys(userInput);
+				dOBField.clear();
+				dOBField.sendKeys(userInput);
 				return true;
 			default:
 				System.out.println(this + " couldn't find a field with a value to set with the fieldID " + fieldID);
@@ -90,7 +111,7 @@ public class PracticeFormPage extends BasePage {
 			case TestConstants.FRAMENAMEFIELD_ID:
 				return nameField.getAttribute("value");
 			case TestConstants.FRAMEDOBFIELD_ID:
-				return DOBField.getAttribute("value");
+				return dOBField.getAttribute("value");
 			default:
 				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
 				return null;
@@ -123,6 +144,54 @@ public class PracticeFormPage extends BasePage {
 		return true;
 	}
 
+	public boolean trySelectInDropdown(String elementID, String year, String month, String day) {
+		if (!canFindWebelement(elementID))
+			return false;
+
+		Select dropDown;
+
+		try {
+			dropDown = new Select(getWebelement(elementID));
+		} catch (UnexpectedTagNameException e) {
+			System.out.println("Couldn't create a select object from the web element");
+			System.out.println(e.getMessage());
+			return false;
+		}
+
+		if (!trySelectInDropdown(year, TestConstants.DOBDROPDOWNYEARDROPDOWN_ID)) {
+			return false;
+		}
+
+		// Rethink, should year, month and day be parsed to ints in a shared place then?
+		// In base utilities?
+		if (!trySetDOBMonth(dropDown, month)) {
+			return false;
+		}
+
+		if (!trySetDOBDay(dropDown, day)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean trySetDOBDay(Select dropDown, String day) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'trySetDOBDay'");
+	}
+
+	private boolean trySetDOBMonth(Select dropDown, String month) {
+		/*
+		 * SO, this one will use the main dropdown, wait, does it need that?
+		 * It will need the text field for months,
+		 * and the two buttons for next and previous
+		 * and a way to decide what month is in what order, right?
+		 * will it need to check so we do not go over to next year?
+		 */
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'trySetDOBMonth'");
+	}
+
 	public String getSelectedText(String elementID) {
 
 		if (!canFindWebelement(elementID)) {
@@ -148,5 +217,37 @@ public class PracticeFormPage extends BasePage {
 			takeScreenShot(elementID);
 			return "";
 		}
+	}
+
+	public boolean tryClickButton(String calendarbuttonId) {
+		if (!canFindWebelement(calendarbuttonId)) {
+			return false;
+		}
+
+		try {
+			getWebelement(calendarbuttonId).click();
+		} catch (ElementClickInterceptedException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} catch (ElementNotInteractableException e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+
+		// TODO: So, ask MY here, should I have a general catch here as well? That
+		// handles the cases I haven't thought of? Or is it instead better to have the
+		// program throw a sever error in those cases?
+		return true;
+	}
+
+	public boolean tryGetDOBDropdown() {
+
+		// So, needs to see if it can get the dropdown then... So will need to use
+		// findElement here then? So this one I want to wrap like a getter?
+		// Do I even want to give this one a way of being a "Select" then? (No, that
+		// might be too clever for my own good)
+
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'tryGetDOBDropdown'");
 	}
 }

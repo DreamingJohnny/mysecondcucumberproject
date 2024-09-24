@@ -287,6 +287,7 @@ public class InteractingWithOtherElements {
 	@Then("the {string} is in the {string} and the test should {string}")
 	public void the_is_in_the_and_the_test_should(String elementID, String _expectedPosition, String _expectedResult) {
 
+		// Also should move to BaseUtils
 		boolean expectedResult = false;
 
 		if (_expectedResult.contains("pass")) {
@@ -351,8 +352,7 @@ public class InteractingWithOtherElements {
 	@Then("the {string} field in the iframe should contain {string}")
 	public void the_field_in_the_iframe_should_contain(String fieldID, String expectedValue) {
 		try {
-			// TODO: Check if this test passes even if this fails, seems so from some
-			// results. Go back through and check that you use Assert.fail() in catches.
+			// TODO: Go back through and check that you use Assert.fail() in catches.
 			Assert.assertTrue(
 					"The name field on the practiceFormPage did not have the expected value. Practice form: "
 							+ practiceFormPage.getFieldValue(fieldID) + ", expected value: " + expectedValue,
@@ -411,11 +411,8 @@ public class InteractingWithOtherElements {
 	public void the_should_contain_according_to(String fieldID, String expectedValue, String _expectedOutcome) {
 
 		boolean expectedOutcome = false;
-
-		System.out.println("Actual value: " + practiceFormPage.getFieldValue(fieldID));
-		System.out.println("Expected value: " + expectedValue);
-		System.out.println("Expected outcome: " + _expectedOutcome);
-
+		// TODO: Move this to utilities so that you can use it more easily. And reuse
+		// code.
 		if (_expectedOutcome.toLowerCase().contains("pass")) {
 			expectedOutcome = true;
 		} else if (_expectedOutcome.toLowerCase().contains("fail")) {
@@ -431,12 +428,46 @@ public class InteractingWithOtherElements {
 			practiceFormPage.takeScreenShot(fieldID);
 			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
-
 	}
 
-	@Given("the user clicks on the calendar icon")
-	public void the_user_clicks_on_the_calendar_icon() {
-		// Write code here that turns the phrase above into concrete actions
+	@When("the user clicks on the calendar icon the dropdown opens")
+	public void the_user_clicks_on_the_calendar_icon_the_dropdown_opens() {
+
+		try {
+			Assert.assertTrue(practiceFormPage.canFindWebelement(TestConstants.CALENDARBUTTON_ID));
+		} catch (AssertionError e) {
+			practiceFormPage.takeScreenShot(TestConstants.DOBCONTAINER_ID);
+			Assert.fail("Test failed due to AssertionError" + e.getMessage());
+		}
+
+		try {
+			// TODO: Go back up and add explanation text to the asserts.
+			Assert.assertTrue(practiceFormPage.tryClickButton(TestConstants.CALENDARBUTTON_ID));
+		} catch (AssertionError e) {
+			practiceFormPage.takeScreenShot(TestConstants.DOBCONTAINER_ID);
+			Assert.fail("Test failed due to AssertionError" + e.getMessage());
+		}
+
+		try {
+			Assert.assertTrue("Couldn't get the DOB dropdown webelement",
+					practiceFormPage.canFindWebelement(TestConstants.DOBDROPDOWN_ID));
+		} catch (AssertionError e) {
+			practiceFormPage.takeScreenShot(TestConstants.DOBCONTAINER_ID);
+			Assert.fail("Test failed due to AssertionError" + e.getMessage());
+		}
+	}
+
+	@And("the user selects {string}, {string} and {string} from the dropdown")
+	public void the_user_selects_and_from_the_dropdown(String year, String month, String day) {
+
+		// So, create has function that tries to set these then, and that returns true
+		// provided it can find it and turn it into a select.
+		try {
+			Assert.assertTrue(practiceFormPage.trySelectInDropdown(TestConstants.DOBDROPDOWN_ID, year, month, day));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		throw new io.cucumber.java.PendingException();
 	}
 
