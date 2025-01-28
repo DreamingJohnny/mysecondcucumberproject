@@ -287,7 +287,7 @@ public class InteractingWithOtherElements {
 	@Then("the {string} is in the {string} and the test should {string}")
 	public void the_is_in_the_and_the_test_should(String elementID, String _expectedPosition, String _expectedResult) {
 
-		// Also should move to BaseUtils
+		// TODO: Also should move to BaseUtils
 		boolean expectedResult = false;
 
 		if (_expectedResult.contains("pass")) {
@@ -464,7 +464,7 @@ public class InteractingWithOtherElements {
 		// provided it can find it and turn it into a select.
 		try {
 			Assert.assertTrue(practiceFormPage.trySelectInDropdown(TestConstants.DOBDROPDOWN_ID, year,
-					Integer.parseInt(month), Integer.parseInt(day)));
+					Integer.parseInt(month), day));
 		} catch (AssertionError e) {
 			// TODO: handle exception
 		}

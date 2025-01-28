@@ -1,5 +1,8 @@
 package com.mysecondcucumberproject.pageObject;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
@@ -9,6 +12,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
+import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.utilities.TestConstants;
 
 public class PracticeFormPage extends BasePage {
@@ -40,6 +44,8 @@ public class PracticeFormPage extends BasePage {
 	WebElement dobCurrentMonthText;
 	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody")
 	WebElement dobTableBody;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody/td")
+	List<WebElement> dateBoxes;
 
 	// So, I want a getter for the element of the dropdown, so that I can use it in
 	// canFind... but the parts of it... I can look at those individually. But then,
@@ -170,7 +176,7 @@ public class PracticeFormPage extends BasePage {
 		return true;
 	}
 
-	public boolean trySelectInDropdown(String elementID, String year, int month, int day) {
+	public boolean trySelectInDropdown(String elementID, String year, int month, String date) {
 		if (!canFindWebelement(elementID))
 			return false;
 
@@ -188,36 +194,78 @@ public class PracticeFormPage extends BasePage {
 			return false;
 		}
 
+		// The takeScreenShot() below is just during testing/working
+		takeScreenShot(TestConstants.DOBDROPDOWN_ID);
+
 		if (!trySetDOBMonth(dropDown, month)) {
-			// need to see what month it is, figure out if that is past of previous and act
-			// accordingly.
 			return false;
 		}
 
-		if (!trySetDOBDay(dropDown, day)) {
-			// need to iterate through, see if it finds one with the number, if not, return
-			// false
+		// The takeScreenShot() below is just during testing/working
+		takeScreenShot(TestConstants.DOBDROPDOWN_ID);
+
+		if (!trySetDOBDay(dropDown, date)) {
 			return false;
 		}
+
+		// The takeScreenShot() below is just during testing/working
+		takeScreenShot(TestConstants.DOBDROPDOWN_ID);
 
 		return true;
 	}
 
-	private boolean trySetDOBDay(Select dropDown, int day) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'trySetDOBDay'");
+	private boolean trySetDOBDay(Select dropDown, String date) {
+
+		/*
+		 * See if it can find the needed elements.
+		 * Will otherwise have a list of data cells
+		 * go through them one by one, find it they have the right value.
+		 * If they do, do something to set it?
+		 */
+
+		/*
+		 * Rethink if this works, considering that these are a whole list of elements,
+		 * Also consider if the path for the body is even needed then?
+		 * Also consider if I can use a getter here, or it that doesn't work then?
+		 * Also consider, might not need dropDown here then I suppose?
+		 * Alse REMEMEBER that you want to go into each box child of type <a> to get the
+		 * inner text to get the date.
+		 */
+		if (!canFindWebelement(TestConstants.DOBDATEBOXES)) {
+			return false;
+		}
+
+		for (WebElement dateBox : dateBoxes) {
+			if (dateBox.findElement(By.xpath("/<a>")).getText().equals(date)) {
+				dateBox.click();
+				return true;
+			}
+		}
+
+		return false;
 	}
 
-	private boolean trySetDOBMonth(Select dropDown, int month) {
+	private boolean trySetDOBMonth(Select dropDown, int monthToSet) {
 		/*
 		 * SO, this one will use the main dropdown, wait, does it need that?
 		 * It will need the text field for months,
-		 * and the two buttons for next and previous
-		 * and a way to decide what month is in what order, right?
-		 * will it need to check so we do not go over to next year?
+		 * 
+		 * gets the month, as text, uses that to get the value of that month
+		 * compares to month
 		 */
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'trySetDOBMonth'");
+		while (BaseUtilities.getIndexOfMonth(dobCurrentMonthText.getText()) != monthToSet) {
+			if (BaseUtilities.getIndexOfMonth(dobCurrentMonthText.getText()) > monthToSet) {
+				// Decreases the current month by clicking on the button for past month
+				dobPastMonthButton.click();
+			} else if (BaseUtilities.getIndexOfMonth(dobCurrentMonthText.getText()) < monthToSet) {
+				// Increases the current month by clicking on the button for coming month
+				dobComingMonthButton.click();
+			}
+
+			System.out.println("The current month is(and we are working on changing that): " + dobCurrentMonthText);
+		}
+		// Will return true when the month has the correct value.
+		return true;
 	}
 
 	public String getSelectedText(String elementID) {

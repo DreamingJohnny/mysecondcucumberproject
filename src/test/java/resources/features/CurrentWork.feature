@@ -1,11 +1,12 @@
+@skip
 Feature: Current Work
 
-Scenario Outline: Selecting date of birth
+  Scenario Outline: Selecting date of birth
     Given the user is on the correct page
     And the user sees the container for "frames"
     And the user switches to "frames"
-    When the user clicks on the calendar icon the dropdown opens 
-    And the user selects "<year>", "<month>" and "<day> from the dropdown"
+    When the user clicks on the calendar icon the dropdown opens
+    And the user selects "<year>", "<month>" and "<day>" from the dropdown
     Then the "DOBfield" should contain "<expected date>" according to "<expected outcome>"
 
     Examples:

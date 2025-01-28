@@ -1,4 +1,3 @@
-@skip
 Feature: Interact with other WebElements
 
   Scenario: Use searchbar and navigate to new tab

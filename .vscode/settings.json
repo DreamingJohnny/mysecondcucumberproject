@@ -5,5 +5,6 @@
 	"editor.wordWrap": "off",
 	"diffEditor.wordWrap": "off",
 	"testing.openTesting": "openExplorerOnTestStart",
-	"html.format.wrapLineLength": 800
+	"html.format.wrapLineLength": 800,
+	"testing.automaticallyOpenTestResults": "openExplorerOnTestStart"
 }

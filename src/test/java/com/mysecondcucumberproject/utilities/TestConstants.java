@@ -62,5 +62,6 @@ public class TestConstants {
 	public static final String DOBDROPDOWNYEARDROPDOWN_ID = "dob dropdown year dropdown";
 	public static final String DOBDROPDOWNCURRENTMONTH_ID = "dob dropdown current month";
 	public static final String DOBDROPDOWNTABLEBODY_ID = "dob dropdown table body";
+	public static final String DOBDATEBOXES = "dob dropdown date boxes";
 
 }

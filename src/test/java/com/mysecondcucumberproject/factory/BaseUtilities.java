@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.Month;
 import java.util.Date;
 import java.util.Properties;
 
@@ -77,7 +78,7 @@ public class BaseUtilities {
 	}
 
 	public static int getIndexOfMonth(String month) {
-		// needs to return the index, probably based on what place the month has within
-		// a hashmap if you can index those?
+		return Month.valueOf(month.toUpperCase()).getValue();
+
 	}
 }
