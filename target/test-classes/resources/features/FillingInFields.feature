@@ -17,8 +17,8 @@ Feature: Filling in fields
 
   Scenario: User inputs a phone number in the phone field
     Given the user is on the form page
-    When the user enters "+1234567890" into the "phone" field
-    Then the "phone" field should display "+1234567890"
+    When the user enters "+123456789" into the "phone" field
+    Then the "phone" field should display "+123456789"
 
   Scenario: User sees gender option
     Given the user is on the form page
