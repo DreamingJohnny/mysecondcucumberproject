@@ -61,10 +61,10 @@ Feature: Interact with other WebElements
 
     Examples:
       | webelement | starting position | add position | expected position | expected result |
-      | slider     |         1081,1085 |         30,0 |         1110,1085 | pass            |
-      | slider     |         1081,1085 |         50,0 |         1131,1085 | pass            |
-      | slider     |         1081,1085 |         10,0 |         1091,1085 | pass            |
-      | slider     |         1081,1085 |        -10,0 |         1071,1085 | fail            |
+      | slider     |         1166,1968 |         30,0 |         1195,1968 | pass            |
+      | slider     |         1166,1968 |         50,0 |         1215,1968 | pass            |
+      | slider     |         1166,1968 |         10,0 |         1175,1968 | pass            |
+      | slider     |         1166,1968 |       -100,0 |         1066,1968 | fail            |
 
   Scenario: Fill in frame
     Given the user is on the correct page

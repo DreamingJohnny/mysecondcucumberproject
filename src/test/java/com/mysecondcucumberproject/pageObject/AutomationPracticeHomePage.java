@@ -146,10 +146,10 @@ public class AutomationPracticeHomePage extends BasePage {
 	// #endregion
 
 	// #region Slider
-	@FindBy(xpath = "//div[h2[@class='title' and text()='Slider']]")
+	@FindBy(xpath = "//*[@id=\"HTML7\"][h2[@class=\"title\" and normalize-space(text())=\"Slider\"]]")
 	WebElement sliderContainer;
-	@FindBy(xpath = "//*[@id='slider']/span")
-	WebElement slider;
+	@FindBy(xpath = "//*[@id=\"slider-range\"]/span[1]")
+	WebElement minimumSlider;
 	// #endregion
 
 	// #region Frames
@@ -350,7 +350,7 @@ public class AutomationPracticeHomePage extends BasePage {
 			case TestConstants.SLIDERCONTAINER_ID:
 				return sliderContainer.isDisplayed();
 			case TestConstants.SLIDER_ID:
-				return slider.isDisplayed();
+				return minimumSlider.isDisplayed();
 			case TestConstants.PRACTICEFORMCONTAINTER_ID:
 				return practiceFormFrame.isDisplayed();
 			default:
@@ -407,7 +407,7 @@ public class AutomationPracticeHomePage extends BasePage {
 			case TestConstants.SLIDERCONTAINER_ID:
 				return sliderContainer;
 			case TestConstants.SLIDER_ID:
-				return slider;
+				return minimumSlider;
 			case TestConstants.PRACTICEFORMCONTAINTER_ID:
 				return practiceFormFrame;
 			default:

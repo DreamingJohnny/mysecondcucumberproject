@@ -309,6 +309,9 @@ public class InteractingWithOtherElements {
 					"invalid strings for parsing to point: " + e.getMessage());
 		}
 
+		System.out.print("Position after move is:");
+		System.out.println(aPHomePage.getPosition(elementID));
+
 		boolean actualResult = aPHomePage.getPosition(elementID).equals(expectedPosition);
 
 		if (expectedResult == actualResult) {
