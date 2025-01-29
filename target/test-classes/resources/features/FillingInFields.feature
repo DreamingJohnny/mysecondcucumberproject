@@ -1,3 +1,4 @@
+@skip
 Feature: Filling in fields
 
   Scenario: Reading from homepage

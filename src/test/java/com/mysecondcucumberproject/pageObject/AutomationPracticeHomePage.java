@@ -106,20 +106,22 @@ public class AutomationPracticeHomePage extends BasePage {
 	// #endregion
 
 	// #region New Browser Window
-	@FindBy(xpath = "//div[h2[@class='title' and text()='New Browser Window']]")
+	@FindBy(xpath = "//*[@id=\"HTML4\"]/div[1]")
 	WebElement newBrowserWindowContainer;
-	@FindBy(xpath = "//button[normalize-space()='New Browser Window']")
+	@FindBy(xpath = "//*[@id=\"HTML4\"]/div[1]/button")
 	WebElement newBrowserWindowButton;
 	// #endregion
 
 	// #region JS Alerts
-	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]")
-	WebElement jsAlertsContainer;
-	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]//button[text()='Alert']")
-	WebElement alertBoxButton;
-	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]//button[text()='Confirm Box']")
-	WebElement confirmBoxButton;
-	@FindBy(xpath = "//div[h2[@class='title' and text()='JS Alerts']]//button[text()='Prompt']")
+	// return the element that holds a child with the title class that contains the
+	// text "Alerts & Popups"
+	@FindBy(xpath = "//*[@id=\"HTML9\"][h2[@class=\"title\" and normalize-space(text())=\"Alerts & Popups\"]]\n")
+	WebElement AlertsAndPopupsContainer;
+	@FindBy(xpath = "//*[@id=\"alertBtn\"]")
+	WebElement simpleAlertButton;
+	@FindBy(xpath = "//*[@id=\"confirmBtn\"]")
+	WebElement confirmationAlertButton;
+	@FindBy(xpath = "//*[@id=\"promptBtn\"]")
 	WebElement promptButton;
 	// #endregion
 
@@ -324,11 +326,11 @@ public class AutomationPracticeHomePage extends BasePage {
 			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
 				return newBrowserWindowButton.isDisplayed();
 			case TestConstants.JSALERTSCONTAINER_ID:
-				return jsAlertsContainer.isDisplayed();
+				return AlertsAndPopupsContainer.isDisplayed();
 			case TestConstants.JSALERTDISMISSBUTTON_ID:
-				return alertBoxButton.isDisplayed();
+				return simpleAlertButton.isDisplayed();
 			case TestConstants.CONFIRMBUTTON_ID:
-				return confirmBoxButton.isDisplayed();
+				return confirmationAlertButton.isDisplayed();
 			case TestConstants.PROMPTBUTTON_ID:
 				return promptButton.isDisplayed();
 			case TestConstants.DOUBLECLICKCONTAINER_ID:
@@ -521,10 +523,10 @@ public class AutomationPracticeHomePage extends BasePage {
 				newBrowserWindowButton.click();
 				return true;
 			case TestConstants.JSALERTDISMISSBUTTON_ID:
-				alertBoxButton.click();
+				simpleAlertButton.click();
 				return true;
 			case TestConstants.CONFIRMBUTTON_ID:
-				confirmBoxButton.click();
+				confirmationAlertButton.click();
 				return true;
 			case TestConstants.PROMPTBUTTON_ID:
 				promptButton.click();
