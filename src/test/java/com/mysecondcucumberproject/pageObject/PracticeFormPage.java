@@ -1,8 +1,5 @@
 package com.mysecondcucumberproject.pageObject;
 
-import java.util.List;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
@@ -12,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
-import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.utilities.TestConstants;
 
 public class PracticeFormPage extends BasePage {
@@ -24,28 +20,7 @@ public class PracticeFormPage extends BasePage {
 	// Page factory style locators
 	@FindBy(xpath = "//*[@id='RESULT_TextField-0']")
 	WebElement nameField;
-	@FindBy(xpath = "//*[@id=\"q4\"]")
-	WebElement dOBContainer;
-	@FindBy(xpath = "//*[@id='RESULT_TextField-2']")
-	WebElement dOBField;
-	@FindBy(xpath = "//span=[@class='icon_calendar']")
-	WebElement calendarButton;
-	@FindBy(xpath = "//*[@id=\"RESULT_RadioButton-3\"]")
-	WebElement workDropDown;
-	@FindBy(xpath = "//*[@id='ui-datepicker-div']")
-	WebElement dobDropdown;
-	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/a[1]/span")
-	WebElement dobPastMonthButton;
-	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/a[2]")
-	WebElement dobComingMonthButton;
-	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/div/select")
-	WebElement dobYearDropDown;
-	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/div/div/span")
-	WebElement dobCurrentMonthText;
-	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody")
-	WebElement dobTableBody;
-	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody/td")
-	List<WebElement> dateBoxes;
+	
 
 	// So, I want a getter for the element of the dropdown, so that I can use it in
 	// canFind... but the parts of it... I can look at those individually. But then,
@@ -53,62 +28,25 @@ public class PracticeFormPage extends BasePage {
 
 	public boolean canFindWebelement(String fieldID) {
 		switch (fieldID.toLowerCase().trim()) {
-			case TestConstants.FRAMENAMEFIELD_ID:
-				return (nameField.isDisplayed() && nameField.isEnabled());
-			case TestConstants.DOBCONTAINER_ID:
-				return (dOBContainer.isDisplayed() && dOBContainer.isEnabled());
-			case TestConstants.FRAMEDOBFIELD_ID:
-				return (dOBField.isDisplayed() && dOBField.isEnabled());
-			case TestConstants.CALENDARBUTTON_ID:
-				return (calendarButton.isDisplayed() && calendarButton.isEnabled());
-			case TestConstants.FRAMEWORKDROPDOWN_ID:
-				return (workDropDown.isDisplayed() && workDropDown.isEnabled());
-			case TestConstants.DOBDROPDOWN_ID:
-				return (dobDropdown.isDisplayed() && dobDropdown.isEnabled());
-			case TestConstants.DOBDROPDOWNPASTMONTH_ID:
-				return (dobPastMonthButton.isDisplayed() && dobPastMonthButton.isEnabled());
-			case TestConstants.DOBDROPDOWNCOMINGMONTH_ID:
-				return (dobComingMonthButton.isDisplayed() && dobComingMonthButton.isEnabled());
-			case TestConstants.DOBDROPDOWNCURRENTMONTH_ID:
-				return (dobComingMonthButton.isDisplayed() && dobComingMonthButton.isEnabled());
-			case TestConstants.DOBDROPDOWNYEARDROPDOWN_ID:
-				return (dobYearDropDown.isDisplayed() && dobYearDropDown.isEnabled());
-			case TestConstants.DOBDROPDOWNTABLEBODY_ID:
-				return (dobTableBody.isDisplayed() && dobTableBody.isEnabled());
-			default:
-				System.out.println("Couldn't find the element enabled and displayed using: " + fieldID);
-				return false;
+			case TestConstants.FRAMENAMEFIELD_ID -> {
+                            return (nameField.isDisplayed() && nameField.isEnabled());
+                }
+			
+			default -> {
+                            System.out.println("Couldn't find the element enabled and displayed using: " + fieldID);
+                            return false;
+                }
 		}
 	}
 
 	@Override
 	protected WebElement getWebelement(String fieldID) {
 		switch (fieldID.toLowerCase().trim()) {
-			case TestConstants.FRAMENAMEFIELD_ID:
-				return nameField;
-			case TestConstants.DOBCONTAINER_ID:
-				return dOBContainer;
-			case TestConstants.FRAMEDOBFIELD_ID:
-				return dOBField;
-			case TestConstants.CALENDARBUTTON_ID:
-				return calendarButton;
-			case TestConstants.DOBDROPDOWN_ID:
-				return dobDropdown;
-			case TestConstants.DOBDROPDOWNPASTMONTH_ID:
-				return dobPastMonthButton;
-			case TestConstants.DOBDROPDOWNCOMINGMONTH_ID:
-				return dobComingMonthButton;
-			case TestConstants.DOBDROPDOWNCURRENTMONTH_ID:
-				return dobComingMonthButton;
-			case TestConstants.DOBDROPDOWNYEARDROPDOWN_ID:
-				return dobYearDropDown;
-			case TestConstants.DOBDROPDOWNTABLEBODY_ID:
-				return dobTableBody;
-			case TestConstants.FRAMEWORKDROPDOWN_ID:
-				return workDropDown;
-			default:
-				System.out.println("Couln't find a webelement using: " + fieldID);
-				return null;
+			
+			default -> {
+                            System.out.println("Couln't find a webelement using: " + fieldID);
+                            return null;
+                }
 		}
 	}
 
@@ -118,17 +56,16 @@ public class PracticeFormPage extends BasePage {
 		}
 
 		switch (fieldID.toLowerCase().trim()) {
-			case TestConstants.FRAMENAMEFIELD_ID:
-				nameField.clear();
-				nameField.sendKeys(userInput);
-				return true;
-			case TestConstants.FRAMEDOBFIELD_ID:
-				dOBField.clear();
-				dOBField.sendKeys(userInput);
-				return true;
-			default:
-				System.out.println(this + " couldn't find a field with a value to set with the fieldID " + fieldID);
-				return false;
+			case TestConstants.FRAMENAMEFIELD_ID -> {
+                            nameField.clear();
+                            nameField.sendKeys(userInput);
+                            return true;
+                }
+
+			default -> {
+                            System.out.println(this + " couldn't find a field with a value to set with the fieldID " + fieldID);
+                            return false;
+                }
 		}
 	}
 
@@ -140,134 +77,20 @@ public class PracticeFormPage extends BasePage {
 		}
 
 		switch (elementID.toLowerCase().trim()) {
-			case TestConstants.FRAMENAMEFIELD_ID:
-				return nameField.getAttribute("value");
-			case TestConstants.FRAMEDOBFIELD_ID:
-				return dOBField.getAttribute("value");
-			default:
-				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
-				return null;
+			case TestConstants.FRAMENAMEFIELD_ID -> {
+                            return nameField.getDomAttribute("value");
+                }
+			
+			default -> {
+                            System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
+                            return null;
+                }
 		}
 	}
 
-	public boolean trySelectInDropdown(String userSelection, String elementID) {
+	
 
-		if (!canFindWebelement(elementID))
-			return false;
-
-		Select dropDown;
-
-		try {
-			dropDown = new Select(getWebelement(elementID));
-		} catch (UnexpectedTagNameException e) {
-			System.out.println("Couldn't create a select object from the web element");
-			System.out.println(e.getMessage());
-			return false;
-		}
-
-		try {
-			dropDown.selectByVisibleText(userSelection);
-		} catch (NoSuchElementException e) {
-			System.out.println("Couldn't find an element using this value.");
-			System.out.println(e.getMessage());
-			return false;
-		}
-
-		return true;
-	}
-
-	public boolean trySelectInDropdown(String elementID, String year, int month, String date) {
-		if (!canFindWebelement(elementID))
-			return false;
-
-		Select dropDown;
-
-		try {
-			dropDown = new Select(getWebelement(elementID));
-		} catch (UnexpectedTagNameException e) {
-			System.out.println("Couldn't create a select object from the web element");
-			System.out.println(e.getMessage());
-			return false;
-		}
-
-		if (!trySelectInDropdown(year, TestConstants.DOBDROPDOWNYEARDROPDOWN_ID)) {
-			return false;
-		}
-
-		// The takeScreenShot() below is just during testing/working
-		takeScreenShot(TestConstants.DOBDROPDOWN_ID);
-
-		if (!trySetDOBMonth(dropDown, month)) {
-			return false;
-		}
-
-		// The takeScreenShot() below is just during testing/working
-		takeScreenShot(TestConstants.DOBDROPDOWN_ID);
-
-		if (!trySetDOBDay(dropDown, date)) {
-			return false;
-		}
-
-		// The takeScreenShot() below is just during testing/working
-		takeScreenShot(TestConstants.DOBDROPDOWN_ID);
-
-		return true;
-	}
-
-	private boolean trySetDOBDay(Select dropDown, String date) {
-
-		/*
-		 * See if it can find the needed elements.
-		 * Will otherwise have a list of data cells
-		 * go through them one by one, find it they have the right value.
-		 * If they do, do something to set it?
-		 */
-
-		/*
-		 * Rethink if this works, considering that these are a whole list of elements,
-		 * Also consider if the path for the body is even needed then?
-		 * Also consider if I can use a getter here, or it that doesn't work then?
-		 * Also consider, might not need dropDown here then I suppose?
-		 * Alse REMEMEBER that you want to go into each box child of type <a> to get the
-		 * inner text to get the date.
-		 */
-		if (!canFindWebelement(TestConstants.DOBDATEBOXES)) {
-			return false;
-		}
-
-		for (WebElement dateBox : dateBoxes) {
-			if (dateBox.findElement(By.xpath("/<a>")).getText().equals(date)) {
-				dateBox.click();
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private boolean trySetDOBMonth(Select dropDown, int monthToSet) {
-		/*
-		 * SO, this one will use the main dropdown, wait, does it need that?
-		 * It will need the text field for months,
-		 * 
-		 * gets the month, as text, uses that to get the value of that month
-		 * compares to month
-		 */
-		while (BaseUtilities.getIndexOfMonth(dobCurrentMonthText.getText()) != monthToSet) {
-			if (BaseUtilities.getIndexOfMonth(dobCurrentMonthText.getText()) > monthToSet) {
-				// Decreases the current month by clicking on the button for past month
-				dobPastMonthButton.click();
-			} else if (BaseUtilities.getIndexOfMonth(dobCurrentMonthText.getText()) < monthToSet) {
-				// Increases the current month by clicking on the button for coming month
-				dobComingMonthButton.click();
-			}
-
-			System.out.println("The current month is(and we are working on changing that): " + dobCurrentMonthText);
-		}
-		// Will return true when the month has the correct value.
-		return true;
-	}
-
+	
 	public String getSelectedText(String elementID) {
 
 		if (!canFindWebelement(elementID)) {

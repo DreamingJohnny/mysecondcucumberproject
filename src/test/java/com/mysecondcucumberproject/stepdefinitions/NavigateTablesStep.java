@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
-import com.mysecondcucumberproject.utilities.*;
+import com.mysecondcucumberproject.utilities.TestConstants;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -121,9 +121,12 @@ public class NavigateTablesStep {
 				// has changed, the table has been updated since last time. If it hasn't it
 				// indicates that the table hasn't been refreshed.
 				Assert.assertFalse("The product table didn't seem to refresh when the next page was selected.",
-						toCompareID.toLowerCase() == aPHomePage
+						(toCompareID.toLowerCase() == null ? aPHomePage
 								.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID)
-								.toLowerCase());
+								.toLowerCase() == null
+								: toCompareID.toLowerCase().equals(aPHomePage
+										.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID)
+										.toLowerCase())));
 
 				// Stores the attribute of the topmost ID field on the current page of the
 				// table, to compare against the next one.

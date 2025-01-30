@@ -1,18 +1,22 @@
 @skip
 Feature: Current Work
 
-  Scenario Outline: Selecting date of birth
+ Scenario: Select from dropdown
     Given the user is on the correct page
-    And the user sees the container for "frames"
-    And the user switches to "frames"
-    When the user clicks on the calendar icon the dropdown opens
-    And the user selects "<year>", "<month>" and "<day>" from the dropdown
-    Then the "DOBfield" should contain "<expected date>" according to "<expected outcome>"
+    And the user selects "Item 4" from the "scrolling dropdown"
+    Then the "scrolling dropdown" contains "Item 4"
+
+  Scenario Outline: Inputting date of birth
+    Given the user is on the correct page
+    And the user sees the container for "date picker 1"
+    And the user inputs "<date of birth>" into the "date picker 1"
+    Then the "date picker 1" should contain "<expected date>" according to "<expected outcome>"
 
     Examples:
-      | month | day | year | expected date | expected outcome |
-      |    10 |  09 | 1981 |    10/09/1981 | pass             |
-      |    12 |  22 | 1986 |    12/22/1986 | pass             |
-      |    01 |  01 | 2025 |    01/01/2025 | pass             |
-      |    13 |  01 | 1990 |    13/01/1990 | fail             |
-      |    02 |  29 | 1990 |    02/29/1990 | fail             |
+      | date of birth | expected date | expected outcome |
+      |    10/09/1981 |    10/09/1981 | pass             |
+      |    12/22/1986 |    12/22/1986 | pass             |
+      |    1000902026 |    10/09/2026 | fail             |
+      | johndoe       | johndoe       | fail             |
+      |   02/29/19900 |    02/29/1990 | pass             |
+      | p1a2r1i9n9g1  |      1/2/1991 | pass             |

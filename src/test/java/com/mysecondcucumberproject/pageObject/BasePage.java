@@ -26,7 +26,7 @@ public class BasePage {
 
 	WebDriver driver;
 
-	private static Properties properties = new Properties();
+	private static final Properties properties = new Properties();
 
 	// Constructor
 	BasePage(WebDriver newDriver) {
@@ -115,7 +115,6 @@ public class BasePage {
 			System.out.println(targetFile.getAbsolutePath());
 		} catch (Exception e) {
 			System.out.println("An error occurred while copying the screenshot: " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 

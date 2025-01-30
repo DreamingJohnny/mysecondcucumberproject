@@ -1,4 +1,3 @@
-@skip
 Feature: Navigate Tables
 
   Scenario: User views the book table

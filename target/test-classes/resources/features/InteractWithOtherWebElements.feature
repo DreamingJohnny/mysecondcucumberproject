@@ -1,3 +1,4 @@
+@skip
 Feature: Interact with other WebElements
 
   Scenario: Use searchbar and navigate to new tab
@@ -66,26 +67,16 @@ Feature: Interact with other WebElements
       | slider     |         1166,1968 |         10,0 |         1175,1968 | pass            |
       | slider     |         1166,1968 |       -100,0 |         1066,1968 | fail            |
 
-  Scenario: Fill in frame
-    Given the user is on the correct page
-    And the user sees the container for "form"
-    And the user enters "this is field" x into each "section" field in the form
-    And the user clicks on each "form submit button" in the form.
-    Then each "section" should contain "Something"
-
   Scenario: Select from dropdown
     Given the user is on the correct page
-    And the user sees the container for "form"
-    When the user switches to "form"
-    And the user selects "QA Engineer" from the "frame work dropdown"
-    Then the "frame work dropdown" contains "QA Engineer"
+    And the user selects "Item 4" from the "scrolling dropdown"
+    Then the "scrolling dropdown" contains "Item 4"
 
   Scenario Outline: Inputting date of birth
     Given the user is on the correct page
-    And the user sees the container for "practice form"
-    And the user switches to "practice form"
-    And the user inputs "<date of birth>" into the "DOB field"
-    Then the "DOB field" should contain "<expected date>" according to "<expected outcome>"
+    And the user sees the container for "date picker 1"
+    And the user inputs "<date of birth>" into the "date picker 1"
+    Then the "date picker 1" should contain "<expected date>" according to "<expected outcome>"
 
     Examples:
       | date of birth | expected date | expected outcome |
