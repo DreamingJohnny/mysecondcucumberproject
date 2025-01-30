@@ -56,9 +56,19 @@ public class BasePage {
 
 	protected WebElement getWebelement(String fieldID) {
 		switch (fieldID.toLowerCase().trim()) {
-			default:
+			default -> {
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
+			}
+		}
+	}
+
+	protected List<WebElement> getWebelements(String fieldID) {
+		switch (fieldID.toLowerCase().trim()) {
+			default -> {
+				System.out.println("Couln't find a list of webelements using: " + fieldID);
+				return null;
+			}
 		}
 	}
 

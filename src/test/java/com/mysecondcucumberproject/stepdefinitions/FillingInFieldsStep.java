@@ -153,4 +153,9 @@ public class FillingInFieldsStep {
 			}
 		}
 	}
+
+    @Then("the {string} should contain {string}")
+    public void the_should_contain(String s, String s2) {
+        // Write code here that turns the phrase above into concrete actions
+    }
 }

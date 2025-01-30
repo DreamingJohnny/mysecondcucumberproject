@@ -1,8 +1,11 @@
 package com.mysecondcucumberproject.stepdefinitions;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
@@ -328,6 +331,8 @@ public class InteractingWithOtherElements {
 
 	}
 
+	// TODO: Pretty sure this method can be removed now, as we are no longer messing
+	// about with iframes.
 	@Given("the user switches to {string}")
 	public void the_user_switches_to(String string) {
 
@@ -341,15 +346,54 @@ public class InteractingWithOtherElements {
 		}
 	}
 
-	@And("the user enters {string} into the {string} field in the iframe")
-	public void the_user_enters_into_the_field_in_the_iframe(String userInput, String fieldID) {
+	@Given("the user enters {string} into each {string} field in the form")
+	public void the_user_enters_x_into_each_field_in_the_form(String userInput, String fieldID) {
+
+		/*
+		 * Get list from aPHomePage
+		 * go through all elements in list, submit something to each field.
+		 * Have what it submits also count up in some way...
+		 */
+		try {
+			List<WebElement> tempElements = aPHomePage.getWebelements(fieldID);
+
+			// Assert.assertTrue("Couldn't find the list of fields using the field id of: "
+			// + fieldID, aPHomePage.can);
+		} catch (AssertionError e) {
+		}
+
 		try {
 			Assert.assertTrue("Couldn't set the field of the practiceFormPage with the field id: " + fieldID,
-					practiceFormPage.trySetField(userInput, fieldID));
+					aPHomePage.trySetField(userInput, fieldID));
 		} catch (AssertionError e) {
 			practiceFormPage.takeScreenShot(fieldID);
 			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
+	}
+
+	@Then("each {string} should contain {string}")
+	public void each_should_contain(String s, String s2) {
+		// Write code here that turns the phrase above into concrete actions
+	}
+
+	@Given("the user clicks on each {string} in the form.")
+	public void the_user_clicks_on_each_in_the_form(String s) {
+		// Write code here that turns the phrase above into concrete actions
+	}
+
+	@Given("the user enters {string} into the {string} field in the form")
+	public void the_user_enters_into_the_field_in_the_form(String userInput, String fieldID) {
+
+	}
+
+	@Then("{string} should contain {string}")
+	public void should_contain(String s, String s2) {
+		// Write code here that turns the phrase above into concrete actions
+	}
+
+	@And("the user enters {string} into the {string} field in the iframe")
+	public void the_user_enters_into_the_field_in_the_iframe(String userInput, String fieldID) {
+
 	}
 
 	@Then("the {string} field in the iframe should contain {string}")
@@ -486,5 +530,4 @@ public class InteractingWithOtherElements {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-
 }
