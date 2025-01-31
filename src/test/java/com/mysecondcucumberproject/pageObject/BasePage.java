@@ -63,15 +63,6 @@ public class BasePage {
 		}
 	}
 
-	protected List<WebElement> getWebelements(String fieldID) {
-		switch (fieldID.toLowerCase().trim()) {
-			default -> {
-				System.out.println("Couln't find a list of webelements using: " + fieldID);
-				return null;
-			}
-		}
-	}
-
 	public void takeScreenShot() {
 
 		File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
