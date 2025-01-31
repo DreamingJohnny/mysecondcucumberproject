@@ -26,7 +26,7 @@ public class BasePage {
 
 	WebDriver driver;
 
-	private static Properties properties = new Properties();
+	private static final Properties properties = new Properties();
 
 	// Constructor
 	BasePage(WebDriver newDriver) {
@@ -47,8 +47,8 @@ public class BasePage {
 			try (InputStream input = new FileInputStream("src/test/java/resources/features/config.properties")) {
 
 				properties.load(input);
-			} catch (IOException exception) {
-				exception.printStackTrace();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
 			}
 		}
 		return properties;
@@ -56,9 +56,10 @@ public class BasePage {
 
 	protected WebElement getWebelement(String fieldID) {
 		switch (fieldID.toLowerCase().trim()) {
-			default:
+			default -> {
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
+			}
 		}
 	}
 
@@ -78,16 +79,12 @@ public class BasePage {
 		try {
 			FileHandler.copy(screenshotFile, targetFile);
 			System.out.println(targetFile.getAbsolutePath());
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println("An error occurred while copying the screenshot: " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
 	public void takeScreenShot(String tableID) {
-		// TODO: This method needs to become more durable, might need to add a tryget on
-		// the function for webelement to begin with.
-		// TODO: what happens here if the element doesn't exist?
 		WebElement element = getWebelement(tableID);
 		File screenshotFile = element.getScreenshotAs(OutputType.FILE);
 		File targetDirectory = new File(System.getProperty("user.dir"),
@@ -103,9 +100,8 @@ public class BasePage {
 		try {
 			FileHandler.copy(screenshotFile, targetFile);
 			System.out.println(targetFile.getAbsolutePath());
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println("An error occurred while copying the screenshot: " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 

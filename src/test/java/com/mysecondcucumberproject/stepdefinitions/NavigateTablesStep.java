@@ -3,11 +3,10 @@ package com.mysecondcucumberproject.stepdefinitions;
 import java.util.List;
 
 import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
-import com.mysecondcucumberproject.utilities.*;
+import com.mysecondcucumberproject.utilities.TestConstants;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -15,7 +14,6 @@ import io.cucumber.java.en.When;
 
 public class NavigateTablesStep {
 
-	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
 
 	@Given("the user is on the webpage")
@@ -44,8 +42,6 @@ public class NavigateTablesStep {
 			aPHomePage.takeScreenShot(TestConstants.BOOKTABLE_ID);
 		}
 
-		// TODO: This one feels really inflexible, look through if you could/should
-		// improve. Perhaps create a datatable with the categories in the gherkin?
 		try {
 			Assert.assertEquals(bookName, headers.get(0));
 
@@ -121,9 +117,12 @@ public class NavigateTablesStep {
 				// has changed, the table has been updated since last time. If it hasn't it
 				// indicates that the table hasn't been refreshed.
 				Assert.assertFalse("The product table didn't seem to refresh when the next page was selected.",
-						toCompareID.toLowerCase() == aPHomePage
+						(toCompareID.toLowerCase() == null ? aPHomePage
 								.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID)
-								.toLowerCase());
+								.toLowerCase() == null
+								: toCompareID.toLowerCase().equals(aPHomePage
+										.getElementText(TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID)
+										.toLowerCase())));
 
 				// Stores the attribute of the topmost ID field on the current page of the
 				// table, to compare against the next one.
@@ -135,5 +134,4 @@ public class NavigateTablesStep {
 			}
 		}
 	}
-
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,7 +40,6 @@ public class AutomationPracticeHomePage extends BasePage {
 	// #endregion
 
 	// #region Weekday checkboxes
-	// TODO: Check if these specifics for the weekdays are actually needed.
 	@FindBy(xpath = "//*[@id=\"monday\"]")
 	WebElement mondayCheckBox;
 	@FindBy(xpath = "//*[@id=\"tuesday\"]")
@@ -69,8 +67,6 @@ public class AutomationPracticeHomePage extends BasePage {
 	// #region Paginated table
 	@FindBy(xpath = "//*[@id=\"productTable\"]")
 	WebElement paginatedTable;
-	@FindBy(xpath = "//*[@id=\"productTable\"]/tbody")
-	WebElement paginatedTableBody;
 	@FindBy(xpath = "//*[@id=\"pagination\"]")
 	WebElement paginationButtonsField;
 	@FindBy(xpath = "//*[@id=\"pagination\"]//a")
@@ -90,7 +86,8 @@ public class AutomationPracticeHomePage extends BasePage {
 				return columnIndex;
 		}
 		System.out.println("Couldn't find any header of column with the searchterm: " + searchTerm);
-		return columnIndex = 0;
+		columnIndex = 0;
+		return columnIndex;
 	}
 
 	// #region Tabs
@@ -152,19 +149,6 @@ public class AutomationPracticeHomePage extends BasePage {
 	WebElement minimumSlider;
 	// #endregion
 
-	// #region Frames
-	@FindBy(xpath = "//*[@id='frame-one796456169']")
-	WebElement practiceFormFrame;
-
-	// #endregion
-
-	// #region Resizable
-	@FindBy(xpath = "//div[h2[@class='title' and text()='Resizable']]")
-	WebElement resizeableContainer;
-	@FindBy(xpath = "//*[@id=\"resizable\"]")
-	WebElement resizableElement;
-	// #endregion
-
 	// Action methods
 
 	/**
@@ -174,67 +158,53 @@ public class AutomationPracticeHomePage extends BasePage {
 	 * @return
 	 */
 	public boolean isCheckBoxSelected(String checkboxID) {
-		// TODO: Check with MY, shouldn't it be better if I protected all of these with
-		// the "canFind"?
 		switch (checkboxID.toLowerCase().trim()) {
-			case TestConstants.MALECHECKBOX_ID:
+			case TestConstants.MALECHECKBOX_ID -> {
 				return maleCheckBox.isSelected();
-			case TestConstants.FEMALECHECKBOX_ID:
+			}
+			case TestConstants.FEMALECHECKBOX_ID -> {
 				return femaleCheckBox.isSelected();
-			case TestConstants.MONDAYCHECKBOX_ID:
+			}
+			case TestConstants.MONDAYCHECKBOX_ID -> {
 				return mondayCheckBox.isSelected();
-			case TestConstants.TUESDAYCHECKBOX_ID:
+			}
+			case TestConstants.TUESDAYCHECKBOX_ID -> {
 				return tuesdayCheckBox.isSelected();
-			case TestConstants.WEDNESDAYCHECKBOX_ID:
+			}
+			case TestConstants.WEDNESDAYCHECKBOX_ID -> {
 				return wednesdayCheckBox.isSelected();
-			case TestConstants.THURSDAYCHECKBOX_ID:
+			}
+			case TestConstants.THURSDAYCHECKBOX_ID -> {
 				return thursdayCheckBox.isSelected();
-			case TestConstants.FRIDAYCHECKBOX_ID:
+			}
+			case TestConstants.FRIDAYCHECKBOX_ID -> {
 				return fridayCheckbox.isSelected();
-			case TestConstants.SATURDAYCHECKBOX_ID:
+			}
+			case TestConstants.SATURDAYCHECKBOX_ID -> {
 				return saturdayCheckbox.isSelected();
-			case TestConstants.SUNDAYCHECKBOX_ID:
+			}
+			case TestConstants.SUNDAYCHECKBOX_ID -> {
 				return sundayCheckBox.isSelected();
-			default:
-				// TODO: Check how to best print log messages, if System.out.println, is
-				// disabled during testing.
+			}
+			default -> {
 				System.out.println("Couldn't find a checkbox using: " + checkboxID);
 				return false;
+			}
 		}
 	}
 
 	public void toggleCheckBox(String checkboxID) {
 		switch (checkboxID.toLowerCase().trim()) {
-			case TestConstants.MALECHECKBOX_ID:
-				maleCheckBox.click();
-				break;
-			case TestConstants.FEMALECHECKBOX_ID:
-				femaleCheckBox.click();
-				break;
-			case TestConstants.MONDAYCHECKBOX_ID:
-				mondayCheckBox.click();
-				break;
-			case TestConstants.TUESDAYCHECKBOX_ID:
-				tuesdayCheckBox.click();
-				break;
-			case TestConstants.WEDNESDAYCHECKBOX_ID:
-				wednesdayCheckBox.click();
-				break;
-			case TestConstants.THURSDAYCHECKBOX_ID:
-				thursdayCheckBox.click();
-				break;
-			case TestConstants.FRIDAYCHECKBOX_ID:
-				fridayCheckbox.click();
-				break;
-			case TestConstants.SATURDAYCHECKBOX_ID:
-				saturdayCheckbox.click();
-				break;
-			case TestConstants.SUNDAYCHECKBOX_ID:
-				sundayCheckBox.click();
-				break;
-			default:
-				System.out.println("Couldn't find a checkbox using: " + checkboxID);
-				break;
+			case TestConstants.MALECHECKBOX_ID -> maleCheckBox.click();
+			case TestConstants.FEMALECHECKBOX_ID -> femaleCheckBox.click();
+			case TestConstants.MONDAYCHECKBOX_ID -> mondayCheckBox.click();
+			case TestConstants.TUESDAYCHECKBOX_ID -> tuesdayCheckBox.click();
+			case TestConstants.WEDNESDAYCHECKBOX_ID -> wednesdayCheckBox.click();
+			case TestConstants.THURSDAYCHECKBOX_ID -> thursdayCheckBox.click();
+			case TestConstants.FRIDAYCHECKBOX_ID -> fridayCheckbox.click();
+			case TestConstants.SATURDAYCHECKBOX_ID -> saturdayCheckbox.click();
+			case TestConstants.SUNDAYCHECKBOX_ID -> sundayCheckBox.click();
+			default -> System.out.println("Couldn't find a checkbox using: " + checkboxID);
 		}
 	}
 
@@ -250,169 +220,230 @@ public class AutomationPracticeHomePage extends BasePage {
 			return false;
 
 		switch (fieldID.toLowerCase().trim()) {
-			case TestConstants.NAMEFIELD_ID:
+			case TestConstants.NAMEFIELD_ID -> {
 				nameField.clear();
 				nameField.sendKeys(input);
 				return true;
-			case TestConstants.EMAILFIELD_ID:
+			}
+			case TestConstants.EMAILFIELD_ID -> {
 				emailField.clear();
 				emailField.sendKeys(input);
 				return true;
-			case TestConstants.PHONEFIELD_ID:
+			}
+			case TestConstants.PHONEFIELD_ID -> {
 				phoneField.clear();
 				phoneField.sendKeys(input);
 				return true;
-			case TestConstants.TABINPUTSEARCHFIELD_ID:
+			}
+			case TestConstants.TABINPUTSEARCHFIELD_ID -> {
 				tabInputSearchField.clear();
 				tabInputSearchField.sendKeys(input);
 				return true;
-			case TestConstants.FIELD_1_ID:
+			}
+			case TestConstants.FIELD_1_ID -> {
 				field1.click();
 				field1.sendKeys(input);
 				return true;
-			case TestConstants.FIELD_2_ID:
+			}
+			case TestConstants.FIELD_2_ID -> {
 				field2.click();
 				field2.sendKeys(input);
 				return true;
-			default:
+			}
+			default -> {
 				System.out.println(this + " couldn't find a field with a value to set for the input " + input);
 				return false;
+			}
 		}
 	}
 
 	public boolean canFindWebelement(String fieldID) {
-		// TODO: Should I include Enabled here aswell?
 		switch (fieldID.toLowerCase().trim()) {
-			case TestConstants.NAMEFIELD_ID:
+			case TestConstants.NAMEFIELD_ID -> {
 				return nameField.isDisplayed();
-			case TestConstants.EMAILFIELD_ID:
+			}
+			case TestConstants.EMAILFIELD_ID -> {
 				return emailField.isDisplayed();
-			case TestConstants.PHONEFIELD_ID:
+			}
+			case TestConstants.PHONEFIELD_ID -> {
 				return phoneField.isDisplayed();
-			case TestConstants.MALECHECKBOX_ID:
+			}
+			case TestConstants.MALECHECKBOX_ID -> {
 				return maleCheckBox.isDisplayed();
-			case TestConstants.FEMALECHECKBOX_ID:
+			}
+			case TestConstants.FEMALECHECKBOX_ID -> {
 				return femaleCheckBox.isDisplayed();
-			case TestConstants.MONDAYCHECKBOX_ID:
+			}
+			case TestConstants.MONDAYCHECKBOX_ID -> {
 				return mondayCheckBox.isDisplayed();
-			case TestConstants.TUESDAYCHECKBOX_ID:
+			}
+			case TestConstants.TUESDAYCHECKBOX_ID -> {
 				return tuesdayCheckBox.isDisplayed();
-			case TestConstants.WEDNESDAYCHECKBOX_ID:
+			}
+			case TestConstants.WEDNESDAYCHECKBOX_ID -> {
 				return wednesdayCheckBox.isDisplayed();
-			case TestConstants.THURSDAYCHECKBOX_ID:
+			}
+			case TestConstants.THURSDAYCHECKBOX_ID -> {
 				return thursdayCheckBox.isDisplayed();
-			case TestConstants.FRIDAYCHECKBOX_ID:
+			}
+			case TestConstants.FRIDAYCHECKBOX_ID -> {
 				return fridayCheckbox.isDisplayed();
-			case TestConstants.SATURDAYCHECKBOX_ID:
+			}
+			case TestConstants.SATURDAYCHECKBOX_ID -> {
 				return saturdayCheckbox.isDisplayed();
-			case TestConstants.SUNDAYCHECKBOX_ID:
+			}
+			case TestConstants.SUNDAYCHECKBOX_ID -> {
 				return sundayCheckBox.isDisplayed();
-			case TestConstants.BOOKTABLE_ID:
+			}
+			case TestConstants.BOOKTABLE_ID -> {
 				return bookTable.isDisplayed();
-			case TestConstants.PAGINATEDTABLE_ID:
+			}
+			case TestConstants.PAGINATEDTABLE_ID -> {
 				return paginatedTable.isDisplayed();
-			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID:
+			}
+			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID -> {
 				return paginationButtonsField.isDisplayed();
-			case TestConstants.TABCONTAINER_ID:
+			}
+			case TestConstants.TABCONTAINER_ID -> {
 				return tabContainer.isDisplayed();
-			case TestConstants.TABINPUTSEARCHFIELD_ID:
+			}
+			case TestConstants.TABINPUTSEARCHFIELD_ID -> {
 				return tabInputSearchField.isDisplayed();
-			case TestConstants.TABSUBMITBUTTON_ID:
+			}
+			case TestConstants.TABSUBMITBUTTON_ID -> {
 				return tabSubmitButton.isDisplayed();
-			case TestConstants.TABSEARCHRESULT_ID:
+			}
+			case TestConstants.TABSEARCHRESULT_ID -> {
 				return tabSearchResults.isDisplayed();
-			case TestConstants.NEWBROWSERWINDOWCONTAINER_ID:
+			}
+			case TestConstants.NEWBROWSERWINDOWCONTAINER_ID -> {
 				return newBrowserWindowContainer.isDisplayed();
-			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
+			}
+			case TestConstants.NEWBROWSERWINDOWBUTTON_ID -> {
 				return newBrowserWindowButton.isDisplayed();
-			case TestConstants.JSALERTSCONTAINER_ID:
+			}
+			case TestConstants.JSALERTSCONTAINER_ID -> {
 				return AlertsAndPopupsContainer.isDisplayed();
-			case TestConstants.JSALERTDISMISSBUTTON_ID:
+			}
+			case TestConstants.JSALERTDISMISSBUTTON_ID -> {
 				return simpleAlertButton.isDisplayed();
-			case TestConstants.CONFIRMBUTTON_ID:
+			}
+			case TestConstants.CONFIRMBUTTON_ID -> {
 				return confirmationAlertButton.isDisplayed();
-			case TestConstants.PROMPTBUTTON_ID:
+			}
+			case TestConstants.PROMPTBUTTON_ID -> {
 				return promptButton.isDisplayed();
-			case TestConstants.DOUBLECLICKCONTAINER_ID:
+			}
+			case TestConstants.DOUBLECLICKCONTAINER_ID -> {
 				return doubleClickContainer.isDisplayed();
-			case TestConstants.FIELD_1_ID:
+			}
+			case TestConstants.FIELD_1_ID -> {
 				return field1.isDisplayed();
-			case TestConstants.FIELD_2_ID:
+			}
+			case TestConstants.FIELD_2_ID -> {
 				return field2.isDisplayed();
-			case TestConstants.COPYTEXTBUTTON_ID:
+			}
+			case TestConstants.COPYTEXTBUTTON_ID -> {
 				return copyTextButton.isDisplayed();
-			case TestConstants.DRAGANDDROPCONTAINER:
+			}
+			case TestConstants.DRAGANDDROPCONTAINER -> {
 				return dragAndDropContainer.isDisplayed();
-			case TestConstants.DRAGGABLE_ID:
+			}
+			case TestConstants.DRAGGABLE_ID -> {
 				return draggableElement.isDisplayed();
-			case TestConstants.DROPPABLE_ID:
+			}
+			case TestConstants.DROPPABLE_ID -> {
 				return droppableElement.isDisplayed();
-			case TestConstants.SLIDERCONTAINER_ID:
+			}
+			case TestConstants.SLIDERCONTAINER_ID -> {
 				return sliderContainer.isDisplayed();
-			case TestConstants.SLIDER_ID:
+			}
+			case TestConstants.SLIDER_ID -> {
 				return minimumSlider.isDisplayed();
-			case TestConstants.PRACTICEFORMCONTAINTER_ID:
-				return practiceFormFrame.isDisplayed();
-			default:
+			}
+			default -> {
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return false;
+			}
 		}
 	}
 
 	@Override
 	protected WebElement getWebelement(String fieldID) {
 		switch (fieldID.toLowerCase().trim()) {
-			case TestConstants.NAMEFIELD_ID:
+			case TestConstants.NAMEFIELD_ID -> {
 				return nameField;
-			case TestConstants.EMAILFIELD_ID:
+			}
+			case TestConstants.EMAILFIELD_ID -> {
 				return emailField;
-			case TestConstants.PHONEFIELD_ID:
+			}
+			case TestConstants.PHONEFIELD_ID -> {
 				return phoneField;
-			case TestConstants.MALECHECKBOX_ID:
+			}
+			case TestConstants.MALECHECKBOX_ID -> {
 				return maleCheckBox;
-			case TestConstants.FEMALECHECKBOX_ID:
+			}
+			case TestConstants.FEMALECHECKBOX_ID -> {
 				return femaleCheckBox;
-			case TestConstants.MONDAYCHECKBOX_ID:
+			}
+			case TestConstants.MONDAYCHECKBOX_ID -> {
 				return mondayCheckBox;
-			case TestConstants.TUESDAYCHECKBOX_ID:
+			}
+			case TestConstants.TUESDAYCHECKBOX_ID -> {
 				return tuesdayCheckBox;
-			case TestConstants.WEDNESDAYCHECKBOX_ID:
+			}
+			case TestConstants.WEDNESDAYCHECKBOX_ID -> {
 				return wednesdayCheckBox;
-			case TestConstants.THURSDAYCHECKBOX_ID:
+			}
+			case TestConstants.THURSDAYCHECKBOX_ID -> {
 				return thursdayCheckBox;
-			case TestConstants.FRIDAYCHECKBOX_ID:
+			}
+			case TestConstants.FRIDAYCHECKBOX_ID -> {
 				return fridayCheckbox;
-			case TestConstants.SATURDAYCHECKBOX_ID:
+			}
+			case TestConstants.SATURDAYCHECKBOX_ID -> {
 				return saturdayCheckbox;
-			case TestConstants.SUNDAYCHECKBOX_ID:
+			}
+			case TestConstants.SUNDAYCHECKBOX_ID -> {
 				return sundayCheckBox;
-			case TestConstants.BOOKTABLE_ID:
+			}
+			case TestConstants.BOOKTABLE_ID -> {
 				return bookTable;
-			case TestConstants.PAGINATEDTABLE_ID:
+			}
+			case TestConstants.PAGINATEDTABLE_ID -> {
 				return paginatedTable;
-			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID:
+			}
+			case TestConstants.PAGINATEDTABLEBUTTONFIELD_ID -> {
 				return paginationButtonsField;
-			case TestConstants.TABCONTAINER_ID:
+			}
+			case TestConstants.TABCONTAINER_ID -> {
 				return tabContainer;
-			case TestConstants.TABSEARCHRESULT_ID:
+			}
+			case TestConstants.TABSEARCHRESULT_ID -> {
 				return tabSearchResults;
-			case TestConstants.COPYTEXTBUTTON_ID:
+			}
+			case TestConstants.COPYTEXTBUTTON_ID -> {
 				return copyTextButton;
-			case TestConstants.DRAGANDDROPCONTAINER:
+			}
+			case TestConstants.DRAGANDDROPCONTAINER -> {
 				return dragAndDropContainer;
-			case TestConstants.DRAGGABLE_ID:
+			}
+			case TestConstants.DRAGGABLE_ID -> {
 				return draggableElement;
-			case TestConstants.DROPPABLE_ID:
+			}
+			case TestConstants.DROPPABLE_ID -> {
 				return droppableElement;
-			case TestConstants.SLIDERCONTAINER_ID:
+			}
+			case TestConstants.SLIDERCONTAINER_ID -> {
 				return sliderContainer;
-			case TestConstants.SLIDER_ID:
+			}
+			case TestConstants.SLIDER_ID -> {
 				return minimumSlider;
-			case TestConstants.PRACTICEFORMCONTAINTER_ID:
-				return practiceFormFrame;
-			default:
+			}
+			default -> {
 				System.out.println("Couln't find a webelement using: " + fieldID);
 				return null;
+			}
 		}
 	}
 
@@ -425,7 +456,7 @@ public class AutomationPracticeHomePage extends BasePage {
 	 */
 	public List<String> getTableHeadersContent(String tableID) {
 		switch (tableID.toLowerCase().trim()) {
-			case TestConstants.BOOKTABLE_ID:
+			case TestConstants.BOOKTABLE_ID -> {
 				List<WebElement> tempElements = bookTable.findElements(By.tagName("th"));
 				List<String> tempStrings = new ArrayList<>();
 
@@ -433,9 +464,11 @@ public class AutomationPracticeHomePage extends BasePage {
 					tempStrings.add(element.getText());
 				}
 				return tempStrings;
-			default:
+			}
+			default -> {
 				System.out.println("Couldn't find a case in the switch matching: " + tableID);
 				return new ArrayList<>();
+			}
 		}
 	}
 
@@ -445,33 +478,39 @@ public class AutomationPracticeHomePage extends BasePage {
 
 	public String getElementText(String elementID) {
 		switch (elementID.toLowerCase().trim()) {
-			case TestConstants.NAMEFIELD_ID:
-				return nameField.getAttribute("value");
-			case TestConstants.EMAILFIELD_ID:
-				return emailField.getAttribute("value");
-			case TestConstants.PHONEFIELD_ID:
-				return phoneField.getAttribute("value");
-			case TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID:
+			case TestConstants.NAMEFIELD_ID -> {
+				return nameField.getDomProperty("value");
+			}
+			case TestConstants.EMAILFIELD_ID -> {
+				return emailField.getDomProperty("value");
+			}
+			case TestConstants.PHONEFIELD_ID -> {
+				return phoneField.getDomProperty("value");
+			}
+			case TestConstants.PAGINATEDTABLETOPLEFTMOSTCELL_ID -> {
 				return topLeftmostProductTableCell.getText();
-			case TestConstants.FIELD_1_ID:
+			}
+			case TestConstants.FIELD_1_ID -> {
 				return field1.getText();
-			case TestConstants.FIELD_2_ID:
+			}
+			case TestConstants.FIELD_2_ID -> {
 				return field2.getText();
-			default:
+			}
+			default -> {
 				System.out.println(this + "couldn't find an element to get the value of with the ID of: " + elementID);
 				return null;
+			}
 		}
 	}
 
 	public boolean isPaginationButtonSelected(int index) {
-		return productTablePageButtons.get(index - 1).getAttribute("class").contains("active") == true ? true : false;
+		return productTablePageButtons.get(index - 1).getDomAttribute("class").contains("active") == true;
 	}
 
 	public int getProductPageAmount() {
 		return Integer.parseInt(productTablePageButtons.getLast().getText());
 	}
 
-	// TODO: Add explanation how this handles stuff with the index,
 	public void clickProductPageButton(int index) {
 		index = index - 1;
 
@@ -494,7 +533,7 @@ public class AutomationPracticeHomePage extends BasePage {
 			arr[i] = weekdayCheckboxes.get(i);
 		}
 
-		return (arr[index].isSelected()) == true ? true : false;
+		return (arr[index].isSelected()) == true;
 	}
 
 	public String getWeekdayCheckboxValue(int index) {
@@ -506,7 +545,7 @@ public class AutomationPracticeHomePage extends BasePage {
 			arr[i] = weekdayCheckboxes.get(i);
 		}
 
-		return arr[index].getAttribute("value");
+		return arr[index].getDomAttribute("value");
 	}
 
 	public boolean tryClickButton(String buttonID) {
@@ -516,24 +555,30 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 
 		switch (buttonID.toLowerCase().trim()) {
-			case TestConstants.TABSUBMITBUTTON_ID:
+			case TestConstants.TABSUBMITBUTTON_ID -> {
 				tabSubmitButton.click();
 				return true;
-			case TestConstants.NEWBROWSERWINDOWBUTTON_ID:
+			}
+			case TestConstants.NEWBROWSERWINDOWBUTTON_ID -> {
 				newBrowserWindowButton.click();
 				return true;
-			case TestConstants.JSALERTDISMISSBUTTON_ID:
+			}
+			case TestConstants.JSALERTDISMISSBUTTON_ID -> {
 				simpleAlertButton.click();
 				return true;
-			case TestConstants.CONFIRMBUTTON_ID:
+			}
+			case TestConstants.CONFIRMBUTTON_ID -> {
 				confirmationAlertButton.click();
 				return true;
-			case TestConstants.PROMPTBUTTON_ID:
+			}
+			case TestConstants.PROMPTBUTTON_ID -> {
 				promptButton.click();
 				return true;
-			default:
+			}
+			default -> {
 				System.out.println("Couldn't find a case for that button using string id: " + buttonID);
 				return false;
+			}
 
 		}
 	}
@@ -602,19 +647,4 @@ public class AutomationPracticeHomePage extends BasePage {
 		}
 	}
 
-	public PracticeFormPage goToPracticeForm() {
-		try {
-			driver.switchTo().frame(practiceFormFrame);
-
-			// TODO: What if it is another error then? Should I always have a catch for
-			// general errors?
-		} catch (NoSuchFrameException e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-
-		PracticeFormPage temp = new PracticeFormPage(driver);
-
-		return temp;
 	}
-}
