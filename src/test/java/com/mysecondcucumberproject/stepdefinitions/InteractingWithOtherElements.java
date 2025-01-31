@@ -2,11 +2,9 @@ package com.mysecondcucumberproject.stepdefinitions;
 
 import org.junit.Assert;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
-import com.mysecondcucumberproject.pageObject.PracticeFormPage;
 import com.mysecondcucumberproject.utilities.TestConstants;
 
 import io.cucumber.java.en.And;
@@ -16,9 +14,7 @@ import io.cucumber.java.en.When;
 
 public class InteractingWithOtherElements {
 
-	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
-	PracticeFormPage practiceFormPage;
 
 	@Given("the user is on the correct page")
 	public void the_user_is_on_the_correct_page() {
@@ -42,8 +38,6 @@ public class InteractingWithOtherElements {
 		if (aPHomePage.canFindWebelement(TestConstants.TABINPUTSEARCHFIELD_ID)) {
 			aPHomePage.trySetField(searchInput, TestConstants.TABINPUTSEARCHFIELD_ID);
 		} else {
-			// TODO: Check if this then invalidates the whole scenario, I think it does,
-			// ideally, it shouldn't try the next step.
 			Assert.fail("Couldn't find the search bar with the string id: " + TestConstants.TABINPUTSEARCHFIELD_ID);
 		}
 	}
@@ -75,8 +69,6 @@ public class InteractingWithOtherElements {
 		} catch (AssertionError e) {
 			aPHomePage.takeScreenShot(elementID);
 			System.out.println(e.getMessage());
-			// TODO: Ask MY about if I should throw e here, or what?
-			// throw e;
 		}
 	}
 
@@ -136,9 +128,8 @@ public class InteractingWithOtherElements {
 	}
 
 	@When("the user clicks on the {string} button in the pop-up window")
-	public void the_user_clicks_on_the_in_the_pop_up_window(String s) {
-		// TODO: Change this method to not need an argument since it is just user
-		// accepts or confirms.
+	public void the_user_clicks_on_the_in_the_pop_up_window() {
+
 		try {
 			Assert.assertTrue(aPHomePage.tryAcceptAlert());
 		} catch (AssertionError e) {
@@ -287,7 +278,6 @@ public class InteractingWithOtherElements {
 	@Then("the {string} is in the {string} and the test should {string}")
 	public void the_is_in_the_and_the_test_should(String elementID, String _expectedPosition, String _expectedResult) {
 
-		// TODO: Also should move to BaseUtils
 		boolean expectedResult = false;
 
 		if (_expectedResult.contains("pass")) {
@@ -315,8 +305,6 @@ public class InteractingWithOtherElements {
 		boolean actualResult = aPHomePage.getPosition(elementID).equals(expectedPosition);
 
 		if (expectedResult == actualResult) {
-			// TODO: Look over this, how to best handle when you have a check, and then
-			// another Assert, but it should be expected to be true.
 			Assert.assertTrue(expectedResult == actualResult);
 		} else if (actualResult) {
 			Assert.fail("The test passed when it was expected to fail");
@@ -325,26 +313,6 @@ public class InteractingWithOtherElements {
 		} else {
 			Assert.fail("The test failed due to unclear reasons");
 		}
-
-	}
-
-	@Given("the user selects {string} from the {string}")
-	public void the_user_selects_from_the(String userSelection, String elementID) {
-
-		try {
-			Assert.assertTrue("Couldn't find the element using the id: " + elementID,
-					aPHomePage.canFindWebelement(elementID));
-		} catch (AssertionError e) {
-			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
-		}
-
-		// TODO: Need to work out if the general takeScreenShot method works now or not.
-		try {
-			Assert.assertTrue(aPHomePage.trySelectInDropdown(userSelection, elementID));
-		} catch (AssertionError e) {
-			practiceFormPage.takeScreenShot(elementID);
-			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
-		}
 	}
 
 	@Then("the {string} contains {string}")
@@ -352,11 +320,11 @@ public class InteractingWithOtherElements {
 		try {
 			Assert.assertTrue(
 					"The selected option in the dropdown did not contain the expected text. Selection gave back the text: "
-							+ practiceFormPage.getSelectedText(elementID) + ", and the expected text was: "
+							+ aPHomePage.getElementText(elementID) + ", and the expected text was: "
 							+ expectedText,
-					practiceFormPage.getSelectedText(elementID).contains(expectedText));
+					aPHomePage.getElementText(elementID).contains(expectedText));
 		} catch (AssertionError e) {
-			practiceFormPage.takeScreenShot(elementID);
+			aPHomePage.takeScreenShot(elementID);
 			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
 	}
@@ -365,9 +333,9 @@ public class InteractingWithOtherElements {
 	public void the_user_inputs_into_the(String input, String fieldID) {
 		try {
 			Assert.assertTrue("Couldn't set the field found using: " + fieldID,
-					practiceFormPage.trySetField(input, fieldID));
+					aPHomePage.trySetField(input, fieldID));
 		} catch (AssertionError e) {
-			practiceFormPage.takeScreenShot(fieldID);
+			aPHomePage.takeScreenShot(fieldID);
 			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
 	}
@@ -376,8 +344,6 @@ public class InteractingWithOtherElements {
 	public void the_should_contain_according_to(String fieldID, String expectedValue, String _expectedOutcome) {
 
 		boolean expectedOutcome = false;
-		// TODO: Move this to utilities so that you can use it more easily. And reuse
-		// code.
 		if (_expectedOutcome.toLowerCase().contains("pass")) {
 			expectedOutcome = true;
 		} else if (_expectedOutcome.toLowerCase().contains("fail")) {
@@ -387,65 +353,11 @@ public class InteractingWithOtherElements {
 		}
 
 		try {
-			Assert.assertEquals(practiceFormPage.getFieldValue(fieldID).contains(expectedValue),
+			Assert.assertEquals(aPHomePage.getElementText(fieldID).contains(expectedValue),
 					expectedOutcome);
 		} catch (AssertionError e) {
-			practiceFormPage.takeScreenShot(fieldID);
+			aPHomePage.takeScreenShot(fieldID);
 			Assert.fail("Test failed due to AssertionError: " + e.getMessage());
 		}
-	}
-
-	@When("the user clicks on the calendar icon the dropdown opens")
-	public void the_user_clicks_on_the_calendar_icon_the_dropdown_opens() {
-
-		try {
-			Assert.assertTrue(practiceFormPage.canFindWebelement(TestConstants.CALENDARBUTTON_ID));
-		} catch (AssertionError e) {
-			practiceFormPage.takeScreenShot(TestConstants.DOBCONTAINER_ID);
-			Assert.fail("Test failed due to AssertionError" + e.getMessage());
-		}
-
-		try {
-			// TODO: Go back up and add explanation text to the asserts.
-			Assert.assertTrue(practiceFormPage.tryClickButton(TestConstants.CALENDARBUTTON_ID));
-		} catch (AssertionError e) {
-			practiceFormPage.takeScreenShot(TestConstants.DOBCONTAINER_ID);
-			Assert.fail("Test failed due to AssertionError" + e.getMessage());
-		}
-
-		try {
-			Assert.assertTrue("Couldn't get the DOB dropdown webelement",
-					practiceFormPage.canFindWebelement(TestConstants.DOBDROPDOWN_ID));
-		} catch (AssertionError e) {
-			practiceFormPage.takeScreenShot(TestConstants.DOBCONTAINER_ID);
-			Assert.fail("Test failed due to AssertionError" + e.getMessage());
-		}
-	}
-
-	@And("the user selects {string}, {string} and {string} from the dropdown")
-	public void the_user_selects_and_from_the_dropdown(String year, String month, String day) {
-
-		// So, create has function that tries to set these then, and that returns true
-		// provided it can find it and turn it into a select.
-		try {
-			Assert.assertTrue(aPHomePage.trySelectInDropdown(TestConstants.DOBDROPDOWN_ID, year,
-					Integer.parseInt(month), day));
-		} catch (AssertionError e) {
-			// TODO: handle exception
-		}
-
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("the user selects {string}")
-	public void the_user_selects(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("the user uses the cursor to change the size of the object")
-	public void the_user_uses_the_cursor_to_change_the_size_of_the_object() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
 	}
 }

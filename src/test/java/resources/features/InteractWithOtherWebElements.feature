@@ -1,4 +1,4 @@
-@skip
+
 Feature: Interact with other WebElements
 
   Scenario: Use searchbar and navigate to new tab
@@ -66,23 +66,3 @@ Feature: Interact with other WebElements
       | slider     |         1166,1968 |         50,0 |         1215,1968 | pass            |
       | slider     |         1166,1968 |         10,0 |         1175,1968 | pass            |
       | slider     |         1166,1968 |       -100,0 |         1066,1968 | fail            |
-
-  Scenario: Select from dropdown
-    Given the user is on the correct page
-    And the user selects "Item 4" from the "scrolling dropdown"
-    Then the "scrolling dropdown" contains "Item 4"
-
-  Scenario Outline: Inputting date of birth
-    Given the user is on the correct page
-    And the user sees the container for "date picker 1"
-    And the user inputs "<date of birth>" into the "date picker 1"
-    Then the "date picker 1" should contain "<expected date>" according to "<expected outcome>"
-
-    Examples:
-      | date of birth | expected date | expected outcome |
-      |    10/09/1981 |    10/09/1981 | pass             |
-      |    12/22/1986 |    12/22/1986 | pass             |
-      |    1000902026 |    10/09/2026 | fail             |
-      | johndoe       | johndoe       | fail             |
-      |   02/29/19900 |    02/29/1990 | pass             |
-      | p1a2r1i9n9g1  |      1/2/1991 | pass             |

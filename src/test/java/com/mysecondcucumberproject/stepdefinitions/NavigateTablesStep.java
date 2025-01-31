@@ -3,7 +3,6 @@ package com.mysecondcucumberproject.stepdefinitions;
 import java.util.List;
 
 import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
 
 import com.mysecondcucumberproject.factory.BaseUtilities;
 import com.mysecondcucumberproject.pageObject.AutomationPracticeHomePage;
@@ -15,7 +14,6 @@ import io.cucumber.java.en.When;
 
 public class NavigateTablesStep {
 
-	WebDriver driver;
 	AutomationPracticeHomePage aPHomePage;
 
 	@Given("the user is on the webpage")
@@ -44,8 +42,6 @@ public class NavigateTablesStep {
 			aPHomePage.takeScreenShot(TestConstants.BOOKTABLE_ID);
 		}
 
-		// TODO: This one feels really inflexible, look through if you could/should
-		// improve. Perhaps create a datatable with the categories in the gherkin?
 		try {
 			Assert.assertEquals(bookName, headers.get(0));
 
@@ -138,5 +134,4 @@ public class NavigateTablesStep {
 			}
 		}
 	}
-
 }

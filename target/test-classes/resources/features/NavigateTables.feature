@@ -8,5 +8,5 @@ Feature: Navigate Tables
   Scenario: User goes through the paginated table
     Given the user is on the webpage
     When the user sees the table "paginated table"
-    Then the first page is selected
-    And the user can switch between pages of the table
+    And the first page is selected
+    Then the user can switch between pages of the table
